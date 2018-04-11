@@ -89,14 +89,20 @@ function drawPage() {
 }
 
 function createKeys() {
-  document.getElementById('keyboard').style.gridAutoRows = `${gridRowHeight}px`;
-  document.getElementById('keyboard').style.gridTemplateColumns = gridColumns;
+  //document.getElementById('keyboard').style.gridAutoRows = `${gridRowHeight}px`;
+  //document.getElementById('keyboard').style.gridTemplateColumns = gridColumns;
   for (let i = 0; i < numOfKeys; i++) {
     const key = document.createElement('div');
     key.classList.add('key');
     key.id = i.toString();
     key.style.backgroundColor = "#20272d";
     key.style.border = "1px solid #414e58";
+
+    if (i === 22) {
+      key.style.gridColumn = "3 / span 2";
+    } else {
+      key.style.gridColumn = `${(i % 4) + 1} / span 1`;
+    }
 
     keyboard.appendChild(key);
 
@@ -127,7 +133,7 @@ function portrait() {
   fontSizeB = displayBheight * winRatio / 1.6;
   gridRowHeight = keyboardHeight / 6;
   gridColumns = `repeat(4, 1fr)`;
-  numOfKeys = 24;
+  numOfKeys = 23;
 }
 
 let winInW = 0;
