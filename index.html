@@ -9,35 +9,21 @@
 <body onresize="drawPage()">
 
   <div id="displayB">
-    <span id="displayBtext">35_characters______________________</span>
+    <span id="displayBtext">39_characters__________________________</span>
   </div>
   <div id="displayA">
-    <span id="displayAtext">17_characters__</span>
+    <span id="displayAtext">18_characters___</span>
   </div>
   <div id="keyboard">
   </div>
 
 <script>
 function updateText() {
-  if (layout === "portrait") {
-    if (mobile === false) {
-      displayBtext.innerHTML = "mode: portrait (r) mobile: false___";
-    } else {
-      displayBtext.innerHTML = "mode: portrait (r) mobile: true____";
-    }
-  } else if (layout === "landscape") {
-    if (mobile === false) {
-      displayBtext.innerHTML = "mode: landscape (r) mobile: false__";
-    } else {
-      displayBtext.innerHTML = "mode: landscape (r) mobile: true___";
-    }
-  } else {
-    if (mobile === false) {
-      displayBtext.innerHTML = "mode: landscape-L (r) mobile: false";
-    } else {
-      displayBtext.innerHTML = "mode: landscape-L (r) mobile: true_";
-    }
+  let summary = `mode: ${layout} (${hand}) mobile: ${mobile}`;
+  while (summary.length < 39) {
+    summary = summary + "_";
   }
+  displayBtext.innerHTML = summary;
 }
 
 function getDisplayData() {
@@ -79,10 +65,8 @@ function drawPage() {
   displayAtext.style.verticalAlign = "middle";
   displayAtext.style.lineHeight = "normal";
 
-  // ------------------ need to adjust for theme -----------
   displayAtext.style.fontSize = `${fontSizeA}px`;
   displayBtext.style.fontSize = `${fontSizeB}px`;
-  // -------------------------------------------------------
 
   updateText();
   createKeys();
@@ -103,14 +87,14 @@ function createKeys() {
     } else {
       key.style.gridColumn = `${(i % 4) + 1} / span 1`;
     }
-
     keyboard.appendChild(key);
 
+    // --- text on each key -------------------------
     const keyID = document.createElement('p');
     keyID.classList.add('keyID');
     keyID.id = `keyID${i}`;
-
     key.appendChild(keyID);
+    //-----------------------------------------------
   }
   for (let i = 0; i < numOfKeys; i++) {
     document.getElementById(`keyID${i}`).innerHTML = `${i}`;
@@ -129,8 +113,12 @@ function portrait() {
   displayBheight = winInH / 15;
   displayAheight = winInH / 7;
   keyboardHeight = winInH - displayAheight - displayBheight;
+
+  // ------------------ need to adjust for theme -----------
   fontSizeA = displayAheight * winRatio / 1.4;
   fontSizeB = displayBheight * winRatio / 1.6;
+  // -------------------------------------------------------
+
   gridRowHeight = keyboardHeight / 6;
   gridColumns = `repeat(4, 1fr)`;
   numOfKeys = 23;
@@ -145,7 +133,7 @@ let screenH = 0;
 let winRatio = 0;
 let mobile = false;
 let layout = "portrait"; // 3 options: portrait, landscape, landscapeLong
-let hand = "right";
+let hand = "r";
 
 let displayAheight = 0;
 let displayBheight = 0;
