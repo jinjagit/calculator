@@ -7,7 +7,16 @@
   <title >JS info:</title>
 </head>
 <body onresize="drawPage()">
-  <p id="output">Output text</p>
+
+  <div id="displayB">
+    <span id="displayBtext">display B 012345678 display B 01234567_</span>
+  </div>
+  <div id="displayA">
+    <span id="displayAtext">display A 01234567_</span>
+  </div>
+  <div id="keyboard">
+    <p id="output">Output text</p>
+  </div>
 
 <script>
 function updateText() {
@@ -31,15 +40,39 @@ function getDisplayData() {
 }
 
 function setLayout() {
-  if (winRatio < 1.2) {layout = "portrait";}
-  else if (winRatio >= 1.2 && winRatio < 2.1) {layout = "landscape";}
+  if (winRatio < 1.2) {
+    portrait();
+    layout = "portrait";
+  } else if (winRatio >= 1.2 && winRatio < 2.1) {layout = "landscape";}
   else {layout = "landscapeLong";}
 }
 
 function drawPage() {
   getDisplayData();
   setLayout();
+  displayB.style.height= `${displayBheight}px`;
+  displayA.style.height= `${displayAheight}px`;
+  keyboard.style.height= `${keyboardHeight}px`;
+
+  displayB.style.lineHeight = `${displayBheight}px`;
+  displayBtext.style.display = "inline-block";
+  displayBtext.style.verticalAlign = "middle";
+  displayBtext.style.lineHeight = "normal";
+
+  displayA.style.lineHeight = `${displayAheight}px`;
+  displayAtext.style.display = "inline-block";
+  displayAtext.style.verticalAlign = "middle";
+  displayAtext.style.lineHeight = "normal";
+  displayAtext.style.fontSize = `${fontSizeA}px`;
+
   updateText();
+}
+
+function portrait() {
+  displayBheight = winInH / 15;
+  displayAheight = winInH / 7;
+  keyboardHeight = winInH - displayAheight - displayBheight - 6;
+  fontSizeA = displayAheight * winRatio / 2;
 }
 
 let winInW = 0;
@@ -50,15 +83,36 @@ let WinOutH = 0;
 let screenH = 0;
 let winRatio = 0;
 let mobile = false;
-let layout = "portrait"; // 4 options: portrait, landscape, landscapeLong (desktop v mobile)
+let layout = "portrait"; // 3 options: portrait, landscape, landscapeLong
+let hand = "right";
 
+let displayAheight = 0;
+let displayBheight = 0;
+let keyboardHeight = 0;
+
+let fontSizeA = 0;
 
 let body = document.getElementsByTagName('body')[0];
 let para = document.getElementsByTagName('p')[0];
+let displayA = document.getElementById('displayA');
+let displayB = document.getElementById('displayB');
+let displayAtext = document.getElementById('displayAtext');
 
 body.style.color = "#c0daf1";
 body.style.backgroundColor = "#1e272f";
 body.style.fontFamily = "'Space+Mono', monospace";
+//body.style.border = "1px solid #c0daf1";
+
+displayB.style.backgroundColor = "blue";
+displayB.style.border = "1px solid #ffcf70";
+displayB.style.textAlign = "right";
+
+displayA.style.backgroundColor = "black";
+displayA.style.border = "1px solid yellow";
+displayA.style.textAlign = "right";
+
+keyboard.style.backgroundColor = "#11443f";
+keyboard.style.border = "1px solid white";
 
 para.style.textAlign = "center";
 para.style.margin= "25px 0 0 0";
