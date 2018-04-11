@@ -63,7 +63,11 @@ function drawPage() {
   displayAtext.style.display = "inline-block";
   displayAtext.style.verticalAlign = "middle";
   displayAtext.style.lineHeight = "normal";
+
+  // ------------------ need to toggle for theme -----------
   displayAtext.style.fontSize = `${fontSizeA}px`;
+  displayBtext.style.fontSize = `${fontSizeB}px`;
+  // -------------------------------------------------------
 
   updateText();
 }
@@ -73,6 +77,7 @@ function portrait() {
   displayAheight = winInH / 7;
   keyboardHeight = winInH - displayAheight - displayBheight - 6;
   fontSizeA = displayAheight * winRatio / 2;
+  fontSizeB = displayBheight * winRatio / 2;
 }
 
 let winInW = 0;
@@ -91,6 +96,7 @@ let displayBheight = 0;
 let keyboardHeight = 0;
 
 let fontSizeA = 0;
+let fontSizeB = 0;
 
 let body = document.getElementsByTagName('body')[0];
 let para = document.getElementsByTagName('p')[0];
