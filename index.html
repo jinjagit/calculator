@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./css/reset.css" media="screen" />
+  <link href="https://fonts.googleapis.com/css?family=Space+Mono:400,700" rel="stylesheet">
+  <title >JS info:</title>
+</head>
+<body onresize="drawPage()">
+  <p id="output">Output text</p>
+
+<script>
+function updateText() {
+  para.innerHTML = "winInW: " + winInW + "    WinOutW: " + WinOutW + "   screenW: " + screenW
+    + "</br>winInH: " + winInH + "    WinOutH: " + WinOutH + "   screenH: " + screenH
+    + "</br>mobile: " + mobile + "    ratio: " + winRatio
+    + "<br>layout: " + layout;
+}
+
+function getDisplayData() {
+  winInW = window.innerWidth;
+  WinOutW = window.outerWidth;
+  screenW = screen.width;
+  winInH = window.innerHeight;
+  WinOutH = window.outerHeight;
+  screenH = screen.height;
+  winRatio = window.innerWidth / window.innerHeight;
+  if (screen.width < window.innerWidth) {
+    mobile = true;
+  } else {mobile = false;}
+}
+
+function setLayout() {
+  if (winRatio < 1.2) {layout = "portrait";}
+  else if (winRatio >= 1.2 && winRatio < 2.1) {layout = "landscape";}
+  else {layout = "landscapeLong";}
+}
+
+function drawPage() {
+  getDisplayData();
+  setLayout();
+  updateText();
+}
+
+let winInW = 0;
+let WinOutW = 0;
+let screenW = 0;
+let winInH = 0;
+let WinOutH = 0;
+let screenH = 0;
+let winRatio = 0;
+let mobile = false;
+let layout = "portrait"; // 4 options: portrait, landscape, landscapeLong (desktop v mobile)
+
+
+let body = document.getElementsByTagName('body')[0];
+let para = document.getElementsByTagName('p')[0];
+
+body.style.color = "#c0daf1";
+body.style.backgroundColor = "#1e272f";
+body.style.fontFamily = "'Space+Mono', monospace";
+
+para.style.textAlign = "center";
+para.style.margin= "25px 0 0 0";
+
+drawPage();
+
+</script>
+
+</body>
+</html>
