@@ -9,21 +9,35 @@
 <body onresize="drawPage()">
 
   <div id="displayB">
-    <span id="displayBtext">display B 012345678 display B 01234567_</span>
+    <span id="displayBtext">35_characters______________________</span>
   </div>
   <div id="displayA">
-    <span id="displayAtext">display A 01234567_</span>
+    <span id="displayAtext">17_characters__</span>
   </div>
   <div id="keyboard">
-    <p id="output">Output text</p>
   </div>
 
 <script>
 function updateText() {
-  para.innerHTML = "winInW: " + winInW + "    WinOutW: " + WinOutW + "   screenW: " + screenW
-    + "</br>winInH: " + winInH + "    WinOutH: " + WinOutH + "   screenH: " + screenH
-    + "</br>mobile: " + mobile + "    ratio: " + winRatio
-    + "<br>layout: " + layout;
+  if (layout === "portrait") {
+    if (mobile === false) {
+      displayBtext.innerHTML = "mode: portrait (r) mobile: false___";
+    } else {
+      displayBtext.innerHTML = "mode: portrait (r) mobile: true____";
+    }
+  } else if (layout === "landscape") {
+    if (mobile === false) {
+      displayBtext.innerHTML = "mode: landscape (r) mobile: false__";
+    } else {
+      displayBtext.innerHTML = "mode: landscape (r) mobile: true___";
+    }
+  } else {
+    if (mobile === false) {
+      displayBtext.innerHTML = "mode: landscape-L (r) mobile: false";
+    } else {
+      displayBtext.innerHTML = "mode: landscape-L (r) mobile: true_";
+    }
+  }
 }
 
 function getDisplayData() {
@@ -50,6 +64,7 @@ function setLayout() {
 function drawPage() {
   getDisplayData();
   setLayout();
+  destroyKeys();
   displayB.style.height= `${displayBheight}px`;
   displayA.style.height= `${displayAheight}px`;
   keyboard.style.height= `${keyboardHeight}px`;
@@ -64,20 +79,55 @@ function drawPage() {
   displayAtext.style.verticalAlign = "middle";
   displayAtext.style.lineHeight = "normal";
 
-  // ------------------ need to toggle for theme -----------
+  // ------------------ need to adjust for theme -----------
   displayAtext.style.fontSize = `${fontSizeA}px`;
   displayBtext.style.fontSize = `${fontSizeB}px`;
   // -------------------------------------------------------
 
   updateText();
+  createKeys();
+}
+
+function createKeys() {
+  document.getElementById('keyboard').style.gridAutoRows = `${gridRowHeight}px`;
+  document.getElementById('keyboard').style.gridTemplateColumns = gridColumns;
+  for (let i = 0; i < numOfKeys; i++) {
+    const key = document.createElement('div');
+    key.classList.add('key');
+    key.id = i.toString();
+    key.style.backgroundColor = "#20272d";
+    key.style.border = "1px solid #414e58";
+
+    keyboard.appendChild(key);
+
+    const keyID = document.createElement('p');
+    keyID.classList.add('keyID');
+    keyID.id = `keyID${i}`;
+
+    key.appendChild(keyID);
+  }
+  for (let i = 0; i < numOfKeys; i++) {
+    document.getElementById(`keyID${i}`).innerHTML = `${i}`;
+    document.getElementById(`keyID${i}`).style.color = "#414e58";
+  }
+}
+
+function destroyKeys() {
+  let elements = document.getElementsByClassName('key');
+  while(elements.length > 0){
+      elements[0].parentNode.removeChild(elements[0]);
+  }
 }
 
 function portrait() {
   displayBheight = winInH / 15;
   displayAheight = winInH / 7;
-  keyboardHeight = winInH - displayAheight - displayBheight - 6;
-  fontSizeA = displayAheight * winRatio / 2;
-  fontSizeB = displayBheight * winRatio / 2;
+  keyboardHeight = winInH - displayAheight - displayBheight;
+  fontSizeA = displayAheight * winRatio / 1.4;
+  fontSizeB = displayBheight * winRatio / 1.6;
+  gridRowHeight = keyboardHeight / 6;
+  gridColumns = `repeat(4, 1fr)`;
+  numOfKeys = 24;
 }
 
 let winInW = 0;
@@ -98,30 +148,31 @@ let keyboardHeight = 0;
 let fontSizeA = 0;
 let fontSizeB = 0;
 
+let gridRowHeight = 0;
+let gridColumns = 0;
+let numOfKeys = 0;
+
 let body = document.getElementsByTagName('body')[0];
 let para = document.getElementsByTagName('p')[0];
 let displayA = document.getElementById('displayA');
 let displayB = document.getElementById('displayB');
 let displayAtext = document.getElementById('displayAtext');
+let keyboard = document.getElementById('keyboard');
 
 body.style.color = "#c0daf1";
 body.style.backgroundColor = "#1e272f";
 body.style.fontFamily = "'Space+Mono', monospace";
-//body.style.border = "1px solid #c0daf1";
 
-displayB.style.backgroundColor = "blue";
-displayB.style.border = "1px solid #ffcf70";
+displayB.style.backgroundColor = "#20272d";
 displayB.style.textAlign = "right";
 
 displayA.style.backgroundColor = "black";
-displayA.style.border = "1px solid yellow";
 displayA.style.textAlign = "right";
 
 keyboard.style.backgroundColor = "#11443f";
-keyboard.style.border = "1px solid white";
 
-para.style.textAlign = "center";
-para.style.margin= "25px 0 0 0";
+keyboard.style.display = "grid";
+keyboard.style.margin = "auto";
 
 drawPage();
 
