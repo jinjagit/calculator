@@ -73,8 +73,6 @@ function drawPage() {
 }
 
 function createKeys() {
-  //document.getElementById('keyboard').style.gridAutoRows = `${gridRowHeight}px`;
-  //document.getElementById('keyboard').style.gridTemplateColumns = gridColumns;
   for (let i = 0; i < numOfKeys; i++) {
     const key = document.createElement('div');
     key.classList.add('key');
@@ -83,9 +81,17 @@ function createKeys() {
     key.style.border = "1px solid #414e58";
 
     if (i === 22) {
-      key.style.gridColumn = "3 / span 2";
+      if (layout === "portrait") {
+        key.style.gridColumn = "3 / span 2";
+      } else {
+        key.style.gridColumn = "5 / span 2";
+      }
     } else {
-      key.style.gridColumn = `${(i % 4) + 1} / span 1`;
+      if (layout === "portrait") {
+        key.style.gridColumn = `${(i % 4) + 1} / span 1`;
+      } else {
+        key.style.gridColumn = `${(i % 6) + 1} / span 1`;
+      }
     }
     keyboard.appendChild(key);
 
@@ -119,8 +125,19 @@ function portrait() {
   fontSizeB = displayBheight * winRatio / 1.6;
   // -------------------------------------------------------
 
-  gridRowHeight = keyboardHeight / 6;
-  gridColumns = `repeat(4, 1fr)`;
+  numOfKeys = 23;
+}
+
+function landscape() {
+  displayBheight = winInH / 13;
+  displayAheight = winInH / 6;
+  keyboardHeight = winInH - displayAheight - displayBheight;
+
+  // ------------------ need to adjust for theme -----------
+  fontSizeA = displayAheight * winRatio / 1.4;
+  fontSizeB = displayBheight * winRatio / 1.6;
+  // -------------------------------------------------------
+
   numOfKeys = 23;
 }
 
