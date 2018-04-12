@@ -246,7 +246,7 @@ function stylePage() {
       document.getElementById(`keyPara${i}`).style.color = "blue";**/
 
 
-    } else if (keysTemplate[i] === '*') {
+    } else if (keysTemplate[i] === '*') { /// dosen't do anything (different) at the moment
       document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
     } else {
       document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
@@ -263,13 +263,30 @@ function stylePage() {
 
     document.getElementById(`keyPara${i}`).style.textAlign = "center";
 
-    if (keysTemplate[i] === '^') {
+    if (keysTemplate[i] === '^') { // font sizes
       document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys * 0.9}px`;
     } else {
       document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys}px`;
     }
 
-    document.getElementById(`keyPara${i}`).style.color = "#414e58";
+    if (keysTemplate[i] === 'C') { // color (text)
+      document.getElementById(`keyPara${i}`).style.color = "#d64375";
+    } else if (keysTemplate[i] === '<') {
+      document.getElementById(`keyPara${i}`).style.color = "#da8669";
+    } else if (keysTemplate[i] === '=') {
+      document.getElementById(`keyPara${i}`).style.color = "#77c37c";
+    } else if (keysTemplate[i] === '+' || keysTemplate[i] === '-' ||
+              keysTemplate[i] === '*' || keysTemplate[i] === '/') {
+      document.getElementById(`keyPara${i}`).style.color = "#2296fb";
+    } else if (keysTemplate[i] === '±' || keysTemplate[i] === '^' ||
+              keysTemplate[i] === '(' || keysTemplate[i] === ')') {
+      document.getElementById(`keyPara${i}`).style.color = "#3f6d96";
+    } else if (keysTemplate[i] === 'S') {
+      document.getElementById(`keyPara${i}`).style.color = "#9355c7";
+    } else {
+      document.getElementById(`keyPara${i}`).style.color = "#91b9dc";
+    }
+
   }
 }
 
