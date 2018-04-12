@@ -12,7 +12,7 @@
       <span id="displayBtext">39_characters__________________________</span>
     </div>
     <div id="displayA">
-      <span id="displayAtext">18_characters___</span>
+      <span id="displayAtext">18_characters_____</span>
     </div>
     <div id="keyboard">
     </div>
@@ -36,7 +36,7 @@ function getDisplayData() {
   screenH = screen.height;
 
   if (screen.width < window.innerWidth) {
-    mobile = true;
+    mobile = true; // probably mobile, but not certain
   } else {mobile = false;}
 }
 
@@ -162,7 +162,7 @@ function portrait() {
   displayAheight = calcH * (2 / 15);
 
   // ------------------ need to adjust for theme -----------
-  fontSizeA = calcW / 10;
+  fontSizeA = calcW / 11.5;
   fontSizeB = calcW / 26;
 }
 
@@ -171,7 +171,7 @@ function landscape() {
   displayAheight = calcH * (2 / 11);
 
   // ------------------ need to adjust for theme -----------
-  fontSizeA = calcH / 8;
+  fontSizeA = calcH / 9;
   fontSizeB = calcH / 21;
 }
 
