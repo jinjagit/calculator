@@ -13,7 +13,7 @@
       <span id="displayBtext">39_characters__________________________</span>
     </div>
     <div id="displayA">
-      <span id="displayAtext">In development....</span>
+      <span id="displayAtext">3.1415926535897932</span>
     </div>
     <div id="keyboard">
     </div>
@@ -230,6 +230,12 @@ function stylePage() {
   displayBtext.style.fontSize = `${fontSizeB}px`;
 
   container.style.backgroundColor = "#101519";
+  displayB.style.backgroundColor = "#192938";
+  body.style.background = "radial-gradient(#242d33, #101519)";
+
+  container.style.webkitBoxShadow = "-1px -1px 1px 0px rgba(0, 0, 0, 0.75)";
+  //    -moz-box-shadow: -1px -1px 1px 0px rgba(0, 0, 0, 0.75);
+  container.style.boxShadow = "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
 
   // ------------- keys styling ----------------------
 
@@ -331,7 +337,6 @@ let keyboard = document.getElementById('keyboard');
 let container = document.getElementById('container');
 
 body.style.color = "#c0daf1";
-body.style.backgroundColor = "#161e25";
 body.style.fontFamily = "'Ubuntu Mono', monospace";
 body.style.fontWeight = "normal";
 //body.style.fontFamily = "arial";
@@ -339,7 +344,7 @@ body.style.fontWeight = "normal";
 container.style.margin = "auto";
 
 
-displayB.style.backgroundColor = "#20272d";
+
 displayB.style.textAlign = "right";
 
 displayA.style.backgroundColor = "black";
