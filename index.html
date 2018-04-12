@@ -35,25 +35,53 @@ function setKeysTemplate() {
   // 'S' = settings, 'F' = fullscreen (landscapeLong && mobile, only)
   let template = [];
   if (layout === "portrait") {
-    template = ['±', 'S', '<', 'C',
-                '(', ')', '^', '+',
-                '7', '8', '9', '-',
-                '4', '5', '6', '*',
-                '1', '2', '3', '/',
-                '.', '0', '='];
+    if (hand === "r") {
+      template = ['±', 'S', '<', 'C',
+                  '(', ')', '^', '+',
+                  '7', '8', '9', '-',
+                  '4', '5', '6', '*',
+                  '1', '2', '3', '/',
+                  '.', '0', '='];
+    } else {
+      template = ['C', '<', 'S', '±',
+                  '+', '^', '(', ')',
+                  '-', '7', '8', '9',
+                  '*', '4', '5', '6',
+                  '/', '1', '2', '3',
+                  '=', '0', '.'];
+    }
   } else if (layout === "landscape") {
-    template = ['7', '8', '9', '/', '^', 'C',
-                '4', '5', '6', '*', '(', '<',
-                '1', '2', '3', '-', ')', 'S',
-                '±', '0', '.', '+', '='];
+    if (hand === "r") {
+      template = ['7', '8', '9', '/', '^', 'C',
+                  '4', '5', '6', '*', '(', '<',
+                  '1', '2', '3', '-', ')', 'S',
+                  '±', '0', '.', '+', '='];
+    } else {
+      template = ['C', '^', '/', '7', '8', '9',
+                  '<', '(', '*', '4', '5', '6',
+                  'S', ')', '-', '1', '2', '3',
+                  '=', '+', '.', '0', '±'];
+    }
   } else if (layout === "landscapeLong" && mobile === false) {
-    template = ['±', '7', '8', '9', '^', 'S', '<', 'C',
-                '.', '4', '5', '6', '+', '*', '(', ')',
-                '0', '1', '2', '3', '-', '/', '='];
+    if (hand === "r") {
+      template = ['±', '7', '8', '9', '^', 'S', '<', 'C',
+                  '.', '4', '5', '6', '+', '*', '(', ')',
+                  '0', '1', '2', '3', '-', '/', '='];
+    } else {
+      template = ['C', '<', 'S', '^', '±', '7', '8', '9',
+                  '(', ')', '*', '+', '.', '4', '5', '6',
+                  '=', '/', '-', '0', '1', '2', '3'];
+    }
   } else { // landscapeLong && mobile: true
-    template = ['±', '7', '8', '9', 'F', 'S', '<', 'C',
-                '.', '4', '5', '6', '+', '*', '(', ')',
-                '0', '1', '2', '3', '-', '/', '^', '='];
+    if (hand === "r") {
+      template = ['±', '7', '8', '9', 'F', 'S', '<', 'C',
+                  '.', '4', '5', '6', '+', '*', '(', ')',
+                  '0', '1', '2', '3', '-', '/', '^', '='];
+    } else {
+      template = ['C', '<', 'F', 'S', '±', '7', '8', '9',
+                  '(', ')', '*', '+', '.', '4', '5', '6',
+                  '=', '^', '/', '-', '0', '1', '2', '3'];
+    }
   }
 
   return template;
@@ -203,8 +231,8 @@ function stylePage() {
   // ------------- keys styling ----------------------
 
   keysTemplate = setKeysTemplate();
-  
-  fontSizeKeys = keyHeight / 1.5;
+
+  fontSizeKeys = keyHeight / 1.8;
 
   for (let i = 0; i < numOfKeys; i++) { // style each <p> on each key, including a string
     document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
@@ -223,7 +251,7 @@ let screenH = 0;
 let winRatio = 0;
 let mobile = false;
 let layout = "portrait"; // 3 options: portrait, landscape, landscapeLong
-let hand = "r";
+let hand = "l";
 let theme = "A"; // A or B
 
 let displayAheight = 0;
