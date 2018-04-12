@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="./css/reset.css" media="screen" />
   <link href="https://fonts.googleapis.com/css?family=Space+Mono:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css" media="screen" />
   <title >Calculator:</title>
 </head>
 <body onresize="drawPage()">
@@ -235,7 +236,17 @@ function stylePage() {
   fontSizeKeys = keyHeight / 1.8;
 
   for (let i = 0; i < numOfKeys; i++) { // style each <p> on each key, including a string
-    document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
+    if (keysTemplate[i] === '^') { // special position for 'x^y' text (with supersript)
+      vertOffset = fontSizeKeys * -0.198;
+      horOffset = fontSizeKeys * -0.3;
+      document.getElementById(`keyPara${i}`).innerHTML = `x<sup>y</sup>`;
+      document.getElementById(`keyPara${i}`).style.margin = `${vertOffset}px ${horOffset}px 0 0`;
+    } else if (keysTemplate[i] === '*') {
+      document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
+    } else {
+      document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
+    }
+
     document.getElementById(`keyPara${i}`).style.textAlign = "center";
     document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys}px`;
     document.getElementById(`keyPara${i}`).style.color = "#414e58";
@@ -269,6 +280,9 @@ let gridColumns = 0;
 let numOfKeys = 0;
 let keysTemplate = [];
 
+let horOffset = 0;
+let vertOffset = 0;
+
 let body = document.getElementsByTagName('body')[0];
 let para = document.getElementsByTagName('p')[0];
 let displayA = document.getElementById('displayA');
@@ -280,6 +294,7 @@ let container = document.getElementById('container');
 body.style.color = "#c0daf1";
 body.style.backgroundColor = "#101519";
 body.style.fontFamily = "'Space+Mono', monospace";
+//body.style.fontFamily = "arial";
 
 container.style.margin = "auto";
 

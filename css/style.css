@@ -1,9 +1,7 @@
 body {
-
+  font-family: arial;
 }
-.keys {
-  margin: auto;
-}
-.keyPara {
-  text-align: center;
+sup {
+    vertical-align: super;
+    font-size: 60%;
 }
