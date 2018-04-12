@@ -37,7 +37,6 @@ function getDisplayData() {
   calcH = window.innerHeight;
   WinOutH = window.outerHeight;
   screenH = screen.height;
-
   if (screen.width < window.innerWidth) {
     mobile = true; // probably mobile, but not certain
   } else {mobile = false;}
@@ -72,7 +71,7 @@ function setLayout() {
   } else {
     numOfKeys = 23;
   }
-  keyHeight = (keyboardHeight / keyRows) - 2; // -2px for border (this could change, depending on Theme)
+  keyHeight = (keyboardHeight / keyRows) - 2; // -2px for key border (this could change, depending on Theme)
 }
 
 function drawPage() {
@@ -97,7 +96,6 @@ function createKeys() {
     key.id = i.toString();
     key.style.backgroundColor = "#20272d";
     key.style.border = "1px solid #414e58";
-
     if (hand === "r" && i === 22) { // place 'double-width-key'
       if (layout === "portrait") {
         key.style.gridColumn = "3 / span 2";
@@ -130,18 +128,10 @@ function createKeys() {
     key.style.lineHeight = `${keyHeight}px`;
     keyboard.appendChild(key);
 
-    // --- add <p> to key -------------------------
-    const keyPara = document.createElement('p');
+    const keyPara = document.createElement('p');  // add <p> to key
     keyPara.classList.add('keyPara');
     keyPara.id = `keyPara${i}`;
     key.appendChild(keyPara);
-    //-----------------------------------------------
-  }
-  for (let i = 0; i < numOfKeys; i++) { // set each <p> on each key to contain a string
-    document.getElementById(`keyPara${i}`).innerHTML = `${i}`;
-    document.getElementById(`keyPara${i}`).style.textAlign = "center";
-    //document.getElementById(`keyPara${i}`).style.verticalAlign = "middle";
-    document.getElementById(`keyPara${i}`).style.color = "#414e58";
   }
 }
 
@@ -153,7 +143,6 @@ function destroyKeys() {
 }
 
 function stylePage() {
-  console.log("called stylePage()");
   if (layout === "portrait") {
     fontSizeA = calcW / 11.5;
     fontSizeB = calcW / 26;
@@ -181,6 +170,12 @@ function stylePage() {
 
   displayAtext.style.fontSize = `${fontSizeA}px`;
   displayBtext.style.fontSize = `${fontSizeB}px`;
+
+  for (let i = 0; i < numOfKeys; i++) { // style each <p> on each key, including a string
+    document.getElementById(`keyPara${i}`).innerHTML = `${i}`;
+    document.getElementById(`keyPara${i}`).style.textAlign = "center";
+    document.getElementById(`keyPara${i}`).style.color = "#414e58";
+  }
 }
 
 let calcW = 0;
