@@ -111,7 +111,7 @@ function createKeys() {
         key.style.gridColumn = "3 / span 2";
       } else if (layout === "landscape") {
         key.style.gridColumn = "5 / span 2";
-      } else if (mobile === false) {
+      } else if (mobile === false) { // landscapeLong layout for mobile has no 'double-width-key' (extra key for fullscreen)
         key.style.gridColumn = "7 / span 2";
       }
     } else if (hand === "l" && i === 20 && layout === "portrait") {
@@ -137,14 +137,14 @@ function createKeys() {
     }
     keyboard.appendChild(key);
 
-    // --- text on each key -------------------------
+    // --- add <p> to key -------------------------
     const keyID = document.createElement('p');
     keyID.classList.add('keyID');
     keyID.id = `keyID${i}`;
     key.appendChild(keyID);
     //-----------------------------------------------
   }
-  for (let i = 0; i < numOfKeys; i++) {
+  for (let i = 0; i < numOfKeys; i++) { // set each <p> on each key to contain a string
     document.getElementById(`keyID${i}`).innerHTML = `${i}`;
     document.getElementById(`keyID${i}`).style.color = "#414e58";
   }
@@ -171,7 +171,7 @@ function landscape() {
   displayAheight = calcH * (2 / 11);
 
   // ------------------ need to adjust for theme -----------
-  fontSizeA = calcH / 9;
+  fontSizeA = calcH / 9.5;
   fontSizeB = calcH / 21;
 }
 
