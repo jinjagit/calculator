@@ -43,8 +43,21 @@ function setLayout() {
   if (winRatio < 1.2) {
     portrait();
     layout = "portrait";
-  } else if (winRatio >= 1.2 && winRatio < 2.1) {layout = "landscape";}
-  else {layout = "landscapeLong";}
+  } else if (winRatio >= 1.2 && winRatio < 2.1) {
+    landscape();
+    layout = "landscape";
+  }
+  else {
+    landscapeLong();
+    layout = "landscapeLong";
+  }
+  keyboardHeight = winInH - displayAheight - displayBheight;
+  if (layout === "landscapeLong" && mobile === true) {
+    numOfKeys = 24;
+  } else {
+    numOfKeys = 23;
+  }
+
 }
 
 function drawPage() {
@@ -83,14 +96,18 @@ function createKeys() {
     if (i === 22) {
       if (layout === "portrait") {
         key.style.gridColumn = "3 / span 2";
-      } else {
+      } else if (layout === "landscape") {
         key.style.gridColumn = "5 / span 2";
+      } else if (mobile === false) {
+        key.style.gridColumn = "7 / span 2";
       }
     } else {
       if (layout === "portrait") {
         key.style.gridColumn = `${(i % 4) + 1} / span 1`;
-      } else {
+      } else if (layout === "landscape") {
         key.style.gridColumn = `${(i % 6) + 1} / span 1`;
+      } else {
+        key.style.gridColumn = `${(i % 8) + 1} / span 1`;
       }
     }
     keyboard.appendChild(key);
@@ -116,29 +133,30 @@ function destroyKeys() {
 }
 
 function portrait() {
-  displayBheight = winInH / 15;
-  displayAheight = winInH / 7;
-  keyboardHeight = winInH - displayAheight - displayBheight;
+  displayBheight = winInH * (1 / 15);
+  displayAheight = winInH * (2 / 15);
 
   // ------------------ need to adjust for theme -----------
-  fontSizeA = displayAheight * winRatio / 1.4;
-  fontSizeB = displayBheight * winRatio / 1.6;
-  // -------------------------------------------------------
-
-  numOfKeys = 23;
+  fontSizeA = winInW / 10;
+  fontSizeB = winInW / 26;
 }
 
 function landscape() {
-  displayBheight = winInH / 13;
-  displayAheight = winInH / 6;
-  keyboardHeight = winInH - displayAheight - displayBheight;
+  displayBheight = winInH * (1 / 11);
+  displayAheight = winInH * (2 / 11);
 
   // ------------------ need to adjust for theme -----------
-  fontSizeA = displayAheight * winRatio / 1.4;
-  fontSizeB = displayBheight * winRatio / 1.6;
-  // -------------------------------------------------------
+  fontSizeA = winInH / 8;
+  fontSizeB = winInH / 21;
+}
 
-  numOfKeys = 23;
+function landscapeLong() {
+  displayBheight = winInH * (1 / 9);
+  displayAheight = winInH * (2 / 9);
+
+  // ------------------ need to adjust for theme -----------
+  fontSizeA = winInH / 7;
+  fontSizeB = winInH / 18;
 }
 
 let winInW = 0;
