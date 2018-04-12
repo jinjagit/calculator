@@ -50,17 +50,20 @@ function setLayout() {
   }
   winRatio = calcW / calcH;
   if (winRatio < 1.2) {
-    portrait();
     layout = "portrait";
+    displayBheight = calcH * (1 / 15);
+    displayAheight = calcH * (2 / 15);
     keyRows = 6;
   } else if (winRatio >= 1.2 && winRatio < 2.1) {
-    landscape();
     layout = "landscape";
+    displayBheight = calcH * (1 / 11);
+    displayAheight = calcH * (2 / 11);
     keyRows = 4;
   }
   else {
-    landscapeLong();
     layout = "landscapeLong";
+    displayBheight = calcH * (1 / 9);
+    displayAheight = calcH * (2 / 9);
     keyRows = 3;
   }
   keyboardHeight = calcH - displayAheight - displayBheight;
@@ -82,27 +85,11 @@ function drawPage() {
   } else {
     container.style.margin = `auto`;
   }
-
-  displayB.style.height= `${displayBheight}px`;
-  displayA.style.height= `${displayAheight}px`;
-  keyboard.style.height= `${keyboardHeight}px`;
-
-  displayB.style.lineHeight = `${displayBheight}px`;
-  displayBtext.style.display = "inline-block";
-  displayBtext.style.verticalAlign = "middle";
-  displayBtext.style.lineHeight = "normal";
-
-  displayA.style.lineHeight = `${displayAheight}px`;
-  displayAtext.style.display = "inline-block";
-  displayAtext.style.verticalAlign = "middle";
-  displayAtext.style.lineHeight = "normal";
-
-  displayAtext.style.fontSize = `${fontSizeA}px`;
-  displayBtext.style.fontSize = `${fontSizeB}px`;
-
   updateText();
   createKeys();
+  stylePage();
 }
+
 function createKeys() {
   for (let i = 0; i < numOfKeys; i++) {
     const key = document.createElement('div');
@@ -165,31 +152,35 @@ function destroyKeys() {
   }
 }
 
-function portrait() {
-  displayBheight = calcH * (1 / 15);
-  displayAheight = calcH * (2 / 15);
+function stylePage() {
+  console.log("called stylePage()");
+  if (layout === "portrait") {
+    fontSizeA = calcW / 11.5;
+    fontSizeB = calcW / 26;
+  } else if (layout === "landscape") {
+    fontSizeA = calcH / 9.6;
+    fontSizeB = calcH / 21;
+  } else {
+    fontSizeA = calcH / 7;
+    fontSizeB = calcH / 18;
+  }
 
-  // ------------------ need to adjust for theme -----------
-  fontSizeA = calcW / 11.5;
-  fontSizeB = calcW / 26;
-}
+  displayB.style.height= `${displayBheight}px`;
+  displayA.style.height= `${displayAheight}px`;
+  keyboard.style.height= `${keyboardHeight}px`;
 
-function landscape() {
-  displayBheight = calcH * (1 / 11);
-  displayAheight = calcH * (2 / 11);
+  displayB.style.lineHeight = `${displayBheight}px`;
+  displayBtext.style.display = "inline-block";
+  displayBtext.style.verticalAlign = "middle";
+  displayBtext.style.lineHeight = "normal";
 
-  // ------------------ need to adjust for theme -----------
-  fontSizeA = calcH / 9.6;
-  fontSizeB = calcH / 21;
-}
+  displayA.style.lineHeight = `${displayAheight}px`;
+  displayAtext.style.display = "inline-block";
+  displayAtext.style.verticalAlign = "middle";
+  displayAtext.style.lineHeight = "normal";
 
-function landscapeLong() {
-  displayBheight = calcH * (1 / 9);
-  displayAheight = calcH * (2 / 9);
-
-  // ------------------ need to adjust for theme -----------
-  fontSizeA = calcH / 7;
-  fontSizeB = calcH / 18;
+  displayAtext.style.fontSize = `${fontSizeA}px`;
+  displayBtext.style.fontSize = `${fontSizeB}px`;
 }
 
 let calcW = 0;
