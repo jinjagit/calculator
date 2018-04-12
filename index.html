@@ -13,7 +13,7 @@
       <span id="displayBtext">39_characters__________________________</span>
     </div>
     <div id="displayA">
-      <span id="displayAtext">18_characters_____</span>
+      <span id="displayAtext">In development....</span>
     </div>
     <div id="keyboard">
     </div>
@@ -241,6 +241,11 @@ function stylePage() {
       horOffset = fontSizeKeys * -0.3;
       document.getElementById(`keyPara${i}`).innerHTML = `x<sup>y</sup>`;
       document.getElementById(`keyPara${i}`).style.margin = `${vertOffset}px ${horOffset}px 0 0`;
+      /**document.getElementById(`keyPara${i}`).style.margin = `${vertOffset}px ${horOffset}px 0 0`;
+      document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys * 0.5}px`;
+      document.getElementById(`keyPara${i}`).style.color = "blue";**/
+
+
     } else if (keysTemplate[i] === '*') {
       document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
     } else {
@@ -257,7 +262,13 @@ function stylePage() {
     }
 
     document.getElementById(`keyPara${i}`).style.textAlign = "center";
-    document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys}px`;
+
+    if (keysTemplate[i] === '^') {
+      document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys * 0.9}px`;
+    } else {
+      document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys}px`;
+    }
+
     document.getElementById(`keyPara${i}`).style.color = "#414e58";
   }
 }
