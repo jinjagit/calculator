@@ -30,6 +30,35 @@ function updateText() {
   displayBtext.innerHTML = summary;
 }
 
+function setKeysTemplate() {
+  // '^' = exponentiation, 'C' = clear, '<' = backspace,
+  // 'S' = settings, 'F' = fullscreen (landscapeLong && mobile, only)
+  let template = [];
+  if (layout === "portrait") {
+    template = ['±', 'S', '<', 'C',
+                '(', ')', '^', '+',
+                '7', '8', '9', '-',
+                '4', '5', '6', '*',
+                '1', '2', '3', '/',
+                '.', '0', '='];
+  } else if (layout === "landscape") {
+    template = ['7', '8', '9', '/', '^', 'C',
+                '4', '5', '6', '*', '(', '<',
+                '1', '2', '3', '-', ')', 'S',
+                '±', '0', '.', '+', '='];
+  } else if (layout === "landscapeLong" && mobile === false) {
+    template = ['±', '7', '8', '9', '^', 'S', '<', 'C',
+                '.', '4', '5', '6', '+', '*', '(', ')',
+                '0', '1', '2', '3', '-', '/', '='];
+  } else { // landscapeLong && mobile: true
+    template = ['±', '7', '8', '9', 'F', 'S', '<', 'C',
+                '.', '4', '5', '6', '+', '*', '(', ')',
+                '0', '1', '2', '3', '-', '/', '^', '='];
+  }
+
+  return template;
+}
+
 function getDisplayData() {
   calcW = window.innerWidth;
   WinOutW = window.outerWidth;
@@ -171,8 +200,12 @@ function stylePage() {
   displayAtext.style.fontSize = `${fontSizeA}px`;
   displayBtext.style.fontSize = `${fontSizeB}px`;
 
+  // ------------- keys styling ----------------------
+
+  keysTemplate = setKeysTemplate();
+
   for (let i = 0; i < numOfKeys; i++) { // style each <p> on each key, including a string
-    document.getElementById(`keyPara${i}`).innerHTML = `${i}`;
+    document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
     document.getElementById(`keyPara${i}`).style.textAlign = "center";
     document.getElementById(`keyPara${i}`).style.color = "#414e58";
   }
@@ -202,6 +235,7 @@ let fontSizeB = 0;
 let gridRowHeight = 0;
 let gridColumns = 0;
 let numOfKeys = 0;
+let keysTemplate = [];
 
 let body = document.getElementsByTagName('body')[0];
 let para = document.getElementsByTagName('p')[0];
