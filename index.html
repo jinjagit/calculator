@@ -19,6 +19,9 @@
   </div>
 
 <script>
+
+// Disambiguation: In this code, 'key' refers / relates to a / the key(s) on the rendered calculator
+
 function updateText() {
   let summary = `mode: ${layout} (${hand}) mobile: ${mobile}`;
   while (summary.length < 39) {
@@ -49,13 +52,16 @@ function setLayout() {
   if (winRatio < 1.2) {
     portrait();
     layout = "portrait";
+    keyRows = 6;
   } else if (winRatio >= 1.2 && winRatio < 2.1) {
     landscape();
     layout = "landscape";
+    keyRows = 4;
   }
   else {
     landscapeLong();
     layout = "landscapeLong";
+    keyRows = 3;
   }
   keyboardHeight = calcH - displayAheight - displayBheight;
   if (layout === "landscapeLong" && mobile === true) {
@@ -63,7 +69,7 @@ function setLayout() {
   } else {
     numOfKeys = 23;
   }
-
+  keyHeight = (keyboardHeight / keyRows) - 2; // -2px for border (this could change, depending on Theme)
 }
 
 function drawPage() {
@@ -97,7 +103,6 @@ function drawPage() {
   updateText();
   createKeys();
 }
-
 function createKeys() {
   for (let i = 0; i < numOfKeys; i++) {
     const key = document.createElement('div');
@@ -135,18 +140,21 @@ function createKeys() {
         key.style.gridColumn = `${(i % 8) + 1} / span 1`;
       }
     }
+    key.style.lineHeight = `${keyHeight}px`;
     keyboard.appendChild(key);
 
     // --- add <p> to key -------------------------
-    const keyID = document.createElement('p');
-    keyID.classList.add('keyID');
-    keyID.id = `keyID${i}`;
-    key.appendChild(keyID);
+    const keyPara = document.createElement('p');
+    keyPara.classList.add('keyPara');
+    keyPara.id = `keyPara${i}`;
+    key.appendChild(keyPara);
     //-----------------------------------------------
   }
   for (let i = 0; i < numOfKeys; i++) { // set each <p> on each key to contain a string
-    document.getElementById(`keyID${i}`).innerHTML = `${i}`;
-    document.getElementById(`keyID${i}`).style.color = "#414e58";
+    document.getElementById(`keyPara${i}`).innerHTML = `${i}`;
+    document.getElementById(`keyPara${i}`).style.textAlign = "center";
+    //document.getElementById(`keyPara${i}`).style.verticalAlign = "middle";
+    document.getElementById(`keyPara${i}`).style.color = "#414e58";
   }
 }
 
@@ -194,10 +202,13 @@ let winRatio = 0;
 let mobile = false;
 let layout = "portrait"; // 3 options: portrait, landscape, landscapeLong
 let hand = "r";
+let theme = "A"; // A or B
 
 let displayAheight = 0;
 let displayBheight = 0;
 let keyboardHeight = 0;
+let keyHeight = 0;
+let keyRows = 0;
 
 let fontSizeA = 0;
 let fontSizeB = 0;
