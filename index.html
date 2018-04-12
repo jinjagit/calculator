@@ -93,7 +93,7 @@ function createKeys() {
     key.style.backgroundColor = "#20272d";
     key.style.border = "1px solid #414e58";
 
-    if (i === 22) {
+    if (hand === "r" && i === 22) { // place 'double-width-key'
       if (layout === "portrait") {
         key.style.gridColumn = "3 / span 2";
       } else if (layout === "landscape") {
@@ -101,7 +101,19 @@ function createKeys() {
       } else if (mobile === false) {
         key.style.gridColumn = "7 / span 2";
       }
-    } else {
+    } else if (hand === "l" && i === 20 && layout === "portrait") {
+      key.style.gridColumn = "1 / span 2";
+    } else if (hand === "l" && i === 18 && layout === "landscape") {
+      key.style.gridColumn = "1 / span 2";
+    } else if (hand === "l" && i === 16 && layout === "landscapeLong" && mobile === false) {
+      key.style.gridColumn = "1 / span 2";
+    } else if (hand === "l" && i > 20 && layout === "portrait") { // place keys after 'double-width-key' (if exists before last key)
+      key.style.gridColumn = `${(i % 4) + 2} / span 1`;
+    } else if (hand === "l" && i > 18 && layout === "landscape") {
+      key.style.gridColumn = `${(i % 6) + 2} / span 1`;
+    } else if (hand === "l" && i > 16 && layout === "landscapeLong" && mobile === false) {
+      key.style.gridColumn = `${(i % 8) + 2} / span 1`;
+    } else { // place keys before 'double-width-key' (if exists)
       if (layout === "portrait") {
         key.style.gridColumn = `${(i % 4) + 1} / span 1`;
       } else if (layout === "landscape") {
@@ -168,7 +180,7 @@ let screenH = 0;
 let winRatio = 0;
 let mobile = false;
 let layout = "portrait"; // 3 options: portrait, landscape, landscapeLong
-let hand = "r";
+let hand = "l";
 
 let displayAheight = 0;
 let displayBheight = 0;
