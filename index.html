@@ -129,7 +129,7 @@ function setLayout() {
   } else {
     numOfKeys = 23;
   }
-  keyHeight = (keyboardHeight / keyRows) - 2; // -2px for key border (this could change, depending on Theme)
+  keyHeight = (keyboardHeight / keyRows); // -2px for key border (this could change, depending on Theme)
 }
 
 function drawPage() {
@@ -247,6 +247,15 @@ function stylePage() {
       document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
     }
 
+    if (theme === "A") {
+      document.getElementById(`${i}`).style.backgroundColor = "#101519";
+      document.getElementById(`${i}`).style.border = "none";
+      //document.getElementById(`keyPara${i}`).style.fontWeight = "bold";
+    } else {
+      document.getElementById(`${i}`).style.backgroundColor = "#20272d";
+      document.getElementById(`${i}`).style.border = "1px solid #414e58";
+    }
+
     document.getElementById(`keyPara${i}`).style.textAlign = "center";
     document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys}px`;
     document.getElementById(`keyPara${i}`).style.color = "#414e58";
@@ -292,12 +301,13 @@ let keyboard = document.getElementById('keyboard');
 let container = document.getElementById('container');
 
 body.style.color = "#c0daf1";
-body.style.backgroundColor = "#101519";
+body.style.backgroundColor = "#161e25";
 body.style.fontFamily = "'Ubuntu Mono', monospace";
 body.style.fontWeight = "normal";
 //body.style.fontFamily = "arial";
 
 container.style.margin = "auto";
+container.style.backgroundColor = "#161e25";
 
 displayB.style.backgroundColor = "#20272d";
 displayB.style.textAlign = "right";
