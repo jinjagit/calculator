@@ -203,10 +203,13 @@ function stylePage() {
   // ------------- keys styling ----------------------
 
   keysTemplate = setKeysTemplate();
+  
+  fontSizeKeys = keyHeight / 1.5;
 
   for (let i = 0; i < numOfKeys; i++) { // style each <p> on each key, including a string
     document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
     document.getElementById(`keyPara${i}`).style.textAlign = "center";
+    document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys}px`;
     document.getElementById(`keyPara${i}`).style.color = "#414e58";
   }
 }
@@ -231,6 +234,7 @@ let keyRows = 0;
 
 let fontSizeA = 0;
 let fontSizeB = 0;
+let fontSizeKeys = 0;
 
 let gridRowHeight = 0;
 let gridColumns = 0;
