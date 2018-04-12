@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="./css/reset.css" media="screen" />
-  <link href="https://fonts.googleapis.com/css?family=Space+Mono:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css" media="screen" />
   <title >Calculator:</title>
 </head>
@@ -202,14 +202,14 @@ function destroyKeys() {
 
 function stylePage() {
   if (layout === "portrait") {
-    fontSizeA = calcW / 11.5;
-    fontSizeB = calcW / 26;
+    fontSizeA = calcW / 10;
+    fontSizeB = calcW / 23;
   } else if (layout === "landscape") {
-    fontSizeA = calcH / 9.6;
-    fontSizeB = calcH / 21;
-  } else {
-    fontSizeA = calcH / 7;
+    fontSizeA = calcH / 7.8;
     fontSizeB = calcH / 18;
+  } else {
+    fontSizeA = calcH / 6;
+    fontSizeB = calcH / 16;
   }
 
   displayB.style.height= `${displayBheight}px`;
@@ -293,7 +293,8 @@ let container = document.getElementById('container');
 
 body.style.color = "#c0daf1";
 body.style.backgroundColor = "#101519";
-body.style.fontFamily = "'Space+Mono', monospace";
+body.style.fontFamily = "'Ubuntu Mono', monospace";
+body.style.fontWeight = "normal";
 //body.style.fontFamily = "arial";
 
 container.style.margin = "auto";
