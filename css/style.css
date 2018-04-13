@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'line-awesome';
+    src: url('../fonts/line-awesome.ttf');
+}
+
 body {
   font-family: arial;
 }
