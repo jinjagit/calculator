@@ -20,7 +20,8 @@
   </div>
 
 <script>
-
+// Calculator - by Simon Tharby, 2018 (solution to; https://www.theodinproject.com/courses/web-development-101/lessons/calculator)
+// Mobile focussed design that is also appropriately responsive to desktop environment.
 // Disambiguation: In this code, 'key' refers / relates to a / the key(s) on the rendered calculator
 
 function updateText() {
@@ -30,6 +31,8 @@ function updateText() {
   }
   displayBtext.innerHTML = summary;
 }
+
+// --------------------- layout and basic styling -----------------------------
 
 function setKeysTemplate() {
   // '^' = exponentiation, 'C' = clear, '<' = backspace,
@@ -305,7 +308,7 @@ function stylePage() {
   }
 }
 
-// ---------- event listeniners -----------------------------
+// ---------- event listeners -----------------------------
 
 function addEventListeners() {
   keys = document.querySelectorAll('.key');
@@ -317,17 +320,18 @@ function addEventListeners() {
 
 function hover() {
   let thisID = this.id.toString();
-  console.log(thisID);
+  // get element child paragraph (text) color and store
+  // set element child paragraph (text) color to brighter color
   document.getElementById(thisID).style.backgroundColor = "yellow";
 }
 
 function unHover () {
   let thisID = this.id.toString();
-  console.log(thisID);
+  // reset element child paragraph (text) color to pre-hover value.
   document.getElementById(thisID).style.backgroundColor = "#101519";
 }
 
-// ---------- initial commands and declarations -------------
+// ---------- initial declarations and commands -------------
 
 let calcW = 0;
 let WinOutW = 0;
@@ -368,8 +372,6 @@ let displayAtext = document.getElementById('displayAtext');
 let keyboard = document.getElementById('keyboard');
 let container = document.getElementById('container');
 
-let tooltipAtt = document.createAttribute("title");
-
 body.style.color = "#c0daf1";
 body.style.fontFamily = "'Ubuntu Mono', monospace";
 body.style.fontWeight = "normal";
@@ -381,7 +383,7 @@ keyboard.style.backgroundColor = "#11443f";
 keyboard.style.display = "grid";
 keyboard.style.margin = "auto";
 
-drawPage();
+drawPage(); // Also called whenever window (body) is resized
 
 </script>
 
