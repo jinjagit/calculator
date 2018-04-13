@@ -345,28 +345,19 @@ function unHover () {
 
 function keyClick (clickedID) {
   function clickAnim() {
-    if (counter === 0) {
-      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 5%, #101519 10%, #101519 90%)`;
-    } else if (counter === 1) {
-      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 20%, #101519 90%)`;
-    } else if (counter === 2) {
-      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 30%, #101519 90%)`;
-    } else if (counter === 3) {
-      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 40%, #101519 90%)`;
-    } else if (counter === 4) {
-      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 50%, #101519 90%)`;
-    } else if (counter === 5) {
-      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 40%, #101519 90%)`;
-    } else if (counter === 6) {
-      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 30%, #101519 90%)`;
-    } else if (counter === 7) {
-      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 20%, #101519 90%)`;
-    } else if (counter === 8) {
-      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 5%, #101519 10%, #101519 90%)`;
-    } else {
-      document.getElementById(`${clickedID}`).style.background = "#101519";
-      counter = 0;
-      clearInterval(myVar);
+    let elem = document.getElementById(`${clickedID}`);
+
+    switch (counter) {
+        case 0: elem.style.background = `radial-gradient(${prevColor} 5%, #101519 10%, #101519 90%)`; break;
+        case 1: elem.style.background = `radial-gradient(${prevColor} 10%, #101519 20%, #101519 90%)`; break;
+        case 2: elem.style.background = `radial-gradient(${prevColor} 10%, #101519 30%, #101519 90%)`; break;
+        case 3: elem.style.background = `radial-gradient(${prevColor} 10%, #101519 40%, #101519 90%)`; break;
+        case 4: elem.style.background = `radial-gradient(${prevColor} 10%, #101519 50%, #101519 90%)`; break;
+        case 5: elem.style.background = `radial-gradient(${prevColor} 10%, #101519 40%, #101519 90%)`; break;
+        case 6: elem.style.background = `radial-gradient(${prevColor} 10%, #101519 30%, #101519 90%)`; break;
+        case 7: elem.style.background = `radial-gradient(${prevColor} 10%, #101519 20%, #101519 90%)`; break;
+        case 8: elem.style.background = `radial-gradient(${prevColor} 5%, #101519 10%, #101519 90%)`; break;
+        case 9: elem.style.background = "#101519"; counter = 0; clearInterval(myVar);
     }
     counter++;
   }
@@ -375,7 +366,6 @@ function keyClick (clickedID) {
     prevColor = document.getElementById(`keyPara${clickedID}`).style.getPropertyValue("color");
     console.log(prevColor);
   }
-
   let counter = 0;
   let text = displayBtext.innerHTML;
   let template = setKeysTemplate();
@@ -384,11 +374,7 @@ function keyClick (clickedID) {
     text = text.slice(4, text.length);
   }
   displayBtext.innerHTML = "..." + text;
-
   var myVar = setInterval(function(){ clickAnim() }, 10);
-  //document.getElementById(`${clickedID}`).style.color =  prevColor;
-
-  //document.getElementById(`${clickedID}`).style.background = "yellow";
 }
 
 /** Converts an RGB color value to HSL. Conversion formula adapted from
