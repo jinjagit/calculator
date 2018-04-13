@@ -152,7 +152,7 @@ function createKeys() {
     const key = document.createElement('div');
     key.classList.add('key');
     key.id = i.toString();
-    key.style.backgroundColor = "#20272d";
+    //key.style.backgroundColor = "#20272d";
     key.style.border = "1px solid #414e58";
     if (hand === "r" && i === 22) { // place 'double-width-key'
       if (layout === "portrait") {
@@ -310,12 +310,21 @@ function stylePage() {
 function addEventListeners() {
   keys = document.querySelectorAll('.key');
   keys.forEach(key => key.addEventListener('mouseover', hover));
+
+  keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('mouseout', unHover));
 }
 
 function hover() {
   let thisID = this.id.toString();
   console.log(thisID);
   document.getElementById(thisID).style.backgroundColor = "yellow";
+}
+
+function unHover () {
+  let thisID = this.id.toString();
+  console.log(thisID);
+  document.getElementById(thisID).style.backgroundColor = "#101519";
 }
 
 // ---------- initial commands and declarations -------------
