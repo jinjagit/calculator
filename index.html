@@ -341,6 +341,35 @@ function unHover () {
 }
 
 function keyClick (clickedID) {
+  function clickAnim() {
+    console.log(prevColor);
+    if (counter === 0) {
+      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 5%, #101519 10%, #101519 90%)`;
+    } else if (counter === 1) {
+      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 20%, #101519 90%)`;
+    } else if (counter === 2) {
+      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 30%, #101519 90%)`;
+    } else if (counter === 3) {
+      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 40%, #101519 90%)`;
+    } else if (counter === 4) {
+      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 50%, #101519 90%)`;
+    } else if (counter === 5) {
+      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 40%, #101519 90%)`;
+    } else if (counter === 6) {
+      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 30%, #101519 90%)`;
+    } else if (counter === 7) {
+      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 10%, #101519 20%, #101519 90%)`;
+    } else if (counter === 8) {
+      document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 5%, #101519 10%, #101519 90%)`;
+    } else {
+      document.getElementById(`${clickedID}`).style.background = "#101519";
+      counter = 0;
+      clearInterval(myVar);
+    }
+    counter++;
+  }
+
+  let counter = 0;
   let text = displayBtext.innerHTML;
   let template = setKeysTemplate();
   text = text + template[clickedID];
@@ -348,6 +377,10 @@ function keyClick (clickedID) {
     text = text.slice(4, text.length);
   }
   displayBtext.innerHTML = "..." + text;
+
+  var myVar = setInterval(function(){ clickAnim() }, 10);
+
+  //document.getElementById(`${clickedID}`).style.background = "yellow";
 }
 
 /** Converts an RGB color value to HSL. Conversion formula adapted from
