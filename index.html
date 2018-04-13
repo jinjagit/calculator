@@ -255,8 +255,7 @@ function stylePage() {
 
 
     } else if (keysTemplate[i] === 'S') { /// dosen't do anything (different) at the moment
-      document.getElementById(`keyPara${i}`).style.fontFamily = 'line-awesome';
-      document.getElementById(`keyPara${i}`).innerHTML = "";
+      document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
     } else {
       document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
     }
@@ -274,8 +273,6 @@ function stylePage() {
 
     if (keysTemplate[i] === '^') { // font sizes
       document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys * 0.9}px`;
-    } else if (keysTemplate[i] === 'S') {
-      document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys * 0.7}px`;
     } else {
       document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys}px`;
     }
