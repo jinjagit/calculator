@@ -277,38 +277,38 @@ function stylePage() {
     }
 
     if (keysTemplate[i] === 'C') { // colors (text) + tooltips
-      keyPara.style.color = "#d64375";
+      keyPara.style.color = "hsl(340, 64%, 55%)";
       let tooltipAttClr = document.createAttribute("title");
       tooltipAttClr.value = "clear all"; // Set the value of the 'title' (tooltip) attribute
       keyPara.setAttributeNode(tooltipAttClr);
     } else if (keysTemplate[i] === '<') {
-      keyPara.style.color = "#da8669";
+      keyPara.style.color = "hsl(15, 60%, 63%)";
       let tooltipAttBsp = document.createAttribute("title");
       tooltipAttBsp.value = "backspace"; // Set the value of the 'title' (tooltip) attribute
       keyPara.setAttributeNode(tooltipAttBsp);
     } else if (keysTemplate[i] === '=') {
-      keyPara.style.color = "#77c37c";
+      keyPara.style.color = "hsl(124, 39%, 62%)";
     } else if (keysTemplate[i] === '+' || keysTemplate[i] === '-' ||
               keysTemplate[i] === '*' || keysTemplate[i] === '/') {
-      keyPara.style.color = "#2296fb";
+      keyPara.style.color = "hsl(208, 96%, 56%)";
     } else if (keysTemplate[i] === '±' || keysTemplate[i] === '^' ||
               keysTemplate[i] === '(' || keysTemplate[i] === ')') {
-      keyPara.style.color = "#3f6d96";
+      keyPara.style.color = "hsl(208, 41%, 42%)";
     } else if (keysTemplate[i] === 'S') {
-      keyPara.style.color = "#9355c7";
+      keyPara.style.color = "hsl(273, 50%, 56%)";
       let tooltipAttSet = document.createAttribute("title");
       tooltipAttSet.value = "settings"; // Set the value of the 'title' (tooltip) attribute
       keyPara.setAttributeNode(tooltipAttSet);
     } else if (keysTemplate[i] === 'F') {
-      keyPara.style.color = "#af5cb3";
+      keyPara.style.color = "hsl(297, 36%, 53%)";
     } else {
-      keyPara.style.color = "#91b9dc";
+      keyPara.style.color = "hsl(208, 52%, 72%)";
     }
 
   }
 }
 
-// ---------- event listeners -----------------------------
+// ---------- event listeners and related actions ---------------------------
 
 function addEventListeners() {
   keys = document.querySelectorAll('.key');
@@ -320,16 +320,94 @@ function addEventListeners() {
 
 function hover() {
   let thisID = this.id.toString();
+  let element = document.getElementById(`keyPara${thisID}`);
+  let style = window.getComputedStyle(element,"");
+  let textColor = style.getPropertyValue("color");
+  let hsl = getHSLvalues(textColor);
+
+  prevColor = textColor;
+  console.log("text color: " + textColor);
+  console.log(hsl);
   // get element child paragraph (text) color and store
   // set element child paragraph (text) color to brighter color
-  document.getElementById(thisID).style.backgroundColor = "yellow";
+  document.getElementById(`keyPara${thisID}`).style.color = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
+  console.log(hsl[2] * 1.25);
 }
 
 function unHover () {
   let thisID = this.id.toString();
   // reset element child paragraph (text) color to pre-hover value.
-  document.getElementById(thisID).style.backgroundColor = "#101519";
+  document.getElementById(`keyPara${thisID}`).style.color = prevColor;
 }
+
+/**
+ * Converts an RGB color value to HSL. Conversion formula
+ * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+ * Assumes r, g, and b are contained in the set [0, 255] and
+ * returns h, s, and l in the set [0, 1].
+ *
+ * adapted from: https://gist.github.com/mjackson/5311256
+ */
+function rgbToHsl(r, g, b) {
+  r /= 255, g /= 255, b /= 255;
+  var max = Math.max(r, g, b), min = Math.min(r, g, b);
+  var h, s, l = (max + min) / 2;
+
+  if (max == min) {
+    h = s = 0; // achromatic
+  } else {
+    var d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  h = Math.floor(h * 384);
+  s = Math.floor(s * 100);
+  l = Math.floor(l * 100);
+  return [ h, s, l ];
+}
+
+function parseRGB(rgbString) {
+    let red = "";
+    let green = "";
+    let blue = "";
+    let char = "";
+    let color = "";
+    let rgbArray = [];
+
+    for (let i = 1; i < 4; i++) { // this code block strips rgb values out of css rgb string (background-color of a 'square' element)
+      if (i == 1) {
+        rgbString = rgbString.slice(4);
+      } else {
+        rgbString = rgbString.slice(2);
+      }
+      char = rgbString.slice(0, 1);
+      color = "";
+      do {
+        color = color + char;
+        rgbString = rgbString.slice(1);
+        char = rgbString.slice(0, 1);
+      } while (char != "," && char != ")");
+      if (i == 1) {red = color;}
+      else if (i == 2) {blue = color;}
+      else {green = color;}
+    }
+
+    rgbArray[0] = parseInt(red);
+    rgbArray[1] = parseInt(green);
+    rgbArray[2] = parseInt(blue);
+    return rgbArray;
+  }
+
+  function getHSLvalues(rgbString) {
+    let rgbArray = parseRGB(rgbString);
+    let hslArray = rgbToHsl(rgbArray[0], rgbArray[1], rgbArray[2])
+    return hslArray;
+  }
 
 // ---------- initial declarations and commands -------------
 
@@ -363,6 +441,8 @@ let keysTemplate = [];
 
 let horOffset = 0;
 let vertOffset = 0;
+
+let prevColor = "";
 
 let body = document.getElementsByTagName('body')[0];
 let para = document.getElementsByTagName('p')[0];
