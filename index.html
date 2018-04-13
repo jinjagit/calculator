@@ -324,20 +324,23 @@ function addEventListeners() {
 }
 
 function hover() {
-  let thisID = this.id.toString();
-  let element = document.getElementById(`keyPara${thisID}`);
-  let style = window.getComputedStyle(element,"");
-  let textColor = style.getPropertyValue("color");
-  let hsl = getHSLvalues(textColor);
+  if (mobile === false) {
+    let thisID = this.id.toString();
+    let element = document.getElementById(`keyPara${thisID}`);
+    let style = window.getComputedStyle(element,"");
+    let textColor = style.getPropertyValue("color");
+    let hsl = getHSLvalues(textColor);
 
-  prevColor = textColor;
-  document.getElementById(`keyPara${thisID}`).style.color = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2] * 1.4}%)`;
+    prevColor = textColor;
+    document.getElementById(`keyPara${thisID}`).style.color = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2] * 1.4}%)`;
+  }
 }
 
 function unHover () {
-  let thisID = this.id.toString();
-  // reset element child paragraph (text) color to pre-hover value.
-  document.getElementById(`keyPara${thisID}`).style.color = prevColor;
+  if (mobile === false) {
+    let thisID = this.id.toString();
+    document.getElementById(`keyPara${thisID}`).style.color = prevColor;
+  }
 }
 
 function keyClick (clickedID) {
@@ -378,7 +381,7 @@ function keyClick (clickedID) {
   displayBtext.innerHTML = "..." + text;
 
   var myVar = setInterval(function(){ clickAnim() }, 10);
-  document.getElementById(`${clickedID}`).style.color =  prevColor;
+  //document.getElementById(`${clickedID}`).style.color =  prevColor;
 
   //document.getElementById(`${clickedID}`).style.background = "yellow";
 }
