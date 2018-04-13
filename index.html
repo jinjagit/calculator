@@ -361,7 +361,7 @@ function keyClick (clickedID) {
     } else if (counter === 8) {
       document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 5%, #101519 10%, #101519 90%)`;
     } else {
-      document.getElementById(`${clickedID}`).style.background = "#101519";
+      document.getElementById(`keyPara${clickedID}`).style.background = "#101519";
       counter = 0;
       clearInterval(myVar);
     }
