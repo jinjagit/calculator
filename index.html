@@ -27,7 +27,7 @@
 function updateDispBtext() {
   let summary = `mode: ${layout} (${hand}) mobile: ${mobile}`;
   while (summary.length < 39) {
-    summary = summary + "_";
+    summary = summary + ".";
   }
   displayBtext.innerHTML = summary;
 }
