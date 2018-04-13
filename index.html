@@ -326,12 +326,7 @@ function hover() {
   let hsl = getHSLvalues(textColor);
 
   prevColor = textColor;
-  console.log("text color: " + textColor);
-  console.log(hsl);
-  // get element child paragraph (text) color and store
-  // set element child paragraph (text) color to brighter color
-  document.getElementById(`keyPara${thisID}`).style.color = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
-  console.log(hsl[2] * 1.25);
+  document.getElementById(`keyPara${thisID}`).style.color = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2] * 1.4}%)`;
 }
 
 function unHover () {
@@ -365,7 +360,7 @@ function rgbToHsl(r, g, b) {
     }
     h /= 6;
   }
-  h = Math.floor(h * 384);
+  h = Math.floor(360 - (h * 360)); // hue scale used here was inversion of that used by browsers
   s = Math.floor(s * 100);
   l = Math.floor(l * 100);
   return [ h, s, l ];
