@@ -370,6 +370,11 @@ function keyClick (clickedID) {
     }
     counter++;
   }
+  
+  if (mobile === true) {
+    let prevColor = document.getElementById(`keyPara${clickedID}`).style.getPropertyValue("color");
+    console.log(prevColor);
+  }
 
   let counter = 0;
   let text = displayBtext.innerHTML;
