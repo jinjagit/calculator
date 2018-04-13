@@ -84,7 +84,6 @@ function setKeysTemplate() {
                   '=', '^', '/', '-', '0', '1', '2', '3'];
     }
   }
-
   return template;
 }
 
@@ -129,7 +128,7 @@ function setLayout() {
   } else {
     numOfKeys = 23;
   }
-  keyHeight = (keyboardHeight / keyRows); // -2px for key border (this could change, depending on Theme)
+  keyHeight = (keyboardHeight / keyRows); // -2px for key 1px border (this could change, depending on Theme)
 }
 
 function drawPage() {
@@ -233,8 +232,8 @@ function stylePage() {
   displayB.style.backgroundColor = "#192938";
   body.style.background = "radial-gradient(#242d33, #101519)";
 
-  container.style.webkitBoxShadow = "-1px -1px 1px 0px rgba(0, 0, 0, 0.75)";
-  //    -moz-box-shadow: -1px -1px 1px 0px rgba(0, 0, 0, 0.75);
+  container.style.webkitBoxShadow = "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
+  container.style.mozBoxShadow =  "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
   container.style.boxShadow = "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
 
   // ------------- keys styling ----------------------
@@ -244,61 +243,68 @@ function stylePage() {
   fontSizeKeys = keyHeight / 1.8;
 
   for (let i = 0; i < numOfKeys; i++) { // style each <p> on each key, including a string
+    let thisKey = document.getElementById(`${i}`);
+    let keyPara = document.getElementById(`keyPara${i}`);
     if (keysTemplate[i] === '^') { // special position for 'x^y' text (with supersript)
       vertOffset = fontSizeKeys * -0.198;
       horOffset = fontSizeKeys * -0.3;
-      document.getElementById(`keyPara${i}`).innerHTML = `x<sup>y</sup>`;
-      document.getElementById(`keyPara${i}`).style.margin = `${vertOffset}px ${horOffset}px 0 0`;
-      /**document.getElementById(`keyPara${i}`).style.margin = `${vertOffset}px ${horOffset}px 0 0`;
-      document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys * 0.5}px`;
-      document.getElementById(`keyPara${i}`).style.color = "blue";**/
-
-
-    } else if (keysTemplate[i] === 'S') { /// dosen't do anything (different) at the moment
-      document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
+      keyPara.innerHTML = `x<sup>y</sup>`;
+      keyPara.style.margin = `${vertOffset}px ${horOffset}px 0 0`;
+    } else if (keysTemplate[i] === 'S') { /// doesn't do anything (different) at the moment
+      keyPara.innerHTML = keysTemplate[i];
     } else {
-      document.getElementById(`keyPara${i}`).innerHTML = keysTemplate[i];
+      keyPara.innerHTML = keysTemplate[i];
     }
 
     if (theme === "A") {
-      document.getElementById(`${i}`).style.backgroundColor = "#101519";
-      document.getElementById(`${i}`).style.border = "none";
-      //document.getElementById(`keyPara${i}`).style.fontWeight = "bold";
+      thisKey.style.backgroundColor = "#101519";
+      thisKey.style.border = "none";
     } else {
-      document.getElementById(`${i}`).style.backgroundColor = "#20272d";
-      document.getElementById(`${i}`).style.border = "1px solid #414e58";
+      thisKey.style.backgroundColor = "#20272d";
+      thisKey.style.border = "1px solid #414e58";
     }
 
-    document.getElementById(`keyPara${i}`).style.textAlign = "center";
+    keyPara.style.textAlign = "center";
 
     if (keysTemplate[i] === '^') { // font sizes
-      document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys * 0.9}px`;
+      keyPara.style.fontSize = `${fontSizeKeys * 0.9}px`;
     } else {
-      document.getElementById(`keyPara${i}`).style.fontSize = `${fontSizeKeys}px`;
+      keyPara.style.fontSize = `${fontSizeKeys}px`;
     }
 
-    if (keysTemplate[i] === 'C') { // color (text)
-      document.getElementById(`keyPara${i}`).style.color = "#d64375";
+    if (keysTemplate[i] === 'C') { // colors (text) + tooltips
+      keyPara.style.color = "#d64375";
+      let tooltipAttClr = document.createAttribute("title");
+      tooltipAttClr.value = "clear all"; // Set the value of the 'title' (tooltip) attribute
+      keyPara.setAttributeNode(tooltipAttClr);
     } else if (keysTemplate[i] === '<') {
-      document.getElementById(`keyPara${i}`).style.color = "#da8669";
+      keyPara.style.color = "#da8669";
+      let tooltipAttBsp = document.createAttribute("title");
+      tooltipAttBsp.value = "backspace"; // Set the value of the 'title' (tooltip) attribute
+      keyPara.setAttributeNode(tooltipAttBsp);
     } else if (keysTemplate[i] === '=') {
-      document.getElementById(`keyPara${i}`).style.color = "#77c37c";
+      keyPara.style.color = "#77c37c";
     } else if (keysTemplate[i] === '+' || keysTemplate[i] === '-' ||
               keysTemplate[i] === '*' || keysTemplate[i] === '/') {
-      document.getElementById(`keyPara${i}`).style.color = "#2296fb";
+      keyPara.style.color = "#2296fb";
     } else if (keysTemplate[i] === '±' || keysTemplate[i] === '^' ||
               keysTemplate[i] === '(' || keysTemplate[i] === ')') {
-      document.getElementById(`keyPara${i}`).style.color = "#3f6d96";
+      keyPara.style.color = "#3f6d96";
     } else if (keysTemplate[i] === 'S') {
-      document.getElementById(`keyPara${i}`).style.color = "#9355c7";
+      keyPara.style.color = "#9355c7";
+      let tooltipAttSet = document.createAttribute("title");
+      tooltipAttSet.value = "settings"; // Set the value of the 'title' (tooltip) attribute
+      keyPara.setAttributeNode(tooltipAttSet);
     } else if (keysTemplate[i] === 'F') {
-      document.getElementById(`keyPara${i}`).style.color = "#af5cb3";
+      keyPara.style.color = "#af5cb3";
     } else {
-      document.getElementById(`keyPara${i}`).style.color = "#91b9dc";
+      keyPara.style.color = "#91b9dc";
     }
 
   }
 }
+
+// ---------- initial commands and declarations -------------
 
 let calcW = 0;
 let WinOutW = 0;
@@ -338,22 +344,18 @@ let displayAtext = document.getElementById('displayAtext');
 let keyboard = document.getElementById('keyboard');
 let container = document.getElementById('container');
 
+let tooltipAtt = document.createAttribute("title");
+
+
+
 body.style.color = "#c0daf1";
 body.style.fontFamily = "'Ubuntu Mono', monospace";
 body.style.fontWeight = "normal";
-//body.style.fontFamily = "arial";
-
 container.style.margin = "auto";
-
-
-
 displayB.style.textAlign = "right";
-
 displayA.style.backgroundColor = "black";
 displayA.style.textAlign = "right";
-
 keyboard.style.backgroundColor = "#11443f";
-
 keyboard.style.display = "grid";
 keyboard.style.margin = "auto";
 
