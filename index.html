@@ -38,17 +38,17 @@ function setKeysTemplate() {
   if (layout === "portrait") {
     if (hand === "r") {
       template = ['±', 'S', '<', 'C',
-                  '(', ')', '^', '+',
-                  '7', '8', '9', '-',
-                  '4', '5', '6', '*',
-                  '1', '2', '3', '/',
+                  '(', ')', '^', '/',
+                  '7', '8', '9', '*',
+                  '4', '5', '6', '-',
+                  '1', '2', '3', '+',
                   '.', '0', '='];
     } else {
       template = ['C', '<', 'S', '±',
-                  '+', '^', '(', ')',
-                  '-', '7', '8', '9',
-                  '*', '4', '5', '6',
-                  '/', '1', '2', '3',
+                  '/', '^', '(', ')',
+                  '*', '7', '8', '9',
+                  '-', '4', '5', '6',
+                  '+', '1', '2', '3',
                   '=', '0', '.'];
     }
   } else if (layout === "landscape") {
@@ -144,6 +144,7 @@ function drawPage() {
   updateText();
   createKeys();
   stylePage();
+  addEventListeners();
 }
 
 function createKeys() {
@@ -304,6 +305,19 @@ function stylePage() {
   }
 }
 
+// ---------- event listeniners -----------------------------
+
+function addEventListeners() {
+  keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('mouseover', hover));
+}
+
+function hover() {
+  let thisID = this.id.toString();
+  console.log(thisID);
+  document.getElementById(thisID).style.backgroundColor = "yellow";
+}
+
 // ---------- initial commands and declarations -------------
 
 let calcW = 0;
@@ -323,6 +337,7 @@ let displayBheight = 0;
 let keyboardHeight = 0;
 let keyHeight = 0;
 let keyRows = 0;
+let keys = [];
 
 let fontSizeA = 0;
 let fontSizeB = 0;
@@ -345,8 +360,6 @@ let keyboard = document.getElementById('keyboard');
 let container = document.getElementById('container');
 
 let tooltipAtt = document.createAttribute("title");
-
-
 
 body.style.color = "#c0daf1";
 body.style.fontFamily = "'Ubuntu Mono', monospace";
