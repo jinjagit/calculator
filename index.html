@@ -342,7 +342,6 @@ function unHover () {
 
 function keyClick (clickedID) {
   function clickAnim() {
-    console.log(prevColor);
     if (counter === 0) {
       document.getElementById(`${clickedID}`).style.background = `radial-gradient(${prevColor} 5%, #101519 10%, #101519 90%)`;
     } else if (counter === 1) {
@@ -379,6 +378,7 @@ function keyClick (clickedID) {
   displayBtext.innerHTML = "..." + text;
 
   var myVar = setInterval(function(){ clickAnim() }, 10);
+  document.getElementById(`${clickedID}`).style.color =  prevColor;
 
   //document.getElementById(`${clickedID}`).style.background = "yellow";
 }
