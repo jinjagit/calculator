@@ -349,14 +349,14 @@ function keyClick (clickedID) {
 
     switch (counter) {
         case 0: elem.style.background = `radial-gradient(${prevColor} 0%, #101519 10%, #101519 90%)`; break;
-        case 1: elem.style.background = `radial-gradient(${prevColor} 5%, #101519 20%, #101519 90%)`; break;
-        case 2: elem.style.background = `radial-gradient(#101519 5%, ${prevColor} 10%, #101519 25%, #101519 100%)`; break;
-        case 3: elem.style.background = `radial-gradient(#101519 7%, ${prevColor} 15%, #101519 30%, #101519 100%)`; break;
-        case 4: elem.style.background = `radial-gradient(#101519 10%, ${prevColor} 20%, #101519 33%, #101519 100%)`; break;
-        case 5: elem.style.background = `radial-gradient(#101519 15%, ${prevColor} 25%, #101519 35%, #101519 100%)`; break;
-        case 6: elem.style.background = `radial-gradient(#101519 25%, ${prevColor} 30%, #101519 36%, #101519 100%)`; break;
-        case 7: elem.style.background = `radial-gradient(#101519 30%, ${prevColor} 33%, #101519 38%, #101519 100%)`; break;
-        case 8: elem.style.background = `radial-gradient(#101519 32%, ${prevColor} 36%, #101519 45%, #101519 100%)`; break;
+        case 1: elem.style.background = `radial-gradient(${prevColor} 0%, #101519 20%, #101519 90%)`; break;
+        case 2: elem.style.background = `radial-gradient(${prevColor} 0%, #101519 30%, #101519 100%)`; break;
+        case 3: elem.style.background = `radial-gradient(${prevColor} 0%, #101519 40%, #101519 100%)`; break;
+        case 4: elem.style.background = `radial-gradient(${prevColor} 0%, #101519 65%, #101519 100%)`; break;
+        case 5: elem.style.background = `radial-gradient(${prevColor} 0%, #101519 40%, #101519 100%)`; break;
+        case 6: elem.style.background = `radial-gradient(${prevColor} 0%, #101519 30%, #101519 100%)`; break;
+        case 7: elem.style.background = `radial-gradient(${prevColor} 0%, #101519 20%, #101519 100%)`; break;
+        case 8: elem.style.background = `radial-gradient(${prevColor} 0%, #101519 10%, #101519 100%)`; break;
         case 9: elem.style.background = "#101519"; counter = 0; clearInterval(myVar);
     }
     counter++;
@@ -374,7 +374,7 @@ function keyClick (clickedID) {
     text = text.slice(4, text.length);
   }
   displayBtext.innerHTML = "..." + text;
-  var myVar = setInterval(function(){ clickAnim() }, 10);
+  var myVar = setInterval(function(){ clickAnim() }, 30);
 }
 
 /** Converts an RGB color value to HSL. Conversion formula adapted from
