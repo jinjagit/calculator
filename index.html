@@ -281,35 +281,40 @@ function stylePage() {
       keyPara.style.fontSize = `${fontSizeKeys}px`;
     }
 
-    if (keysTemplate[i] === 'C') { // colors (text) + tooltips
-      keyPara.style.color = "hsl(340, 64%, 55%)";
-      let tooltipAttClr = document.createAttribute("title");
-      tooltipAttClr.value = "clear all"; // Set the value of the 'title' (tooltip) attribute
-      keyPara.setAttributeNode(tooltipAttClr);
-    } else if (keysTemplate[i] === '<') {
-      keyPara.style.color = "hsl(15, 60%, 63%)";
-      let tooltipAttBsp = document.createAttribute("title");
-      tooltipAttBsp.value = "backspace"; // Set the value of the 'title' (tooltip) attribute
-      keyPara.setAttributeNode(tooltipAttBsp);
-    } else if (keysTemplate[i] === '=') {
-      keyPara.style.color = "hsl(124, 39%, 62%)";
-    } else if (keysTemplate[i] === '+' || keysTemplate[i] === '-' ||
-              keysTemplate[i] === '*' || keysTemplate[i] === '/') {
-      keyPara.style.color = "hsl(208, 96%, 56%)";
-    } else if (keysTemplate[i] === '±' || keysTemplate[i] === '^' ||
-              keysTemplate[i] === '(' || keysTemplate[i] === ')') {
-      keyPara.style.color = "hsl(208, 41%, 42%)";
-    } else if (keysTemplate[i] === 'S') {
-      keyPara.style.color = "hsl(273, 50%, 56%)";
-      let tooltipAttSet = document.createAttribute("title");
-      tooltipAttSet.value = "settings"; // Set the value of the 'title' (tooltip) attribute
-      keyPara.setAttributeNode(tooltipAttSet);
-    } else if (keysTemplate[i] === 'F') {
-      keyPara.style.color = "hsl(297, 36%, 53%)";
-    } else {
-      keyPara.style.color = "hsl(208, 52%, 72%)";
+    switch (keysTemplate[i]) {
+      case 'C':
+        keyPara.style.color = "hsl(340, 64%, 55%)";
+        let tooltipAttClr = document.createAttribute("title");
+        tooltipAttClr.value = "clear all"; // Set the value of the 'title' (tooltip) attribute
+        keyPara.setAttributeNode(tooltipAttClr);
+        break;
+      case '<':
+        keyPara.style.color = "hsl(15, 60%, 63%)";
+        let tooltipAttBsp = document.createAttribute("title");
+        tooltipAttBsp.value = "backspace"; // Set the value of the 'title' (tooltip) attribute
+        keyPara.setAttributeNode(tooltipAttBsp);
+        break;
+      case '=':
+        keyPara.style.color = "hsl(124, 39%, 62%)";
+        break;
+      case '+': case '-': case '*': case '/':
+        keyPara.style.color = "hsl(208, 96%, 56%)";
+        break;
+      case '±': case '^': case '(': case ')':
+        keyPara.style.color = "hsl(208, 41%, 42%)";
+        break;
+      case 'S':
+        keyPara.style.color = "hsl(273, 50%, 56%)";
+        let tooltipAttSet = document.createAttribute("title");
+        tooltipAttSet.value = "settings"; // Set the value of the 'title' (tooltip) attribute
+        keyPara.setAttributeNode(tooltipAttSet);
+        break;
+      case 'F':
+        keyPara.style.color = "hsl(297, 36%, 53%)";
+        break;
+      default:
+        keyPara.style.color = "hsl(208, 52%, 72%)";
     }
-
   }
 }
 
