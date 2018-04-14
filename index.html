@@ -352,7 +352,7 @@ function keyClick (clickedID) {
   function clickAnim() {
     let elem = document.getElementById(`${clickedID}`);
 
-    switch (counter) {
+    switch (counter) { // NEED TO STORE BACKGROUND COLOUR AS VARIABLE!
         case 0: elem.style.background = `radial-gradient(${prevColor} 0%, #101519 10%, #101519 90%)`; break;
         case 1: elem.style.background = `radial-gradient(${prevColor} 0%, #101519 20%, #101519 90%)`; break;
         case 2: elem.style.background = `radial-gradient(${prevColor} 0%, #101519 30%, #101519 100%)`; break;
@@ -374,7 +374,7 @@ function keyClick (clickedID) {
   let counter = 0;
   let text = displayBtext.innerHTML;
   let template = setKeysTemplate();
-  text = text + template[clickedID];
+  text = text + template[clickedID]; // template[clickedID] is the character represented on the clicked calculator keypad key
   if (text.length > 39) {
     text = text.slice(4, text.length);
   }
@@ -486,6 +486,7 @@ let para = document.getElementsByTagName('p')[0];
 let displayA = document.getElementById('displayA');
 let displayB = document.getElementById('displayB');
 let displayAtext = document.getElementById('displayAtext');
+let displayBtext = document.getElementById('displayBtext');
 let keyboard = document.getElementById('keyboard');
 let container = document.getElementById('container');
 
