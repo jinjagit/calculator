@@ -439,6 +439,7 @@ function keyClick (clickedID) {
 }
 
 function evaluate() {
+  // Number.parseFloat(100).toExponential(2); "1.00e+2"
 
   function reduceLargeResults(result) {
     let i = 0;
@@ -515,6 +516,7 @@ function updateDispA(input) {
     || input === "/" || input === "^") {
       strA = "";
       digits = 0;
+      decimal = false;
   } else {
     strA = strA + input;
   }
