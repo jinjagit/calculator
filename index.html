@@ -380,6 +380,7 @@ function keyClick (clickedID) {
         updateDispA("");
       }
       resultToClear = false;
+      digits = 0;
     }
   }
 
@@ -438,13 +439,36 @@ function keyClick (clickedID) {
 }
 
 function evaluate() {
+
+  function reduceLargeResults(result) {
+    let i = 0;
+    do {
+      result = result.toPrecision(15 - i) / 1;
+      i++;
+    }
+    while (result.toString().length > 16);
+    return result;
+  }
+
   history = history + strA;
   let result = eval(history);
   history = history + "=" + result + "&nbsp;";
   updateDispB();
+  let resultStr = result.toString();
+  if (resultStr.length > 16) {
+    let tempResult = result.toPrecision(11) / 1;
+    let i = 0;
+    do {
+      result = result.toPrecision(15 - i) / 1;
+      i++;
+    }
+    while (result.toString().length > 16);
+  }
+
   strA = result;
   updateDispA("");
   positive = true;
+  decimal = false;
   resultToClear = true;
 }
 
@@ -494,7 +518,7 @@ function updateDispA(input) {
   } else {
     strA = strA + input;
   }
-  console.log(positive);
+  console.log(digits);
   displayAtext.innerHTML = strA + "&nbsp;";
 }
 
@@ -508,6 +532,7 @@ function updateDispB() {
     if (check === ".") {
       decimal = false;
     }
+
     history = history.slice(0, -1);
   }
 
@@ -534,7 +559,7 @@ function updateDispB() {
       }
       break;
   }
-
+  //console.log(decimal);
   output = output + "&nbsp;&nbsp;";
   displayBtext.innerHTML = output;
 }
