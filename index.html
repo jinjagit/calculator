@@ -435,38 +435,135 @@ function keyClick (clickedID) {
       }
 
   }
-  var myVar = setInterval(function(){ clickAnim() }, 20);
+  let myVar = setInterval(function(){ clickAnim() }, 20);
 }
 
-function evaluate() {
-  // Number.parseFloat(100).toExponential(2); "1.00e+2"
-
-  function reduceLargeResults(result) {
-    let i = 0;
-    do {
-      result = result.toPrecision(15 - i) / 1;
-      i++;
+function round(number, precision) {
+  var shift = function (number, precision, reverseShift) {
+    if (reverseShift) {
+      precision = -precision;
     }
-    while (result.toString().length > 16);
+    var numArray = ("" + number).split("e");
+    return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
+  };
+  return shift(Math.round(shift(number, precision, false)), precision, true);
+}
+
+function parseResult(string) {
+
+  function moveDecimal(numStr) {
+    let index = numStr.indexOf('.');
+    let newStr = "";
+    if ((negative === true && index != 2) || (negative === false && index != 1)) {
+      let part1 = numStr.slice(0, index);
+      let part2 = numStr.slice(index + 1, numStr.length);
+      if (negative === false) {
+        newStr = numStr.slice(0, 1) + '.' + part1.slice(1, part1.length) + part2;
+        return [newStr, index - 1];
+      } else {
+        newStr = numStr.slice(0, 2) + '.' + part1.slice(2, part1.length) + part2;
+        return [newStr, index - 2];
+      }
+    } else {
+      return [numStr, 0];
+    }
+  }
+
+  function insertDecimal(numStr) {
+    let newStr = "";
+    let index = 0;
+    if (negative === true) {
+      index = 2;
+    } else {
+      index = 1;
+    }
+    let part1 = numStr.slice(0, index);
+    let part2 = numStr.slice(index, numStr.length);
+    newStr = part1 + '.' + part2;
+    return [newStr, numStr.length -index];
+  }
+
+  function positionDecimal(numStr) {
+    if (numStr.indexOf('.') < 0) { // does not have decimal
+      decArry = insertDecimal(numStr);
+    } else { // has decimal
+      decArry = moveDecimal(numStr);
+    }
+    return decArry;
+  }
+
+  function roundToFit(numStr) {
+    if (negative === false) {
+      result = round(parseFloat(numStr), lenLimit - expStr.length - 2);
+    } else {
+      result = round(parseFloat(numStr), lenLimit - expStr.length - 3);
+    }
     return result;
   }
 
-  history = history + strA;
-  let result = eval(history);
-  history = history + "=" + result + "&nbsp;";
-  updateDispB();
-  let resultStr = result.toString();
-  if (resultStr.length > 16) {
-    let tempResult = result.toPrecision(11) / 1;
-    let i = 0;
-    do {
-      result = result.toPrecision(15 - i) / 1;
-      i++;
+  function makeExp(exp) {
+    if (exp >= 0) {
+      expStr = "e+" + exp.toString();
+    } else {
+      expStr = "e" + exp.toString();
     }
-    while (result.toString().length > 16);
+    return expStr;
   }
 
-  strA = result;
+  function parseExponent(numStr) {
+    expStr = numStr.slice(numStr.indexOf('e'), numStr.length);
+    numStr = numStr.slice(0, numStr.length - expStr.length);
+    if (expStr.indexOf('-') > -1) {
+      exp = parseInt(expStr.slice(expStr.indexOf('-'), expStr.length));
+    } else {
+      exp = parseInt(expStr.slice(expStr.indexOf('+') + 1, expStr.length));
+    }
+    return [numStr, exp];
+  }
+
+  let num = parseFloat(string);
+  let lenLimit = 16;
+  let negative = false;
+  let result = 0;
+  let exp = 0;
+  let expStr = "";
+  let decArry = [];
+
+  if (string.slice(0, 1) === '-') {
+    lenLimit = lenLimit + 1 // (including '-')
+    negative = true;
+  }
+
+  if ((num >= 10000000000000000 || num <= -10000000000000000) && string.indexOf('e') < 0) { // value too large for display, no exponent, with or without decimals
+    decArry = positionDecimal(string);
+    string = decArry[0];
+    expStr = makeExp(decArry[1]);
+    result = roundToFit(string);
+    return result.toString() + expStr;
+  } else if (string.indexOf('e') > -1) { // has exponent
+    let parseExp = parseExponent(string);
+    string = parseExp[0];
+    decArry = positionDecimal(string);
+    string = decArry[0];
+    exp = parseExp[1] + decArry[1];
+    expStr = makeExp(exp);
+    result = roundToFit(string);
+    return result.toString() + expStr;
+  } else { // all other forms of result
+    let index = string.indexOf('.');
+    result = round(parseFloat(string), lenLimit - index - 1);
+    return result.toString();
+  }
+}
+
+function evaluate() {
+  history = history + strA;
+  let result = eval(history);
+  let resultStr = result.toString();
+  resultStr = parseResult(resultStr);
+  history = history + "=" + resultStr + "&nbsp;";
+  updateDispB();
+  strA = resultStr;
   updateDispA("");
   positive = true;
   decimal = false;
@@ -520,7 +617,7 @@ function updateDispA(input) {
   } else {
     strA = strA + input;
   }
-  console.log(digits);
+  //console.log(digits);
   displayAtext.innerHTML = strA + "&nbsp;";
 }
 
@@ -575,7 +672,7 @@ function clear() {
   digits = 0;
   positive = true;
   displayAtext.innerHTML = "";
-  displayBtext.innerHTML = "";
+  displayBtext.innerHTML = "waiting for input...&nbsp;&nbsp;";
 }
 
 /** Converts an RGB color value to HSL. Conversion formula adapted from
@@ -680,7 +777,6 @@ let maxCharsPortrait = 39;
 let maxCharsLandscape = 41;
 let maxCharsLandsLong = 66;
 
-let testString = "123456789A123456789B123456789C123456789D123456789E123456789F123456789G123456789H123456789I";
 let strA = "";
 let strB = "";
 let history = "";
@@ -715,6 +811,10 @@ keyboard.style.display = "grid";
 keyboard.style.margin = "auto";
 
 drawPage(); // Also called whenever window (body) is resized
+
+//displayBtext.innerHTML = "waiting for input...&nbsp;&nbsp;";
+let test = round(1.9999999999999, 6);
+console.log(test);
 
 </script>
 
