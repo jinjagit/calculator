@@ -231,7 +231,8 @@ function stylePage() {
 
   container.style.backgroundColor = "#101519";
   displayB.style.backgroundColor = "#192938";
-  body.style.background = "radial-gradient(#242d33, #101519)";
+  //body.style.background = "radial-gradient(#242d33, #101519)";
+  body.style.background = "#3e4852";
 
   container.style.webkitBoxShadow = "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
   container.style.mozBoxShadow =  "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
@@ -341,6 +342,7 @@ function unHover () {
 }
 
 function keyClick (clickedID) {
+  console.log(resultToClear);
   function clickAnim() {
     let elem = document.getElementById(`${clickedID}`);
 
@@ -370,7 +372,7 @@ function keyClick (clickedID) {
   if (resultToClear === true) {
     if (input != "±") {
       if (input === "+" || input === "-" || input === "*"
-        || input === "/" || input === "^") {
+        || input === "/" || input === "^" || input === "<") {
           history = "";
           updateDispB();
       } else {
@@ -624,14 +626,17 @@ function updateDispA(input) {
 function updateDispB() {
   //let summary = `mode: ${layout} (${hand}) mobile: ${mobile}`;
   let output = "";
+  //console.log("ddd");
 
   if (input === "<") {
     let check = "";
     check = history.slice(history.length-1, history.length);
-    if (check === ".") {
+    if (check === ".") { // this is way more complicated than presented here!
       decimal = false;
     }
-
+    if (history.indexOf('&') > -1) {
+      history = history.slice(0, -6);
+    }
     history = history.slice(0, -1);
   }
 
@@ -813,8 +818,8 @@ keyboard.style.margin = "auto";
 drawPage(); // Also called whenever window (body) is resized
 
 //displayBtext.innerHTML = "waiting for input...&nbsp;&nbsp;";
-let test = round(1.9999999999999, 6);
-console.log(test);
+//let test = round(1.9999999999999, 6);
+//console.log(test);
 
 </script>
 
