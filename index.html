@@ -103,7 +103,9 @@ function setLayout() {
     if (calcW > 480) { calcW = 480; }
     if (calcH > 385) { calcH = 385; }
   }
+
   winRatio = calcW / calcH;
+
   if (winRatio < 1.2) {
     layout = "portrait";
     displayBheight = calcH * (1 / 15);
@@ -114,14 +116,15 @@ function setLayout() {
     displayBheight = calcH * (1 / 11);
     displayAheight = calcH * (2 / 11);
     keyRows = 4;
-  }
-  else {
+  } else {
     layout = "landscapeLong";
     displayBheight = calcH * (1 / 9);
     displayAheight = calcH * (2 / 9);
     keyRows = 3;
   }
+
   keyboardHeight = calcH - displayAheight - displayBheight;
+
   if (layout === "landscapeLong" && mobile === true) {
     numOfKeys = 24;
   } else {
@@ -155,6 +158,7 @@ function createKeys() {
     key.id = i.toString();
     //key.style.backgroundColor = "#20272d";
     key.style.border = "1px solid #414e58";
+
     if (hand === "r" && i === 22) { // place 'double-width-key'
       if (layout === "portrait") {
         key.style.gridColumn = "3 / span 2";
@@ -184,6 +188,7 @@ function createKeys() {
         key.style.gridColumn = `${(i % 8) + 1} / span 1`;
       }
     }
+
     let clickAtt = document.createAttribute("onclick");
     clickAtt.value = "keyClick(this.id)";
     key.setAttributeNode(clickAtt);
@@ -284,13 +289,13 @@ function stylePage() {
       case 'C':
         keyPara.style.color = "hsl(340, 64%, 55%)";
         let tooltipAttClr = document.createAttribute("title");
-        tooltipAttClr.value = "clear all"; // Set the value of the 'title' (tooltip) attribute
+        tooltipAttClr.value = "clear all"; // Set the value of the html 'title' property (tooltip) attribute
         keyPara.setAttributeNode(tooltipAttClr);
         break;
       case '<':
         keyPara.style.color = "hsl(15, 60%, 63%)";
         let tooltipAttBsp = document.createAttribute("title");
-        tooltipAttBsp.value = "backspace"; // Set the value of the 'title' (tooltip) attribute
+        tooltipAttBsp.value = "backspace"; // Set the value of the html 'title' property (tooltip) attribute
         keyPara.setAttributeNode(tooltipAttBsp);
         break;
       case '=':
@@ -305,7 +310,7 @@ function stylePage() {
       case 'S':
         keyPara.style.color = "hsl(273, 50%, 56%)";
         let tooltipAttSet = document.createAttribute("title");
-        tooltipAttSet.value = "settings"; // Set the value of the 'title' (tooltip) attribute
+        tooltipAttSet.value = "settings"; // Set the value of the html 'title' property (tooltip) attribute
         keyPara.setAttributeNode(tooltipAttSet);
         break;
       case 'F':
@@ -363,6 +368,7 @@ function keyClick (clickedID) {
     }
     counter++;
   }
+  
   if (mobile === true) {
     prevColor = document.getElementById(`keyPara${clickedID}`).style.getPropertyValue("color");
   }
@@ -371,6 +377,7 @@ function keyClick (clickedID) {
   let template = setKeysTemplate();
 
   input = template[clickedID]; // template[clickedID] is the character represented on the clicked calculator keypad key
+
   if (resultToClear === true) {
     if (input != "±" && input != "=") {
       if (input === "+" || input === "-" || input === "*"
@@ -445,6 +452,7 @@ function keyClick (clickedID) {
       updateDispA(input);
     }
   }
+
   let myVar = setInterval(function(){ clickAnim() }, 20);
 }
 
@@ -456,6 +464,7 @@ function round(number, precision) {
     var numArray = ("" + number).split("e");
     return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
   };
+
   return shift(Math.round(shift(number, precision, false)), precision, true);
 }
 
@@ -488,6 +497,7 @@ function parseResult(string) {
     } else {
       index = 1;
     }
+
     let part1 = numStr.slice(0, index);
     let part2 = numStr.slice(index, numStr.length);
     newStr = part1 + '.' + part2;
@@ -500,6 +510,7 @@ function parseResult(string) {
     } else { // has decimal
       decArry = moveDecimal(numStr);
     }
+
     return decArry;
   }
 
@@ -509,6 +520,7 @@ function parseResult(string) {
     } else {
       result = round(parseFloat(numStr), lenLimit - expStr.length - 3);
     }
+
     return result;
   }
 
@@ -518,6 +530,7 @@ function parseResult(string) {
     } else {
       expStr = "e" + exp.toString();
     }
+
     return expStr;
   }
 
@@ -530,6 +543,7 @@ function parseResult(string) {
     } else {
       exp = parseInt(expStr.slice(expStr.indexOf('+') + 1, expStr.length));
     }
+
     return [numStr, exp];
   }
 
@@ -545,6 +559,7 @@ function parseResult(string) {
     lenLimit = lenLimit + 1 // (including '-')
     negative = true;
   }
+
   if ((num >= 10000000000000000 || num <= -10000000000000000) && string.indexOf('e') < 0) { // value too large for display, no exponent, with or without decimals
     decArry = positionDecimal(string);
     string = decArry[0];
@@ -591,6 +606,7 @@ function evaluate() {
   updateDispB();
   strA = resultStr;
   updateDispA("");
+
   if (result < 0) {
     positive = false;
   } else {
@@ -601,6 +617,7 @@ function evaluate() {
   } else {
     decimal = false;
   }
+
   resultToClear = true;
 }
 
@@ -627,9 +644,9 @@ function updateDispA(input) {
         let check = history.slice(history.length-1, history.length);
         if (check != "+" && check != "-" && check != "*"
             && check != "/" && check != "^" && check != '(') {
-              history = history + ")";
-              parenth = parenth - 1;
-              updateDispB();
+          history = history + ")";
+          parenth = parenth - 1;
+          updateDispB();
         }
       } else if (digits < 15) {
           parenth = parenth - 1;
@@ -659,6 +676,7 @@ function updateDispA(input) {
       strA = strA + input;
     }
   }
+
   displayAtext.innerHTML = strA + "&nbsp;";
 }
 
@@ -717,7 +735,6 @@ function clear() {
   digits = 0;
   positive = true;
   displayAtext.innerHTML = "";
-  console.log("uhuh");
   displayBtext.innerHTML = "waiting for input...&nbsp;&nbsp;";
   infinityToClear = false;
   operatorEdit = false;
@@ -775,6 +792,7 @@ function parseRGB(rgbString) {
       else if (i == 2) {blue = color;}
       else {green = color;}
     }
+
     rgbArray[0] = parseInt(red);
     rgbArray[1] = parseInt(green);
     rgbArray[2] = parseInt(blue);
@@ -820,7 +838,7 @@ let keysTemplate = [];
 let horOffset = 0;
 let vertOffset = 0;
 
-// maximum string lengths for secondary display (B)
+// maximum string lengths for secondary display (displayB):
 let maxCharsPortrait = 39;
 let maxCharsLandscape = 41;
 let maxCharsLandsLong = 66;
