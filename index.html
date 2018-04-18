@@ -443,8 +443,14 @@ function keyClick (clickedID) {
     updateDispA(input);
   } else if (input === "=") {
     if (history != "" && resultToClear === false) { // cannot be first action after clear all
-      if (parenth === 0 && operatorEdit === false)
+      if (parenth === 0 && operatorEdit === false && strA != "") {
+        evaluate();
+      } else if (strA === "" && history != "" && parenth === 0 && operatorEdit === true) {
+      console.log("yo");
       evaluate();
+      } else {
+        console.log("Invalid Expression"); // 18 chars (too long?)
+      }
     }
   } else { // digit (0 - 9 or .)
     if (digits < 15) {
@@ -612,12 +618,12 @@ function evaluate() {
   } else {
     positive = true;
   }
-  if (resultStr.indexOf('.') > -1) {
+  if (resultStr.indexOf('.') > -1) { // This is true until cleared
     decimal = true;
   } else {
     decimal = false;
   }
-
+  operatorEdit = false;
   resultToClear = true;
 }
 
