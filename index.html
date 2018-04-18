@@ -342,7 +342,7 @@ function unHover () {
 }
 
 function keyClick (clickedID) {
-  console.log(resultToClear);
+  //console.log(resultToClear);
   function clickAnim() {
     let elem = document.getElementById(`${clickedID}`);
 
@@ -369,42 +369,60 @@ function keyClick (clickedID) {
   let template = setKeysTemplate();
   input = template[clickedID]; // template[clickedID] is the character represented on the clicked calculator keypad key
 
+
+
   if (resultToClear === true) {
-    if (input != "±") {
+    if (input != "±" && input != "=") {
       if (input === "+" || input === "-" || input === "*"
-        || input === "/" || input === "^" || input === "<") {
-          history = "";
-          updateDispB();
+        || input === "/" || input === "^" || input === "<" || input === ')' || input === '=') {
+          if (infinityToClear === false) {
+            history = "";
+            updateDispB();
+          }
       } else {
         history = "";
         updateDispB();
         strA = "";
         updateDispA("");
+        infinityToClear = false;
       }
-      resultToClear = false;
-      digits = 0;
+      if (infinityToClear === false) {
+        resultToClear = false;
+        digits = 0;
+      }
     }
   }
+
+
+  // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
   if (input === "S") {
     // trigger menu
   } else if (input === "F") {
     // trigger full-screen
-  } else if (input === "C") {
+  } else if (input === "C" || (infinityToClear === true && input === '<')) {
       clear();
   } else if (input === "<") {
-    if (strA === "") {
-      updateDispB(input);
-    } else {
+    if (strA != "") {
       updateDispA(input);
+    } else {
+      updateDispB();
     }
   } else if (input === "+" || input === "-" || input === "*"
     || input === "/" || input === "^") {
-      if (strA != "") { // cannot be first action after clear all
-        history = history + strA + input;
-        updateDispA(input);
+
+      if (strA != "" && resultToClear === false) { // cannot be first action after clear all
+            history = history + strA + input;
+            updateDispA(input);
+            updateDispB();
+
+      } else if (operatorEdit === true) {
+        //history = history + input;
+        console.log("really?");
         updateDispB();
       }
+
+
   } else if (input === ".") {
       if (decimal === false) { // cannot add 2nd decimal point to display A
         if (strA === "") { // add 0 prefix if 1st input after dispA clear
@@ -426,17 +444,22 @@ function keyClick (clickedID) {
   } else if (input === "±") {
     updateDispA(input);
   } else if (input === "=") {
-    if (history != "") { // cannot be first action after clear all
+    if (history != "" && resultToClear === false) { // cannot be first action after clear all
       if (parenth === 0)
       evaluate();
     }
-  } else { // digit (0 - 9)
-      if (digits < 15) {
-        digits++;
-        updateDispA(input);
-      }
-
+  } else { // digit (0 - 9 or .)
+    if (digits < 15) {
+      digits++;
+      updateDispA(input);
+    }
   }
+
+  //console.log("history: " + history + "@");
+  //console.log("strA: " + strA + "@");
+  //console.log(resultToClear);
+  console.log(operatorEdit);
+  console.log("input: " + input);
   let myVar = setInterval(function(){ clickAnim() }, 20);
 }
 
@@ -531,6 +554,7 @@ function parseResult(string) {
   let expStr = "";
   let decArry = [];
 
+
   if (string.slice(0, 1) === '-') {
     lenLimit = lenLimit + 1 // (including '-')
     negative = true;
@@ -560,10 +584,25 @@ function parseResult(string) {
 
 function evaluate() {
   history = history + strA;
-  let result = eval(history);
+  let toEval = history.replace(/--/g,'+'); // JS eval() doesn't like '--'
+  //console.log(toEval);
+  let result = eval(toEval);
   let resultStr = result.toString();
-  resultStr = parseResult(resultStr);
-  history = history + "=" + resultStr + "&nbsp;";
+
+  if (resultStr.slice(0, 1) === 'I' || resultStr.slice(0, 2) === '-I' || resultStr.slice(0, 1) === 'N') {
+    infinityToClear = true;
+    resultToClear = true;
+    if (resultStr === "NaN"){
+      resultStr = "undefined {0/0}";
+    } else if (resultStr.slice(0, 2) != '-I') {
+      resultStr = "infinity";
+    } else {
+      resultStr = "-infinity";
+    }
+  } else {
+    resultStr = parseResult(resultStr);
+  }
+  history = history + "=" + resultStr;
   updateDispB();
   strA = resultStr;
   updateDispA("");
@@ -574,12 +613,14 @@ function evaluate() {
 
 function updateDispA(input) {
   if (input === "±") {
-    if (positive === true) {
-      strA = "-" + strA;
-      positive = false;
-    } else {
-      strA = strA.slice(1, strA.length);
-      positive = true;
+    if (infinityToClear === false) {
+      if (positive === true) {
+        strA = "-" + strA;
+        positive = false;
+      } else {
+        strA = strA.slice(1, strA.length);
+        positive = true;
+      }
     }
   } else if (input === "(") {
       if (strA === "") {
@@ -589,10 +630,9 @@ function updateDispA(input) {
       }
   } else if (input === ")") {
     if (strA === "") {
-      let check = "";
-      check = history.slice(history.length-1, history.length);
+      let check = history.slice(history.length-1, history.length);
       if (check != "+" && check != "-" && check != "*"
-          && check != "/" && check != "^") {
+          && check != "/" && check != "^" && check != '(') {
             history = history + ")";
             parenth = parenth - 1;
             updateDispB();
@@ -603,9 +643,10 @@ function updateDispA(input) {
     }
   } else if (input === "<") {
       if (strA != "") {
-        let check = "";
-        check = strA.slice(strA.length-1, strA.length);
-        if (check === ".") {
+        let check = strA.slice(strA.length-1, strA.length);
+        if ((history.length === 0 && strA.length === 1) || strA.indexOf('e') > -1) {
+          clear();
+        } else if (check === ".") {
           decimal = false;
         }
         strA = strA.slice(0, -1);
@@ -616,6 +657,7 @@ function updateDispA(input) {
       strA = "";
       digits = 0;
       decimal = false;
+      positive = true;
   } else {
     strA = strA + input;
   }
@@ -624,22 +666,23 @@ function updateDispA(input) {
 }
 
 function updateDispB() {
-  //let summary = `mode: ${layout} (${hand}) mobile: ${mobile}`;
-  let output = "";
-  //console.log("ddd");
-
-  if (input === "<") {
-    let check = "";
+  console.log("B");
+  if (input === '<') {
     check = history.slice(history.length-1, history.length);
-    if (check === ".") { // this is way more complicated than presented here!
-      decimal = false;
+    if ((check === '+' || check === '-' || check === '/' || check === '*' ||
+    check === '^') && operatorEdit === false) {
+      history = history.slice(0, history.length - 1);
+      operatorEdit = true;
+      console.log("bingo");
     }
-    if (history.indexOf('&') > -1) {
-      history = history.slice(0, -6);
-    }
-    history = history.slice(0, -1);
+  } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
+    input === '^') && operatorEdit === true) {
+      console.log("yolo");
+      history = history + input;
+      operatorEdit = false;
   }
 
+  let output = "";
   switch (layout) {
     case "portrait":
       if (history.length > (maxCharsPortrait - 2)) {
@@ -663,7 +706,6 @@ function updateDispB() {
       }
       break;
   }
-  //console.log(decimal);
   output = output + "&nbsp;&nbsp;";
   displayBtext.innerHTML = output;
 }
@@ -678,6 +720,8 @@ function clear() {
   positive = true;
   displayAtext.innerHTML = "";
   displayBtext.innerHTML = "waiting for input...&nbsp;&nbsp;";
+  infinityToClear = false;
+  operatorEdit = false;
 }
 
 /** Converts an RGB color value to HSL. Conversion formula adapted from
@@ -791,7 +835,9 @@ let parenth = 0;
 let decimal = false;
 let digits = 0;
 let positive = true;
-let resultToClear = false;
+let resultToClear = false
+let infinityToClear = false;
+let operatorEdit = false;
 
 let prevColor = "";
 
