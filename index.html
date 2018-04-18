@@ -316,7 +316,6 @@ function stylePage() {
 function addEventListeners() {
   keys = document.querySelectorAll('.key');
   keys.forEach(key => key.addEventListener('mouseover', hover));
-
   keys = document.querySelectorAll('.key');
   keys.forEach(key => key.addEventListener('mouseout', unHover));
 }
@@ -328,7 +327,6 @@ function hover() {
     let style = window.getComputedStyle(element,"");
     let textColor = style.getPropertyValue("color");
     let hsl = getHSLvalues(textColor);
-
     prevColor = textColor;
     document.getElementById(`keyPara${thisID}`).style.color = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2] * 1.4}%)`;
   }
@@ -342,10 +340,8 @@ function unHover () {
 }
 
 function keyClick (clickedID) {
-  //console.log(resultToClear);
   function clickAnim() {
     let elem = document.getElementById(`${clickedID}`);
-
     switch (counter) { // NEED TO STORE BACKGROUND COLOUR AS VARIABLE!
         case 0: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 10%, #14202b 90%)`; break;
         case 1: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 20%, #14202b 90%)`; break;
@@ -360,17 +356,12 @@ function keyClick (clickedID) {
     }
     counter++;
   }
-
   if (mobile === true) {
     prevColor = document.getElementById(`keyPara${clickedID}`).style.getPropertyValue("color");
   }
   let counter = 0;
-
   let template = setKeysTemplate();
   input = template[clickedID]; // template[clickedID] is the character represented on the clicked calculator keypad key
-
-
-
   if (resultToClear === true) {
     if (input != "±" && input != "=") {
       if (input === "+" || input === "-" || input === "*"
@@ -392,16 +383,12 @@ function keyClick (clickedID) {
       }
     }
   }
-
-
-  // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
   if (input === "S") {
     // trigger menu
   } else if (input === "F") {
     // trigger full-screen
   } else if (input === "C" || (infinityToClear === true && input === '<')) {
-      clear();
+    clear();
   } else if (input === "<") {
     if (strA != "") {
       updateDispA(input);
@@ -410,18 +397,13 @@ function keyClick (clickedID) {
     }
   } else if (input === "+" || input === "-" || input === "*"
     || input === "/" || input === "^") {
-
       if (strA != "" && resultToClear === false) { // cannot be first action after clear all
             history = history + strA + input;
             updateDispA(input);
             updateDispB();
-
       } else if (operatorEdit === true) {
-        //history = history + input;
-        console.log("really?");
         updateDispB();
       }
-
   } else if (input === ".") {
       if (decimal === false) { // cannot add 2nd decimal point to display A
         if (strA === "") { // add 0 prefix if 1st input after dispA clear
@@ -453,12 +435,6 @@ function keyClick (clickedID) {
       updateDispA(input);
     }
   }
-
-  //console.log("history: " + history + "@");
-  //console.log("strA: " + strA + "@");
-  //console.log(resultToClear);
-  console.log(operatorEdit);
-  console.log("input: " + input);
   let myVar = setInterval(function(){ clickAnim() }, 20);
 }
 
@@ -474,7 +450,6 @@ function round(number, precision) {
 }
 
 function parseResult(string) {
-
   function moveDecimal(numStr) {
     let index = numStr.indexOf('.');
     let newStr = "";
@@ -553,12 +528,10 @@ function parseResult(string) {
   let expStr = "";
   let decArry = [];
 
-
   if (string.slice(0, 1) === '-') {
     lenLimit = lenLimit + 1 // (including '-')
     negative = true;
   }
-
   if ((num >= 10000000000000000 || num <= -10000000000000000) && string.indexOf('e') < 0) { // value too large for display, no exponent, with or without decimals
     decArry = positionDecimal(string);
     string = decArry[0];
@@ -584,10 +557,8 @@ function parseResult(string) {
 function evaluate() {
   history = history + strA;
   let toEval = history.replace(/--/g,'+'); // JS eval() doesn't like '--'
-  //console.log(toEval);
   let result = eval(toEval);
   let resultStr = result.toString();
-
   if (resultStr.slice(0, 1) === 'I' || resultStr.slice(0, 2) === '-I' || resultStr.slice(0, 1) === 'N') {
     infinityToClear = true;
     resultToClear = true;
@@ -610,7 +581,6 @@ function evaluate() {
   } else {
     positive = true;
   }
-
   decimal = false;
   resultToClear = true;
 }
@@ -670,28 +640,22 @@ function updateDispA(input) {
       strA = strA + input;
     }
   }
-
-  //console.log(digits);
   displayAtext.innerHTML = strA + "&nbsp;";
 }
 
 function updateDispB() {
-  console.log("B");
   if (input === '<') {
     check = history.slice(history.length-1, history.length);
     if ((check === '+' || check === '-' || check === '/' || check === '*' ||
     check === '^') && operatorEdit === false) {
       history = history.slice(0, history.length - 1);
       operatorEdit = true;
-      console.log("bingo");
     }
   } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
     input === '^') && operatorEdit === true) {
-      console.log("yolo");
       history = history + input;
       operatorEdit = false;
   }
-
   let output = "";
   switch (layout) {
     case "portrait":
