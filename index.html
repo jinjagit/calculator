@@ -422,7 +422,6 @@ function keyClick (clickedID) {
         updateDispB();
       }
 
-
   } else if (input === ".") {
       if (decimal === false) { // cannot add 2nd decimal point to display A
         if (strA === "") { // add 0 prefix if 1st input after dispA clear
@@ -445,7 +444,7 @@ function keyClick (clickedID) {
     updateDispA(input);
   } else if (input === "=") {
     if (history != "" && resultToClear === false) { // cannot be first action after clear all
-      if (parenth === 0)
+      if (parenth === 0 && operatorEdit === false)
       evaluate();
     }
   } else { // digit (0 - 9 or .)
@@ -606,61 +605,72 @@ function evaluate() {
   updateDispB();
   strA = resultStr;
   updateDispA("");
-  positive = true;
+  if (result < 0) {
+    positive = false;
+  } else {
+    positive = true;
+  }
+
   decimal = false;
   resultToClear = true;
 }
 
 function updateDispA(input) {
-  if (input === "±") {
-    if (infinityToClear === false) {
-      if (positive === true) {
-        strA = "-" + strA;
-        positive = false;
-      } else {
-        strA = strA.slice(1, strA.length);
-        positive = true;
-      }
-    }
-  } else if (input === "(") {
-      if (strA === "") {
-        parenth = parenth + 1;
-        history = history + "(";
-        updateDispB();
-      }
-  } else if (input === ")") {
-    if (strA === "") {
-      let check = history.slice(history.length-1, history.length);
-      if (check != "+" && check != "-" && check != "*"
-          && check != "/" && check != "^" && check != '(') {
-            history = history + ")";
-            parenth = parenth - 1;
-            updateDispB();
-      }
-    } else if (digits < 15) {
-        parenth = parenth - 1;
-        strA = strA + ")";
-    }
-  } else if (input === "<") {
-      if (strA != "") {
-        let check = strA.slice(strA.length-1, strA.length);
-        if ((history.length === 0 && strA.length === 1) || strA.indexOf('e') > -1) {
-          clear();
-        } else if (check === ".") {
-          decimal = false;
+  if (operatorEdit === false) {
+    if (input === "±") {
+      if (infinityToClear === false) {
+        if (positive === true) {
+          strA = "-" + strA;
+          positive = false;
+        } else {
+          strA = strA.slice(1, strA.length);
+          positive = true;
         }
-        strA = strA.slice(0, -1);
-        digits = digits - 1;
       }
-  } else if (input === "+" || input === "-" || input === "*"
-    || input === "/" || input === "^") {
-      strA = "";
-      digits = 0;
-      decimal = false;
-      positive = true;
-  } else {
-    strA = strA + input;
+    } else if (input === "(") {
+        if (strA === "") {
+          parenth = parenth + 1;
+          history = history + "(";
+          updateDispB();
+        }
+    } else if (input === ")") {
+      if (strA === "") {
+        let check = history.slice(history.length-1, history.length);
+        if (check != "+" && check != "-" && check != "*"
+            && check != "/" && check != "^" && check != '(') {
+              history = history + ")";
+              parenth = parenth - 1;
+              updateDispB();
+        }
+      } else if (digits < 15) {
+          parenth = parenth - 1;
+          strA = strA + ")";
+      }
+    } else if (input === "<") {
+        if (strA != "") {
+          let check = strA.slice(strA.length-1, strA.length);
+          if ((history.length === 0 && strA.length === 1) || strA.indexOf('e') > -1) {
+            clear();
+          } else if (check === ".") {
+            decimal = false;
+          }
+          if (check === ')') {
+            parenth = parenth + 1;
+          }
+          strA = strA.slice(0, -1);
+          digits = digits - 1;
+        }
+    } else if (input === "+" || input === "-" || input === "*"
+      || input === "/" || input === "^") {
+        strA = "";
+        digits = 0;
+        decimal = false;
+        positive = true;
+    } else {
+      strA = strA + input;
+    }
   }
+
   //console.log(digits);
   displayAtext.innerHTML = strA + "&nbsp;";
 }
