@@ -422,13 +422,14 @@ function keyClick (clickedID) {
         updateDispB();
       }
   } else if (input === ".") {
-      if (decimal === false) { // cannot add 2nd decimal point to display A
+      if (decimal === false && digits < 16) { // cannot add 2nd decimal point to display A
         if (strA === "") { // add 0 prefix if 1st input after dispA clear
           input = "0.";
-          digits++;
+          digits= digits + 2;
           decimal = true;
           updateDispA(input);
         } else {
+          digits++;
           decimal = true;
           updateDispA(input);
         }
@@ -452,7 +453,8 @@ function keyClick (clickedID) {
         console.log("Invalid Expression"); // 18 chars (too long?)
       }
     }
-  } else { // digit (0 - 9 or .)
+  } else { // digit (0 - 9)
+    console.log("digit?");
     if (digits < 16) {
       digits++;
       updateDispA(input);
