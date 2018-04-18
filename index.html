@@ -581,7 +581,11 @@ function evaluate() {
   } else {
     positive = true;
   }
-  decimal = false;
+  if (resultStr.indexOf('.') > -1) {
+    decimal = true;
+  } else {
+    decimal = false;
+  }
   resultToClear = true;
 }
 
@@ -650,6 +654,8 @@ function updateDispB() {
     check === '^') && operatorEdit === false) {
       history = history.slice(0, history.length - 1);
       operatorEdit = true;
+    } else if (strA === "") {
+      clear();
     }
   } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
     input === '^') && operatorEdit === true) {
@@ -693,6 +699,7 @@ function clear() {
   digits = 0;
   positive = true;
   displayAtext.innerHTML = "";
+  console.log("uhuh");
   displayBtext.innerHTML = "waiting for input...&nbsp;&nbsp;";
   infinityToClear = false;
   operatorEdit = false;
