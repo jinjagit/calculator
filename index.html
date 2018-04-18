@@ -368,7 +368,7 @@ function keyClick (clickedID) {
     }
     counter++;
   }
-  
+
   if (mobile === true) {
     prevColor = document.getElementById(`keyPara${clickedID}`).style.getPropertyValue("color");
   }
@@ -592,7 +592,7 @@ function evaluate() {
     infinityToClear = true;
     resultToClear = true;
     if (resultStr === "NaN"){
-      resultStr = "undefined {0/0}";
+      resultStr = "undefined: 0/0";
     } else if (resultStr.slice(0, 2) != '-I') {
       resultStr = "infinity";
     } else {
