@@ -453,7 +453,7 @@ function keyClick (clickedID) {
       }
     }
   } else { // digit (0 - 9 or .)
-    if (digits < 15) {
+    if (digits < 16) {
       digits++;
       updateDispA(input);
     }
@@ -654,7 +654,7 @@ function updateDispA(input) {
           parenth = parenth - 1;
           updateDispB();
         }
-      } else if (digits < 15) {
+      } else if (digits < 16) {
           parenth = parenth - 1;
           strA = strA + ")";
       }
