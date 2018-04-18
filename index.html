@@ -31,6 +31,7 @@ function setKeysTemplate() {
   // '^' = exponentiation, 'C' = clear, '<' = backspace,
   // 'S' = settings, 'F' = fullscreen (landscapeLong && mobile, only)
   let template = [];
+
   if (layout === "portrait") {
     if (hand === "r") {
       template = ['±', 'S', '<', 'C',
@@ -80,6 +81,7 @@ function setKeysTemplate() {
                   '=', '^', '/', '-', '0', '1', '2', '3'];
     }
   }
+
   return template;
 }
 
@@ -90,6 +92,7 @@ function getDisplayData() {
   calcH = window.innerHeight;
   WinOutH = window.outerHeight;
   screenH = screen.height;
+
   if (screen.width < window.innerWidth) {
     mobile = true; // probably mobile, but not certain
   } else {mobile = false;}
@@ -132,11 +135,13 @@ function drawPage() {
   setLayout();
   destroyKeys();
   container.style.width = `${calcW}px`
+
   if (mobile === false) {
     container.style.margin = `${(window.innerHeight - calcH) / 2}px auto`;
   } else {
     container.style.margin = `auto`;
   }
+
   updateDispB();
   createKeys();
   stylePage();
@@ -247,6 +252,7 @@ function stylePage() {
   for (let i = 0; i < numOfKeys; i++) { // style each <p> on each key, including a string
     let thisKey = document.getElementById(`${i}`);
     let keyPara = document.getElementById(`keyPara${i}`);
+
     if (keysTemplate[i] === '^') { // special position for 'x^y' text (with supersript)
       vertOffset = fontSizeKeys * -0.198;
       horOffset = fontSizeKeys * -0.3;
@@ -311,7 +317,7 @@ function stylePage() {
   }
 }
 
-// ---------- event listeners and related actions ---------------------------
+// ---------- event listeners and input/output logic ---------------------
 
 function addEventListeners() {
   keys = document.querySelectorAll('.key');
@@ -342,6 +348,7 @@ function unHover () {
 function keyClick (clickedID) {
   function clickAnim() {
     let elem = document.getElementById(`${clickedID}`);
+
     switch (counter) { // NEED TO STORE BACKGROUND COLOUR AS VARIABLE!
         case 0: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 10%, #14202b 90%)`; break;
         case 1: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 20%, #14202b 90%)`; break;
@@ -359,8 +366,10 @@ function keyClick (clickedID) {
   if (mobile === true) {
     prevColor = document.getElementById(`keyPara${clickedID}`).style.getPropertyValue("color");
   }
+
   let counter = 0;
   let template = setKeysTemplate();
+
   input = template[clickedID]; // template[clickedID] is the character represented on the clicked calculator keypad key
   if (resultToClear === true) {
     if (input != "±" && input != "=") {
@@ -383,6 +392,7 @@ function keyClick (clickedID) {
       }
     }
   }
+
   if (input === "S") {
     // trigger menu
   } else if (input === "F") {
@@ -453,6 +463,7 @@ function parseResult(string) {
   function moveDecimal(numStr) {
     let index = numStr.indexOf('.');
     let newStr = "";
+
     if ((negative === true && index != 2) || (negative === false && index != 1)) {
       let part1 = numStr.slice(0, index);
       let part2 = numStr.slice(index + 1, numStr.length);
@@ -471,6 +482,7 @@ function parseResult(string) {
   function insertDecimal(numStr) {
     let newStr = "";
     let index = 0;
+
     if (negative === true) {
       index = 2;
     } else {
@@ -512,6 +524,7 @@ function parseResult(string) {
   function parseExponent(numStr) {
     expStr = numStr.slice(numStr.indexOf('e'), numStr.length);
     numStr = numStr.slice(0, numStr.length - expStr.length);
+
     if (expStr.indexOf('-') > -1) {
       exp = parseInt(expStr.slice(expStr.indexOf('-'), expStr.length));
     } else {
@@ -559,6 +572,7 @@ function evaluate() {
   let toEval = history.replace(/--/g,'+'); // JS eval() doesn't like '--'
   let result = eval(toEval);
   let resultStr = result.toString();
+
   if (resultStr.slice(0, 1) === 'I' || resultStr.slice(0, 2) === '-I' || resultStr.slice(0, 1) === 'N') {
     infinityToClear = true;
     resultToClear = true;
@@ -572,7 +586,8 @@ function evaluate() {
   } else {
     resultStr = parseResult(resultStr);
   }
-  history = history + "=" + resultStr;
+
+  history = history + "=";
   updateDispB();
   strA = resultStr;
   updateDispA("");
@@ -662,7 +677,9 @@ function updateDispB() {
       history = history + input;
       operatorEdit = false;
   }
+
   let output = "";
+
   switch (layout) {
     case "portrait":
       if (history.length > (maxCharsPortrait - 2)) {
@@ -686,6 +703,7 @@ function updateDispB() {
       }
       break;
   }
+
   output = output + "&nbsp;&nbsp;";
   displayBtext.innerHTML = output;
 }
