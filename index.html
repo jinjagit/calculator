@@ -437,8 +437,10 @@ function keyClick (clickedID) {
   } else if (input === "(") {
       updateDispA(input);
   } else if (input === ")") {
-      if (parenth > 0) { // cannot close unopened parentheses
+      if (parenth > 0 && operatorEdit == false) { // cannot close unopened parentheses
         updateDispA(input);
+      } else if (parenth > 0 && operatorEdit == true) {
+        updateDispB();
       }
   } else if (input === "±") {
     updateDispA(input);
@@ -447,14 +449,14 @@ function keyClick (clickedID) {
       if (parenth === 0 && operatorEdit === false && strA != "") {
         evaluate();
       } else if (strA === "" && history != "" && parenth === 0 && operatorEdit === true) {
-      console.log("yo");
-      evaluate();
+        evaluate();
+      } else if (parenth === 0 && strA === "" && history.slice(-1) === ')') {
+        evaluate();
       } else {
         console.log("Invalid Expression"); // 18 chars (too long?)
       }
     }
   } else { // digit (0 - 9)
-    console.log("digit?");
     if (digits < 16) {
       digits++;
       updateDispA(input);
@@ -700,8 +702,11 @@ function updateDispB() {
     }
   } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
     input === '^') && operatorEdit === true) {
-      history = history + input;
-      operatorEdit = false;
+    history = history + input;
+    operatorEdit = false;
+  } else if (input === ')') {
+    parenth = parenth - 1;
+    history = history + input;
   }
 
   let output = "";
