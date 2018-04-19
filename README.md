@@ -5,7 +5,7 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 
 Features:  
 
-* mobile focused page layout, with reasonable default layout (responsive to window restrictions)
+* mobile focused responsive design, with reasonable desktop default layout (responsive to window restrictions)
 * calculator can form expressions containing multiple operators, with or without parentheses
 * calculator only accepts well-formed expressions
 * content of main display can be backspace deleted and edited
