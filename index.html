@@ -595,14 +595,25 @@ function parseResult(string) {
 function evaluate() {
   history = history + strA;
   let toEval = history.replace(/--/g,'+'); // JS eval() doesn't like '--'
-  let result = eval(toEval);
-  let resultStr = result.toString();
+  toEval = evalPowers(toEval);
+  let result = 0;
+  let resultStr = "";
+  if (toEval[1] === 'no power') {
+    result = eval(toEval[0]);
+    resultStr = result.toString();
+  } else {
+    resultStr = 'power error!'; // This will trigger error animation
+  }
 
-  if (resultStr.slice(0, 1) === 'I' || resultStr.slice(0, 2) === '-I' || resultStr.slice(0, 1) === 'N') {
+
+
+  if (resultStr.slice(0, 1) === 'I' || resultStr.slice(0, 2) === '-I' || resultStr.slice(0, 1) === 'N' || resultStr.slice(0, 1) === 'p') {
     infinityToClear = true;
     resultToClear = true;
     if (resultStr === "NaN"){
       resultStr = "undefined: 0/0";
+    } else if (resultStr.slice(0, 1) === 'p') {
+      resultStr = 'power error!';
     } else if (resultStr.slice(0, 2) != '-I') {
       resultStr = "infinity";
     } else {
@@ -817,6 +828,163 @@ function parseRGB(rgbString) {
     let hslArray = rgbToHsl(rgbArray[0], rgbArray[1], rgbArray[2])
     return hslArray;
   }
+
+  // ........ Parsing and evaluating powers ..............
+//
+// All power '^' expressions included in the bases of other power expressions
+// are prioritized, and otherwise are considered in order, beginning from
+// the end of the input string. Parsing the base and exponent components
+// from the input string, before evaluating each with Math.pow(base, exponent),
+// involves considering if each is parenthesized or not, negative value or not,
+// and/or includes an 'e+17' type component.
+
+function evalPowers(inStr) {
+  function findNextPower() {
+    let breakSearch = false;
+    while (index > 0 && breakSearch === false) {
+      index--;
+      if (strArray[index] === '^') {
+        breakSearch = true;
+      }
+    }
+    return index;
+  }
+
+  function parseBase(index) {
+    baseStr = "";
+     if (strArray[index - 1] === ')') { // base IS parenthesized
+       let parenthCount = 1;
+       let i = 2;
+       baseStr = ')';
+       let char = strArray[index - i];
+       while (parenthCount != 0) {
+         if (char === '(') {
+           parenthCount--;
+         } else if (char === ')') {
+           parenthCount++;
+         }
+         baseStr = char + baseStr;
+         i++;
+         char = strArray[index - i];
+       }
+     } else { // base is NOT parenthesized
+       let breakOut = false;
+       let i = 1;
+       let char = strArray[index - i];
+       let prevChar = strArray[index - i - 1]; // prevChar enables check for 'e' notation and negative base
+       while ( breakOut === false && ((char != '-' && char != '+' && char != '/' && char != '*' && char != '^' && char != '(' && typeof char != 'undefined')
+              || (prevChar === 'e' || prevChar === '+' || prevChar === '/' || prevChar === '*' || prevChar === '^') ||
+              (typeof char != 'undefined' && typeof prevChar === 'undefined'))) {
+           if (char === '(') {
+             breakOut = true;
+           } else { // add char to front of base
+             baseStr = char + baseStr;
+             i++;
+             char = strArray[index - i];
+             prevChar = strArray[index - i - 1];
+           }
+       }
+     }
+     return baseStr;
+  }
+
+  function findPowToEval() {
+    findNextPower();
+    baseStr = parseBase(index);
+    if (baseStr.indexOf('^') > -1) { // base contains power (parenthesized) {
+      return [index, 'powInBase'];
+    } else if (index > 0) {
+      return [index, 'readyToParse'];
+    } else { // string does NOT contain '^'
+      return [index, 'NO POWER'];
+    }
+  }
+
+  function findPowerlessBase() {
+    location = findPowToEval();
+    while (location[1] === 'powInBase') {
+      index--;
+      location = findPowToEval();
+    }
+    return location;
+  }
+
+  function parseExponent() {
+    let char = strArray[index + 1];
+    let expStr = "";
+    let parenth = 0;
+
+    if (char === "(") { // exponent IS parenthesized
+      parenth++;
+      expStr = "(";
+      let  i = 2;
+      while (parenth != 0) {
+        char = strArray[index + i];
+        expStr = expStr + char;
+        i++;
+        if (char === "(") {
+          parenth++;
+        } else if (char === ")") {
+          parenth--;
+        }
+      }
+    } else { // exponent is NOT parenthesized
+      let i = 2;
+      char = strArray[index + 1];
+      let prevChar = strArray[index];
+      while ((char != '-' && char != '+' && char != '/' && char != '*' && char != '^' &&
+            char != ')' && typeof char != 'undefined') || (prevChar === 'e'
+            || prevChar === '^')) {
+         expStr = expStr + char;
+         prevChar = char;
+         char = strArray[index + i];
+         i++;
+       }
+    }
+    return expStr;
+  }
+
+  function evalOnePower() {
+      if (location[1] === 'readyToParse') {
+      expStr = parseExponent();
+      evalStr = "Math.pow(" + baseStr + ", " + expStr + ")";
+      evalStr = eval(evalStr).toString();
+
+      if (evalStr === 'NaN') { // Power error (-ve base with non-integer exponent)
+        return [baseStr + '^' + expStr, 'Power error!']; // return array with error flag and string
+
+      } else { // rebuild result string
+        inStr = inStr.slice(0, index - baseStr.length) + evalStr + inStr.slice(index + expStr.length + 1, inStr.length);
+        return [inStr, 'evaluated']
+      }
+    } else { // no power in string, so just return string
+      return [inStr, 'no power'];
+    }
+  }
+
+  let strArray = [...inStr];
+  let index = strArray.length;
+  let baseStr = "";
+  let location = [];
+  let expStr = "";
+  let evalStr = "";
+
+  location = findPowerlessBase();
+  let result = evalOnePower();
+
+  while (result[1] != 'no power' && result[1] != 'Power error!') {
+    strArray = [...inStr];
+    index = strArray.length;
+    baseStr = "";
+    location = [];
+    expStr = "";
+    evalStr = "";
+    location = findPowerlessBase();
+    result = evalOnePower();
+  }
+
+  return result;
+}
 
 // ---------- initial declarations and commands -------------
 
