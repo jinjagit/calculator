@@ -22,7 +22,7 @@
 
 <script>
 // Calculator - by Simon Tharby, 2018 (solution to; https://www.theodinproject.com/courses/web-development-101/lessons/calculator)
-// Mobile focussed design that is also appropriately responsive to desktop environment.
+// Mobile focused design that is also appropriately responsive to desktop environment.
 // Disambiguation: In this code, 'key' refers / relates to a / the key(s) on the rendered calculator
 
 // --------------------- layout and basic styling -----------------------------
@@ -137,7 +137,7 @@ function drawPage() {
   getDisplayData();
   setLayout();
   destroyKeys();
-  container.style.width = `${calcW}px`
+  container.style.width = `${calcW}px`;
 
   if (mobile === false) {
     container.style.margin = `${(window.innerHeight - calcH) / 2}px auto`;
@@ -379,9 +379,9 @@ function keyClick (clickedID) {
   input = template[clickedID]; // template[clickedID] is the character represented on the clicked calculator keypad key
 
   if (resultToClear === true) {
-    if (input != "±" && input != "=") {
+    if (input != "±" && input != "=" && input != ')' && input != 'S' && input != 'F') {
       if (input === "+" || input === "-" || input === "*"
-        || input === "/" || input === "^" || input === "<" || input === ')' || input === '=') {
+        || input === "/" || input === "^" || input === "<" || input === '=') {
           if (infinityToClear === false) {
             history = "";
             updateDispB();
@@ -520,7 +520,6 @@ function parseResult(string) {
     } else { // has decimal
       decArry = moveDecimal(numStr);
     }
-
     return decArry;
   }
 
@@ -530,7 +529,6 @@ function parseResult(string) {
     } else {
       result = round(parseFloat(numStr), lenLimit - expStr.length - 3);
     }
-
     return result;
   }
 
@@ -540,7 +538,6 @@ function parseResult(string) {
     } else {
       expStr = "e" + exp.toString();
     }
-
     return expStr;
   }
 
@@ -602,7 +599,7 @@ function evaluate() {
     result = eval(toEval[0]);
     resultStr = result.toString();
   } else {
-    resultStr = 'power error!'; // This will trigger error animation
+    resultStr = 'power error!'; // This will trigger error animation (TO DO)
   }
 
 
@@ -633,7 +630,7 @@ function evaluate() {
   } else {
     positive = true;
   }
-  if (resultStr.indexOf('.') > -1) { // This is true until cleared
+  if (resultStr.indexOf('.') > -1) {
     decimal = true;
   } else {
     decimal = false;
@@ -644,6 +641,7 @@ function evaluate() {
 
 function updateDispA(input) {
   if (operatorEdit === false) {
+
     if (input === "±") {
       if (infinityToClear === false) {
         if (positive === true) {
@@ -661,6 +659,7 @@ function updateDispA(input) {
           updateDispB();
         }
     } else if (input === ")") {
+      console.log("yo");
       if (strA === "") {
         let check = history.slice(history.length-1, history.length);
         if (check != "+" && check != "-" && check != "*"
@@ -669,7 +668,8 @@ function updateDispA(input) {
           parenth = parenth - 1;
           updateDispB();
         }
-      } else if (digits < 16) {
+      } else if (digits < 16 && resultToClear === false) {
+
           parenth = parenth - 1;
           strA = strA + ")";
       }
@@ -715,7 +715,7 @@ function updateDispB() {
     input === '^') && operatorEdit === true) {
     history = history + input;
     operatorEdit = false;
-  } else if (input === ')') {
+  } else if (input === ')' && resultToClear === false) {
     parenth = parenth - 1;
     history = history + input;
   }
@@ -829,7 +829,7 @@ function parseRGB(rgbString) {
     return hslArray;
   }
 
-  // ........ Parsing and evaluating powers ..............
+//               >>> parsing and evaluating powers <<<
 //
 // All power '^' expressions included in the bases of other power expressions
 // are prioritized, and otherwise are considered in order, beginning from
