@@ -391,6 +391,7 @@ function keyClick (clickedID) {
         updateDispB();
         strA = "";
         updateDispA("");
+        decimal = false;
         infinityToClear = false;
       }
       if (infinityToClear === false) {
@@ -761,7 +762,6 @@ function updateDispB() {
 }
 
 function clear() {
-  console.log("clear");
   strA = "";
   strB = "";
   history = "";
