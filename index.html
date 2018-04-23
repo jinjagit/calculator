@@ -641,7 +641,6 @@ function evaluate() {
 
 function updateDispA(input) {
   if (operatorEdit === false) {
-
     if (input === "±") {
       if (infinityToClear === false) {
         if (positive === true) {
@@ -659,7 +658,6 @@ function updateDispA(input) {
           updateDispB();
         }
     } else if (input === ")") {
-      console.log("yo");
       if (strA === "") {
         let check = history.slice(history.length-1, history.length);
         if (check != "+" && check != "-" && check != "*"
@@ -669,7 +667,6 @@ function updateDispA(input) {
           updateDispB();
         }
       } else if (digits < 16 && resultToClear === false) {
-
           parenth = parenth - 1;
           strA = strA + ")";
       }
@@ -702,14 +699,18 @@ function updateDispA(input) {
 }
 
 function updateDispB() {
+  let dispBcleared = false;
   if (input === '<') {
     check = history.slice(history.length-1, history.length);
     if ((check === '+' || check === '-' || check === '/' || check === '*' ||
     check === '^') && operatorEdit === false) {
+      console.log("uhuh");
       history = history.slice(0, history.length - 1);
       operatorEdit = true;
-    } else if (strA === "") {
+    } else if (strA === "" && operatorEdit === false) {
+      console.log("%%%");
       clear();
+      dispBcleared = true;
     }
   } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
     input === '^') && operatorEdit === true) {
@@ -720,37 +721,43 @@ function updateDispB() {
     history = history + input;
   }
 
-  let output = "";
+  if (dispBcleared != true) {
+    let output = "";
 
-  switch (layout) {
-    case "portrait":
-      if (history.length > (maxCharsPortrait - 2)) {
-        output = "..." + history.slice(history.length - maxCharsPortrait + 5, history.length);
-      } else {
-        output = history;
-      }
-      break;
-    case "landscape":
-      if (history.length > (maxCharsLandscape - 2)) {
-        output = "..." + history.slice(history.length - maxCharsLandscape + 5, history.length);
-      } else {
-        output = history;
-      }
-      break;
-    case "landscapeLong":
-      if (history.length > (maxCharsLandsLong - 2)) {
-        output = "..." + history.slice(history.length - maxCharsLandsLong + 5, history.length);
-      } else {
-        output = history;
-      }
-      break;
+    switch (layout) {
+      case "portrait":
+        if (history.length > (maxCharsPortrait - 2)) {
+          output = "..." + history.slice(history.length - maxCharsPortrait + 5, history.length);
+        } else {
+          output = history;
+        }
+        break;
+      case "landscape":
+        if (history.length > (maxCharsLandscape - 2)) {
+          output = "..." + history.slice(history.length - maxCharsLandscape + 5, history.length);
+        } else {
+          output = history;
+        }
+        break;
+      case "landscapeLong":
+        if (history.length > (maxCharsLandsLong - 2)) {
+          output = "..." + history.slice(history.length - maxCharsLandsLong + 5, history.length);
+        } else {
+          output = history;
+        }
+        break;
+    }
+
+    output = output + "&nbsp;&nbsp;";
+    displayBtext.innerHTML = output;
+  } else {
+    dispBcleared = false;
   }
 
-  output = output + "&nbsp;&nbsp;";
-  displayBtext.innerHTML = output;
 }
 
 function clear() {
+  console.log("clear");
   strA = "";
   strB = "";
   history = "";
@@ -758,6 +765,7 @@ function clear() {
   parenth = 0;
   digits = 0;
   positive = true;
+  resultToClear = false;
   displayAtext.innerHTML = "";
   displayBtext.innerHTML = "waiting for input...&nbsp;&nbsp;";
   infinityToClear = false;
