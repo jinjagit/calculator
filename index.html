@@ -695,6 +695,12 @@ function updateDispA(input) {
     }
   }
 
+  if (msgToClrDispB === true && strA != '') {
+    history = '';
+    displayBtext.innerHTML = "";
+    msgToClrDispB = false;
+  }
+
   displayAtext.innerHTML = strA + "&nbsp;";
 }
 
@@ -704,11 +710,9 @@ function updateDispB() {
     check = history.slice(history.length-1, history.length);
     if ((check === '+' || check === '-' || check === '/' || check === '*' ||
     check === '^') && operatorEdit === false) {
-      console.log("uhuh");
       history = history.slice(0, history.length - 1);
       operatorEdit = true;
-    } else if (strA === "" && operatorEdit === false) {
-      console.log("%%%");
+    } else if (strA === "") {
       clear();
       dispBcleared = true;
     }
@@ -770,6 +774,7 @@ function clear() {
   displayBtext.innerHTML = "waiting for input...&nbsp;&nbsp;";
   infinityToClear = false;
   operatorEdit = false;
+  msgToClrDispB = true;
 }
 
 /** Converts an RGB color value to HSL. Conversion formula adapted from
@@ -1044,6 +1049,7 @@ let positive = true;
 let resultToClear = false
 let infinityToClear = false;
 let operatorEdit = false;
+let msgToClrDispB = false;
 
 let prevColor = "";
 
