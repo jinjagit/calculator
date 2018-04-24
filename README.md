@@ -8,7 +8,7 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 
 **Features:**  
 
-* mobile focused, responsive design, with desktop default layout (scaled for screen size and responsive under certain conditions)
+* mobile focused, minimal, responsive design, with desktop default layout (scaled for screen size and responsive under certain conditions)
 * one of 3 layouts is automatically chosen to best fit aspect ratio constraints:  
 
 ![different layouts of calculator](img/calcLayouts.png)
