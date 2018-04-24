@@ -10,6 +10,7 @@ Features:
 
 * mobile focused, responsive design, with desktop default layout (scaled for screen size and responsive under certain conditions)
 * one of 3 layouts is automatically chosen to best fit aspect ratio constraints:  
+  
 ![different layouts of calculator](img/calcLayouts.png)
 * calculator evaluates expressions containing multiple operators, with or without parentheses
 * calculator only accepts well-formed expressions
