@@ -239,10 +239,10 @@ function stylePage() {
   displayAtext.style.fontSize = `${fontSizeA}px`;
   displayBtext.style.fontSize = `${fontSizeB}px`;
 
-  container.style.backgroundColor = "#101519";
-  displayB.style.backgroundColor = "#192938";
+  container.style.backgroundColor = containerBgColor;
+  displayB.style.backgroundColor = dispBbgColor;
   //body.style.background = "radial-gradient(#242d33, #101519)";
-  body.style.background = "#7a7b6e";
+  body.style.background = bodyBgColor;
 
   container.style.webkitBoxShadow = "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
   container.style.mozBoxShadow =  "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
@@ -270,7 +270,7 @@ function stylePage() {
     }
 
     if (theme === "A") {
-      thisKey.style.backgroundColor = "#14202b";
+      thisKey.style.backgroundColor = keyBgColor;
       thisKey.style.border = "none";
     } else {
       thisKey.style.backgroundColor = "#20272d";
@@ -287,37 +287,37 @@ function stylePage() {
 
     switch (keysTemplate[i]) {
       case 'C':
-        keyPara.style.color = "hsl(340, 64%, 55%)";
+        keyPara.style.color = keyClearColor;
         let tooltipAttClr = document.createAttribute("title");
         tooltipAttClr.value = "clear all"; // Set the value of the html 'title' property (tooltip) attribute
         keyPara.setAttributeNode(tooltipAttClr);
         break;
       case '<':
-        keyPara.style.color = "hsl(15, 60%, 63%)";
+        keyPara.style.color = keyBackspColor;
         let tooltipAttBsp = document.createAttribute("title");
         tooltipAttBsp.value = "backspace"; // Set the value of the html 'title' property (tooltip) attribute
         keyPara.setAttributeNode(tooltipAttBsp);
         break;
       case '=':
-        keyPara.style.color = "hsl(124, 39%, 62%)";
+        keyPara.style.color = keyEqualsColor;
         break;
       case '+': case '-': case '*': case '/':
-        keyPara.style.color = "hsl(208, 96%, 56%)";
+        keyPara.style.color = keyOperatorColor;
         break;
       case '±': case '^': case '(': case ')':
-        keyPara.style.color = "hsl(208, 41%, 42%)";
+        keyPara.style.color = keyAuxColor;
         break;
       case 'S':
-        keyPara.style.color = "hsl(273, 50%, 56%)";
+        keyPara.style.color = keySettingsColor;
         let tooltipAttSet = document.createAttribute("title");
         tooltipAttSet.value = "settings"; // Set the value of the html 'title' property (tooltip) attribute
         keyPara.setAttributeNode(tooltipAttSet);
         break;
       case 'F':
-        keyPara.style.color = "hsl(297, 36%, 53%)";
+        keyPara.style.color = keyFcolor;
         break;
       default:
-        keyPara.style.color = "hsl(208, 52%, 72%)";
+        keyPara.style.color = keyDigitColor;
     }
   }
 }
@@ -355,16 +355,16 @@ function keyClick (clickedID) {
     let elem = document.getElementById(`${clickedID}`);
 
     switch (counter) { // NEED TO STORE BACKGROUND COLOUR AS VARIABLE!
-        case 0: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 10%, #14202b 90%)`; break;
-        case 1: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 20%, #14202b 90%)`; break;
-        case 2: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 30%, #14202b 100%)`; break;
-        case 3: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 40%, #14202b 100%)`; break;
-        case 4: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 65%, #14202b 100%)`; break;
-        case 5: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 40%, #14202b 100%)`; break;
-        case 6: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 30%, #14202b 100%)`; break;
-        case 7: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 20%, #14202b 100%)`; break;
-        case 8: elem.style.background = `radial-gradient(${prevColor} 0%, #14202b 10%, #14202b 100%)`; break;
-        case 9: elem.style.background = "#14202b"; counter = 0; clearInterval(myVar);
+        case 0: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 10%, ` + keyBgColor + ` 90%)`; break;
+        case 1: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 20%, ` + keyBgColor + ` 90%)`; break;
+        case 2: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 30%, ` + keyBgColor + ` 100%)`; break;
+        case 3: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 40%, ` + keyBgColor + ` 100%)`; break;
+        case 4: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 65%, ` + keyBgColor + ` 100%)`; break;
+        case 5: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 40%, ` + keyBgColor + ` 100%)`; break;
+        case 6: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 30%, ` + keyBgColor + ` 100%)`; break;
+        case 7: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 20%, ` + keyBgColor + ` 100%)`; break;
+        case 8: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 10%, ` + keyBgColor + ` 100%)`; break;
+        case 9: elem.style.background = keyBgColor; counter = 0; clearInterval(myVar);
     }
     counter++;
   }
@@ -454,7 +454,7 @@ function keyClick (clickedID) {
       } else if (parenth === 0 && strA === "" && history.slice(-1) === ')') {
         evaluate();
       } else {
-        console.log("Invalid Expression"); // 18 chars (too long?)
+        console.log("Faulty Expression"); // 17 chars (max size for dispA)
       }
     }
   } else { // digit (0 - 9)
@@ -1052,6 +1052,22 @@ let operatorEdit = false;
 let msgToClrDispB = false;
 
 let prevColor = "";
+let keyBgColor = "#14202b";
+let dispBbgColor = "#192938";
+let containerBgColor = "#101519"; // Not sure this is used (if not, delete above too)
+let keyboardBgColor = "#11443f"; // Not sure this is used
+let bodyBgColor = "#7a7b6e";
+
+let bodyColor = "#c0daf1"; // default text color (used in displays)
+let keyDigitColor = "hsl(208, 52%, 72%)"; // default key text color (digits and '.')
+let keyOperatorColor = "hsl(208, 96%, 56%)";
+let keyAuxColor = "hsl(208, 41%, 42%)"; // text color for '±', '^', '(' and ')' keys
+let keyEqualsColor = "hsl(124, 39%, 62%)";
+let keyClearColor = "hsl(340, 64%, 55%)";
+let keyBackspColor = "hsl(15, 60%, 63%)";
+let keySettingsColor = "hsl(273, 50%, 56%)";
+let keyFcolor = "hsl(297, 36%, 53%)";
+
 
 let body = document.getElementsByTagName('body')[0];
 let para = document.getElementsByTagName('p')[0];
@@ -1062,14 +1078,14 @@ let displayBtext = document.getElementById('displayBtext');
 let keyboard = document.getElementById('keyboard');
 let container = document.getElementById('container');
 
-body.style.color = "#c0daf1";
+body.style.color = bodyColor;
 body.style.fontFamily = "'Ubuntu Mono', monospace";
 body.style.fontWeight = "normal";
 container.style.margin = "auto";
 displayB.style.textAlign = "right";
 displayA.style.backgroundColor = "black";
 displayA.style.textAlign = "right";
-keyboard.style.backgroundColor = "#11443f";
+keyboard.style.backgroundColor = keyboardBgColor;
 keyboard.style.display = "grid";
 keyboard.style.margin = "auto";
 
