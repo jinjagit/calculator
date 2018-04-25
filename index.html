@@ -382,7 +382,8 @@ function animateFaultyExpr() {
       case 28: displayAtext.style.opacity = "0.6"; break;
       case 29: displayAtext.style.opacity = "0.5"; break;
       case 30: displayAtext.style.opacity = "0.3"; break;
-      case 31: displayAtext.style.opacity = "0.0"; countFA = 0; clearInterval(faultyAnim);
+      case 31: displayAtext.style.opacity = "1.0"; countFA = 0; displayAtext.innerHTML = strA + "&nbsp;";
+                displayAtext.style.color = bodyColor; clearInterval(faultyAnim);
   }
   countFA++;
 }
@@ -392,7 +393,7 @@ function haltAnimations() {
   clearInterval(faultyAnim);
   displayAtext.style.opacity = "1.0";
   displayAtext.style.color = bodyColor;
-  displayAtext.innerHTML = "";
+  displayAtext.innerHTML = strA + "&nbsp;";
   countFA = 0;
 }
 
@@ -502,7 +503,6 @@ function keyClick (clickedID) {
       } else if (parenth === 0 && strA === "" && history.slice(-1) === ')') {
         evaluate();
       } else {
-        dispAstore = strA;
         displayAtext.style.opacity = "0.0";
         displayAtext.style.color = keyClearColor;
         displayAtext.innerHTML = "faulty expression&nbsp;";
