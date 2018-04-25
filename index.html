@@ -351,7 +351,7 @@ function unHover () {
 }
 
 function animateFaultyExpr() {
-  switch (count) {
+  switch (countFA) {
       case 0: displayAtext.style.opacity = "1.0"; break;
       case 1: displayAtext.style.opacity = "1.0"; break;
       case 2: displayAtext.style.opacity = "1.0"; break;
@@ -363,11 +363,11 @@ function animateFaultyExpr() {
       case 8: displayAtext.style.opacity = "0.8"; break;
       case 9: displayAtext.style.opacity = "0.8"; break;
       case 10: displayAtext.style.opacity = "0.7"; break;
-      case 11: displayAtext.style.opacity = "0.5"; break;
-      case 12: displayAtext.style.opacity = "0.2"; break;
-      case 13: displayAtext.style.opacity = "0.0"; break;
-      case 14: displayAtext.style.opacity = "0.2"; break;
-      case 15: displayAtext.style.opacity = "0.6"; break;
+      case 11: displayAtext.style.opacity = "0.6"; break;
+      case 12: displayAtext.style.opacity = "0.5"; break;
+      case 13: displayAtext.style.opacity = "0.6"; break;
+      case 14: displayAtext.style.opacity = "0.7"; break;
+      case 15: displayAtext.style.opacity = "0.8"; break;
       case 16: displayAtext.style.opacity = "1.0"; break;
       case 17: displayAtext.style.opacity = "1.0"; break;
       case 18: displayAtext.style.opacity = "1.0"; break;
@@ -379,11 +379,27 @@ function animateFaultyExpr() {
       case 24: displayAtext.style.opacity = "0.8"; break;
       case 25: displayAtext.style.opacity = "0.8"; break;
       case 26: displayAtext.style.opacity = "0.7"; break;
-      case 27: displayAtext.style.opacity = "0.5"; break;
-      case 28: displayAtext.style.opacity = "0.2"; break;
-      case 29: displayAtext.style.opacity = "0.0"; count = 0; clearInterval(faultyAnim);
+      case 27: displayAtext.style.opacity = "0.6"; break;
+      case 28: displayAtext.style.opacity = "0.5"; break;
+      case 29: displayAtext.style.opacity = "0.6"; break;
+      case 30: displayAtext.style.opacity = "0.7"; break;
+      case 31: displayAtext.style.opacity = "0.8"; break;
+      case 32: displayAtext.style.opacity = "1.0"; break;
+      case 33: displayAtext.style.opacity = "1.0"; break;
+      case 34: displayAtext.style.opacity = "1.0"; break;
+      case 35: displayAtext.style.opacity = "1.0"; break;
+      case 36: displayAtext.style.opacity = "1.0"; break;
+      case 37: displayAtext.style.opacity = "1.0"; break;
+      case 38: displayAtext.style.opacity = "0.9"; break;
+      case 39: displayAtext.style.opacity = "0.9"; break;
+      case 40: displayAtext.style.opacity = "0.8"; break;
+      case 41: displayAtext.style.opacity = "0.8"; break;
+      case 42: displayAtext.style.opacity = "0.7"; break;
+      case 43: displayAtext.style.opacity = "0.5"; break;
+      case 44: displayAtext.style.opacity = "0.2"; break;
+      case 45: displayAtext.style.opacity = "0.0"; countFA = 0; clearInterval(faultyAnim);
   }
-  count++;
+  countFA++;
 }
 
 function haltAnimations() {
@@ -392,7 +408,7 @@ function haltAnimations() {
   displayAtext.style.opacity = "1.0";
   displayAtext.style.color = bodyColor;
   displayAtext.innerHTML = "";
-  count = 0;
+  countFA = 0;
 }
 
 function keyClick (clickedID) {
@@ -501,13 +517,12 @@ function keyClick (clickedID) {
       } else if (parenth === 0 && strA === "" && history.slice(-1) === ')') {
         evaluate();
       } else {
-        console.log("Faulty Expression"); // 17 chars (max size for dispA)
         dispAstore = strA;
         displayAtext.style.opacity = "1.0";
         displayAtext.style.color = keyClearColor;
         displayAtext.innerHTML = "faulty expression&nbsp;";
-        count = 0;
-        faultyAnim = setInterval(function(){ animateFaultyExpr() }, 25);
+        countFA = 0;
+        faultyAnim = setInterval(function(){ animateFaultyExpr() }, 20);
       }
     }
   } else { // digit (0 - 9)
@@ -1137,7 +1152,7 @@ let container = document.getElementById('container');
 let dispAstore = "";
 
 let counter = 0;
-let count = 0; // counter for animateFaultyExpr()
+let countFA = 0; // counter for animateFaultyExpr()
 
 body.style.color = bodyColor;
 body.style.fontFamily = "'Ubuntu Mono', monospace";
