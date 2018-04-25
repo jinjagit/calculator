@@ -15,10 +15,10 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 * calculator evaluates expressions containing multiple operators, with or without parentheses
 * calculator only accepts well-formed expressions
 * content of main display can be backspace deleted to edit
-* result displayed in main display can become first part of new expression
+* result displayed in main display becomes first part of new expression if operator next input
 * while last operator is last item added to expression (in secondary display):
   * the operator can be replaced by entering a new operator
-  * the operator can be backspace deleted and replaced (further backspace = clear all)
+  * the operator can be backspace deleted and replaced (or subsequent backspace = clear all)
 * warnings:
   * "faulty expression" when user attempts to evaluate an expression ending in an operator
   * "*n* * unclosed ')'" when user attempts to evaluate expression with *n* unclosed parentheses
