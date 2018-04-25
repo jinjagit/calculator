@@ -468,13 +468,13 @@ function keyClick (clickedID) {
             history = history + strA + input;
             operatorCount++;
             updateDispA(input);
-            updateDispB(); // this runs before history rebuilt after fast operate
-      } else {
+            updateDispB();
+      } else if (history != "") { // cannot be first action after clear all or restart
         updateDispB();
       }
   } else if (input === ".") {
       if (decimal === false && digits < 16) { // cannot add 2nd decimal point to display A
-        if (strA === "") { // add 0 prefix if 1st input after dispA clear
+        if (strA === "") { // add 0 prefix if '.' is 1st input after dispA clear
           input = "0.";
           digits= digits + 2;
           decimal = true;
