@@ -16,7 +16,9 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 * calculator only accepts well-formed expressions
 * content of main display can be backspace deleted to edit
 * result displayed in main display can become first part of new expression
-* last operator added to expression (in secondary display) can be backspace deleted and replaced
+* while last operator is last item added to expression (in secondary display):
+  * the operator can be replaced by entering a new operator
+  * the operator can be backspace deleted and replaced (further backspace = clear all)
 * warnings:
   * "faulty expression" when user attempts to evaluate an expression ending in an operator
   * "*n* * unclosed ')'" when user attempts to evaluate expression with *n* unclosed parentheses
