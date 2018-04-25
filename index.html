@@ -468,7 +468,7 @@ function keyClick (clickedID) {
             history = history + strA + input;
             updateDispA(input);
             updateDispB();
-      } else if (operatorEdit === true) {
+      } else {
         updateDispB();
       }
   } else if (input === ".") {
@@ -779,6 +779,10 @@ function updateDispB() {
     input === '^') && operatorEdit === true) {
     history = history + input;
     operatorEdit = false;
+  } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
+    input === '^') && operatorEdit === false) {
+    history = history.slice(0, history.length - 1);
+    history = history + input;
   } else if (input === ')' && resultToClear === false) {
     parenth = parenth - 1;
     history = history + input;
