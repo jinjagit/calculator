@@ -351,7 +351,7 @@ function unHover () {
 }
 
 function keyClick (clickedID) {
-  function clickAnim() {
+  function animateClick() {
     let elem = document.getElementById(`${clickedID}`);
 
     switch (counter) { // NEED TO STORE BACKGROUND COLOUR AS VARIABLE!
@@ -364,10 +364,12 @@ function keyClick (clickedID) {
         case 6: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 30%, ` + keyBgColor + ` 100%)`; break;
         case 7: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 20%, ` + keyBgColor + ` 100%)`; break;
         case 8: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 10%, ` + keyBgColor + ` 100%)`; break;
-        case 9: elem.style.background = keyBgColor; counter = 0; clearInterval(myVar);
+        case 9: elem.style.background = keyBgColor; counter = 0; clearInterval(clickAnim);
     }
     counter++;
   }
+
+  clearInterval(clickAnim);
 
   if (mobile === true) {
     prevColor = document.getElementById(`keyPara${clickedID}`).style.getPropertyValue("color");
@@ -464,7 +466,7 @@ function keyClick (clickedID) {
     }
   }
 
-  let myVar = setInterval(function(){ clickAnim() }, 20);
+  clickAnim = setInterval(function(){ animateClick() }, 20);
 }
 
 function round(number, precision) {
@@ -1067,6 +1069,8 @@ let keyClearColor = "hsl(340, 64%, 55%)";
 let keyBackspColor = "hsl(15, 60%, 63%)";
 let keySettingsColor = "hsl(273, 50%, 56%)";
 let keyFcolor = "hsl(297, 36%, 53%)";
+
+let clickAnim = '';
 
 
 let body = document.getElementsByTagName('body')[0];
