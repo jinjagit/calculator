@@ -351,7 +351,7 @@ function unHover () {
 }
 
 function animateFaultyExpr() { // used for "faulty expression" AND "n * unclosed ')'" warnings
-  switch (countFA) {
+  switch (countFexpAn) {
       case 0: displayAtext.style.opacity = "0.3"; break;
       case 1: displayAtext.style.opacity = "0.6"; break;
       case 2: displayAtext.style.opacity = "0.8"; break;
@@ -382,10 +382,10 @@ function animateFaultyExpr() { // used for "faulty expression" AND "n * unclosed
       case 28: displayAtext.style.opacity = "0.6"; break;
       case 29: displayAtext.style.opacity = "0.5"; break;
       case 30: displayAtext.style.opacity = "0.3"; break;
-      case 31: displayAtext.style.opacity = "1.0"; countFA = 0; displayAtext.innerHTML = strA + "&nbsp;";
+      case 31: displayAtext.style.opacity = "1.0"; countFexpAn = 0; displayAtext.innerHTML = strA + "&nbsp;";
                 displayAtext.style.color = bodyColor; clearInterval(faultyAnim);
   }
-  countFA++;
+  countFexpAn++;
 }
 
 function haltAnimations() {
@@ -394,7 +394,7 @@ function haltAnimations() {
   displayAtext.style.opacity = "1.0";
   displayAtext.style.color = bodyColor;
   displayAtext.innerHTML = strA + "&nbsp;";
-  countFA = 0;
+  countFexpAn = 0;
 }
 
 function keyClick (clickedID) {
@@ -515,7 +515,7 @@ function keyClick (clickedID) {
           displayAtext.innerHTML = "faulty expression&nbsp;";
         }
 
-        countFA = 0;
+        countFexpAn = 0;
         faultyAnim = setInterval(function(){ animateFaultyExpr() }, 30);
       }
     }
@@ -770,8 +770,10 @@ function updateDispA(input) {
 
 function updateDispB() {
   let dispBcleared = false;
+  check = history.slice(history.length-1, history.length);
+
   if (input === '<') {
-    check = history.slice(history.length-1, history.length);
+
     if ((check === '+' || check === '-' || check === '/' || check === '*' ||
     check === '^') && operatorEdit === false) {
       history = history.slice(0, history.length - 1);
@@ -783,11 +785,14 @@ function updateDispB() {
     }
   } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
     input === '^') && operatorEdit === true) {
+
     history = history + input;
     operatorCount++;
     operatorEdit = false;
   } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
-    input === '^') && operatorEdit === false  && resultToClear === false) {
+    input === '^') && operatorEdit === false  && resultToClear === false
+    && check != '(') {
+      console.log("A1");
     history = history.slice(0, history.length - 1);
     history = history + input;
   } else if (input === ')' && resultToClear === false) {
@@ -842,6 +847,7 @@ function clear() {
   displayBtext.innerHTML = "waiting for input...&nbsp;&nbsp;";
   infinityToClear = false;
   operatorEdit = false;
+  operatorCount = 0;
   msgToClrDispB = true;
 }
 
@@ -1152,7 +1158,7 @@ let container = document.getElementById('container');
 let dispAstore = "";
 
 let counter = 0;
-let countFA = 0; // counter for animateFaultyExpr()... not sure this is needed / will be used
+let countFexpAn = 0; // counter for animateFaultyExpr()... not sure this is needed / will be used
 let operatorCount = 0;
 
 body.style.color = bodyColor;
