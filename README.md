@@ -18,8 +18,8 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 * result displayed in main display can become first part of new expression
 * last operator added to expression (in secondary display) can be backspace deleted and replaced
 * warnings:
-  * " faulty expression " when user attempts to evaluate an expression ending in an operator
-  * " *n* * unclosed ')' " when user attempts to evaluate expression with *n* unclosed parentheses
+  * "faulty expression" when user attempts to evaluate an expression ending in an operator
+  * "*n* * unclosed ')'" when user attempts to evaluate expression with *n* unclosed parentheses
 * all animations halt on user input, ensuring a responsive experience
 
 **Not yet implemented:**
@@ -28,6 +28,5 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 * second theme
 * some error/warning messages
 * some animations
-* animations to stop on any subsequent input (improve responsiveness and avoid impeding further input)
 * 'F' (full-screen) key; only on mobile, letterbox layout
 * 'quick operation'; result given if '=' input after first operator
