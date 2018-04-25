@@ -350,11 +350,56 @@ function unHover () {
   }
 }
 
+function animateFaultyExpr() {
+  switch (count) {
+      case 0: displayAtext.style.opacity = "1.0"; break;
+      case 1: displayAtext.style.opacity = "1.0"; break;
+      case 2: displayAtext.style.opacity = "1.0"; break;
+      case 3: displayAtext.style.opacity = "1.0"; break;
+      case 4: displayAtext.style.opacity = "1.0"; break;
+      case 5: displayAtext.style.opacity = "1.0"; break;
+      case 6: displayAtext.style.opacity = "0.9"; break;
+      case 7: displayAtext.style.opacity = "0.9"; break;
+      case 8: displayAtext.style.opacity = "0.8"; break;
+      case 9: displayAtext.style.opacity = "0.8"; break;
+      case 10: displayAtext.style.opacity = "0.7"; break;
+      case 11: displayAtext.style.opacity = "0.5"; break;
+      case 12: displayAtext.style.opacity = "0.2"; break;
+      case 13: displayAtext.style.opacity = "0.0"; break;
+      case 14: displayAtext.style.opacity = "0.2"; break;
+      case 15: displayAtext.style.opacity = "0.6"; break;
+      case 16: displayAtext.style.opacity = "1.0"; break;
+      case 17: displayAtext.style.opacity = "1.0"; break;
+      case 18: displayAtext.style.opacity = "1.0"; break;
+      case 19: displayAtext.style.opacity = "1.0"; break;
+      case 20: displayAtext.style.opacity = "1.0"; break;
+      case 21: displayAtext.style.opacity = "1.0"; break;
+      case 22: displayAtext.style.opacity = "0.9"; break;
+      case 23: displayAtext.style.opacity = "0.9"; break;
+      case 24: displayAtext.style.opacity = "0.8"; break;
+      case 25: displayAtext.style.opacity = "0.8"; break;
+      case 26: displayAtext.style.opacity = "0.7"; break;
+      case 27: displayAtext.style.opacity = "0.5"; break;
+      case 28: displayAtext.style.opacity = "0.2"; break;
+      case 29: displayAtext.style.opacity = "0.0"; count = 0; clearInterval(faultyAnim);
+  }
+  count++;
+}
+
+function haltAnimations() {
+  clearInterval(clickAnim);
+  clearInterval(faultyAnim);
+  displayAtext.style.opacity = "1.0";
+  displayAtext.style.color = bodyColor;
+  displayAtext.innerHTML = "";
+  count = 0;
+}
+
 function keyClick (clickedID) {
   function animateClick() {
     let elem = document.getElementById(`${clickedID}`);
 
-    switch (counter) { // NEED TO STORE BACKGROUND COLOUR AS VARIABLE!
+    switch (counter) {
         case 0: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 10%, ` + keyBgColor + ` 90%)`; break;
         case 1: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 20%, ` + keyBgColor + ` 90%)`; break;
         case 2: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 30%, ` + keyBgColor + ` 100%)`; break;
@@ -369,13 +414,13 @@ function keyClick (clickedID) {
     counter++;
   }
 
-  clearInterval(clickAnim);
+  haltAnimations();
 
   if (mobile === true) {
     prevColor = document.getElementById(`keyPara${clickedID}`).style.getPropertyValue("color");
   }
 
-  let counter = 0;
+  counter = 0;
   let template = setKeysTemplate();
 
   input = template[clickedID]; // template[clickedID] is the character represented (in; keyPara) on the clicked calculator keypad key
@@ -457,6 +502,12 @@ function keyClick (clickedID) {
         evaluate();
       } else {
         console.log("Faulty Expression"); // 17 chars (max size for dispA)
+        dispAstore = strA;
+        displayAtext.style.opacity = "1.0";
+        displayAtext.style.color = keyClearColor;
+        displayAtext.innerHTML = "faulty expression&nbsp;";
+        count = 0;
+        faultyAnim = setInterval(function(){ animateFaultyExpr() }, 25);
       }
     }
   } else { // digit (0 - 9)
@@ -1070,7 +1121,8 @@ let keyBackspColor = "hsl(15, 60%, 63%)";
 let keySettingsColor = "hsl(273, 50%, 56%)";
 let keyFcolor = "hsl(297, 36%, 53%)";
 
-let clickAnim = '';
+let clickAnim = null;
+let faultyAnim = null;
 
 
 let body = document.getElementsByTagName('body')[0];
@@ -1081,6 +1133,11 @@ let displayAtext = document.getElementById('displayAtext');
 let displayBtext = document.getElementById('displayBtext');
 let keyboard = document.getElementById('keyboard');
 let container = document.getElementById('container');
+
+let dispAstore = "";
+
+let counter = 0;
+let count = 0; // counter for animateFaultyExpr()
 
 body.style.color = bodyColor;
 body.style.fontFamily = "'Ubuntu Mono', monospace";

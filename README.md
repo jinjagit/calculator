@@ -17,6 +17,7 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 * content of main display can be backspace deleted to edit
 * result displayed in main display can become first part of new expression
 * last operator added to expression (in secondary display) can be backspace deleted and replaced
+* all animations halt on user input, ensuring a responsive experience
 
 **Not yet implemented:**
 
