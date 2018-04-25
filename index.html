@@ -350,7 +350,7 @@ function unHover () {
   }
 }
 
-function animateFaultyExpr() {
+function animateFaultyExpr() { // used for "faulty expression" AND "n * unclosed ')'" warnings
   switch (countFA) {
       case 0: displayAtext.style.opacity = "0.3"; break;
       case 1: displayAtext.style.opacity = "0.6"; break;
@@ -505,7 +505,12 @@ function keyClick (clickedID) {
       } else {
         displayAtext.style.opacity = "0.0";
         displayAtext.style.color = keyClearColor;
-        displayAtext.innerHTML = "faulty expression&nbsp;";
+        if (parenth != 0) {
+          displayAtext.innerHTML = parenth + " * unclosed ')'&nbsp;";
+        } else {
+          displayAtext.innerHTML = "faulty expression&nbsp;";
+        }
+
         countFA = 0;
         faultyAnim = setInterval(function(){ animateFaultyExpr() }, 30);
       }

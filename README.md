@@ -17,6 +17,9 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 * content of main display can be backspace deleted to edit
 * result displayed in main display can become first part of new expression
 * last operator added to expression (in secondary display) can be backspace deleted and replaced
+* warnings:
+  * "faulty expression" when user attempts to evaluate an expression ending in an operator
+  * "n * unclosed ')'" when user attempts to evaluate expression with unclosed parentheses (warning states number of unclosed parentheses)
 * all animations halt on user input, ensuring a responsive experience
 
 **Not yet implemented:**
