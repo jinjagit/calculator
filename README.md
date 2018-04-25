@@ -21,7 +21,7 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
   * the operator can be replaced by entering a new operator
   * the operator can be backspace deleted and replaced (or subsequent backspace = clear all)
 * warnings:
-  * "faulty expression" when user attempts to evaluate an expression ending in an operator
+  * "faulty expression" when user attempts to evaluate to evaluate an incomplete expression
   * "*n* * unclosed ')'" when user attempts to evaluate expression with *n* unclosed parentheses
 * all animations halt on user input, to avoid lag issues
 * warning text animations revert to prior display content, when appropriate
