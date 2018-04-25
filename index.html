@@ -419,6 +419,8 @@ function keyClick (clickedID) {
 
   haltAnimations();
 
+  console.log("msgToClear: " + msgToClrDispB);
+
   if (mobile === true) {
     prevColor = document.getElementById(`keyPara${clickedID}`).style.getPropertyValue("color");
   }
@@ -472,6 +474,8 @@ function keyClick (clickedID) {
             updateDispB();
       } else if (history != "") { // cannot be first action after clear all or restart
         updateDispB();
+      } else {
+        console.log("Error: operator input"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       }
   } else if (input === ".") {
       if (decimal === false && digits < 16) { // cannot add 2nd decimal point to display A
@@ -486,7 +490,7 @@ function keyClick (clickedID) {
           updateDispA(input);
         }
       } else {
-        console.log("ERROR: Decimal point input"); // TO TRIGGER ivalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        console.log("ERROR: Decimal point input"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       }
   } else if (input === "(") {
       updateDispA(input);
@@ -496,7 +500,7 @@ function keyClick (clickedID) {
       } else if (parenth > 0 && operatorEdit == true) {
         updateDispB();
       } else {
-        console.log("ERROR: Close parenth error"); // TO TRIGGER ivalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        console.log("ERROR: Close parenth error"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       }
   } else if (input === "±") {
     updateDispA(input);
@@ -531,6 +535,7 @@ function keyClick (clickedID) {
     }
   }
 
+  //msgToClrDispB = false;
   clickAnim = setInterval(function(){ animateClick() }, 20);
 }
 
@@ -718,12 +723,16 @@ function updateDispA(input) {
           strA = strA.slice(1, strA.length);
           positive = true;
         }
+      } else {
+        console.log("ERROR: +/- input"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       }
     } else if (input === "(") {
         if (strA === "") {
           parenth = parenth + 1;
           history = history + "(";
           updateDispB();
+        } else {
+          console.log("ERROR: open parenth input"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         }
     } else if (input === ")") {
       if (strA === "") {
@@ -733,10 +742,14 @@ function updateDispA(input) {
           history = history + ")";
           parenth = parenth - 1;
           updateDispB();
+        } else {
+          console.log("ERROR: close parenth XXX"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         }
       } else if (digits < 16 && resultToClear === false) {
           parenth = parenth - 1;
           strA = strA + ")";
+      } else {
+        console.log("ERROR: close parenth input YYY"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       }
     } else if (input === "<") {
         if (strA != "") {
@@ -763,14 +776,16 @@ function updateDispA(input) {
       if (check != ')') {
         strA = strA + input;
       } else {
-        console.log("ERROR: digit input");
+        console.log("ERROR: digit input"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       }
     }
   }
 
   if (msgToClrDispB === true && strA != '') {
-    history = '';
-    displayBtext.innerHTML = "";
+    if (history.slice(0,1) != '(') {
+      history = '';
+      displayBtext.innerHTML = "";
+    }
     msgToClrDispB = false;
   }
 
@@ -801,6 +816,9 @@ function updateDispB() {
     && check != '(') {
     history = history.slice(0, history.length - 1);
     history = history + input;
+  } else if (input === '+' || input === '-' || input === '/' || input === '*' ||
+    input === '^') {
+    console.log("ERROR: operator input"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   } else if (input === ')' && resultToClear === false) {
     parenth = parenth - 1;
     history = history + input;
