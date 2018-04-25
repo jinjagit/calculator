@@ -32,4 +32,3 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 * some error/warning messages
 * some animations
 * 'F' (full-screen) key; only on mobile, letterbox layout
-* 'quick operation'; result given if '=' input after first operator
