@@ -466,8 +466,9 @@ function keyClick (clickedID) {
     || input === "/" || input === "^") {
       if (strA != "" && resultToClear === false) { // cannot be first action after clear all
             history = history + strA + input;
+            operatorCount++;
             updateDispA(input);
-            updateDispB();
+            updateDispB(); // this runs before history rebuilt after fast operate
       } else {
         updateDispB();
       }
@@ -499,6 +500,9 @@ function keyClick (clickedID) {
       if (parenth === 0 && operatorEdit === false && strA != "") {
         evaluate();
       } else if (strA === "" && history != "" && parenth === 0 && operatorEdit === true) {
+        evaluate();
+      } else if (strA === "" && history != "" && parenth === 0 && operatorCount === 1) {
+        history = history + history.slice(0, history.length - 1);
         evaluate();
       } else if (parenth === 0 && strA === "" && history.slice(-1) === ')') {
         evaluate();
@@ -654,14 +658,13 @@ function evaluate() {
   toEval = evalPowers(toEval);
   let result = 0;
   let resultStr = "";
+
   if (toEval[1] === 'no power') {
     result = eval(toEval[0]);
     resultStr = result.toString();
   } else {
     resultStr = 'power error!'; // This will trigger error animation (TO DO)
   }
-
-
 
   if (resultStr.slice(0, 1) === 'I' || resultStr.slice(0, 2) === '-I' || resultStr.slice(0, 1) === 'N' || resultStr.slice(0, 1) === 'p') {
     infinityToClear = true;
@@ -694,8 +697,10 @@ function evaluate() {
   } else {
     decimal = false;
   }
+
   operatorEdit = false;
   resultToClear = true;
+  operatorCount = 0;
 }
 
 function updateDispA(input) {
@@ -771,6 +776,7 @@ function updateDispB() {
     check === '^') && operatorEdit === false) {
       history = history.slice(0, history.length - 1);
       operatorEdit = true;
+      operatorCount--;
     } else if (strA === "") {
       clear();
       dispBcleared = true;
@@ -778,9 +784,10 @@ function updateDispB() {
   } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
     input === '^') && operatorEdit === true) {
     history = history + input;
+    operatorCount++;
     operatorEdit = false;
   } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
-    input === '^') && operatorEdit === false) {
+    input === '^') && operatorEdit === false  && resultToClear === false) {
     history = history.slice(0, history.length - 1);
     history = history + input;
   } else if (input === ')' && resultToClear === false) {
@@ -820,7 +827,6 @@ function updateDispB() {
   } else {
     dispBcleared = false;
   }
-
 }
 
 function clear() {
@@ -1147,6 +1153,7 @@ let dispAstore = "";
 
 let counter = 0;
 let countFA = 0; // counter for animateFaultyExpr()... not sure this is needed / will be used
+let operatorCount = 0;
 
 body.style.color = bodyColor;
 body.style.fontFamily = "'Ubuntu Mono', monospace";

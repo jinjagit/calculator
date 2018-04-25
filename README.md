@@ -16,6 +16,7 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 * calculator only accepts well-formed expressions
 * content of main display can be backspace deleted to edit
 * result displayed in main display becomes first part of new expression if operator next input
+* 'fast operate': When only one value and one operator have been added to expression, '=' will evaluate the value reflexively. e.g. the inputs '3 * =' are equivalent to '3 * 3 ='
 * while last operator is last item added to expression (in secondary display):
   * the operator can be replaced by entering a new operator
   * the operator can be backspace deleted and replaced (or subsequent backspace = clear all)
