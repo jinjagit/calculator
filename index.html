@@ -484,6 +484,8 @@ function keyClick (clickedID) {
           decimal = true;
           updateDispA(input);
         }
+      } else {
+        console.log("Decimal point error");
       }
   } else if (input === "(") {
       updateDispA(input);
@@ -492,6 +494,8 @@ function keyClick (clickedID) {
         updateDispA(input);
       } else if (parenth > 0 && operatorEdit == true) {
         updateDispB();
+      } else {
+        console.log("bad parenth error");
       }
   } else if (input === "±") {
     updateDispA(input);
@@ -754,7 +758,12 @@ function updateDispA(input) {
         decimal = false;
         positive = true;
     } else {
-      strA = strA + input;
+      let check = strA.slice(strA.length-1, strA.length);
+      if (check != ')') {
+        strA = strA + input;
+      } else {
+        console.log("ERROR: digit input");
+      }
     }
   }
 
