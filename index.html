@@ -145,6 +145,7 @@ function drawPage() {
     container.style.margin = `auto`;
   }
 
+  input = "";
   updateDispB();
   createKeys();
   stylePage();
@@ -485,7 +486,7 @@ function keyClick (clickedID) {
           updateDispA(input);
         }
       } else {
-        console.log("Decimal point error");
+        console.log("ERROR: Decimal point input"); // TO TRIGGER ivalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       }
   } else if (input === "(") {
       updateDispA(input);
@@ -495,7 +496,7 @@ function keyClick (clickedID) {
       } else if (parenth > 0 && operatorEdit == true) {
         updateDispB();
       } else {
-        console.log("bad parenth error");
+        console.log("ERROR: Close parenth error"); // TO TRIGGER ivalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       }
   } else if (input === "±") {
     updateDispA(input);
