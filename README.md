@@ -24,6 +24,7 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
   * "faulty expression" when user attempts to evaluate an expression ending in an operator
   * "*n* * unclosed ')'" when user attempts to evaluate expression with *n* unclosed parentheses
 * all animations halt on user input, to avoid lag issues
+* warning text animations revert to prior display content, when appropriate
 
 **Not yet implemented:**
 

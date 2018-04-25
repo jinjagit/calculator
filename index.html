@@ -613,7 +613,6 @@ function parseResult(string) {
     } else {
       exp = parseInt(expStr.slice(expStr.indexOf('+') + 1, expStr.length));
     }
-
     return [numStr, exp];
   }
 
@@ -773,7 +772,6 @@ function updateDispB() {
   check = history.slice(history.length-1, history.length);
 
   if (input === '<') {
-
     if ((check === '+' || check === '-' || check === '/' || check === '*' ||
     check === '^') && operatorEdit === false) {
       history = history.slice(0, history.length - 1);
@@ -785,14 +783,12 @@ function updateDispB() {
     }
   } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
     input === '^') && operatorEdit === true) {
-
     history = history + input;
     operatorCount++;
     operatorEdit = false;
   } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
     input === '^') && operatorEdit === false  && resultToClear === false
     && check != '(') {
-      console.log("A1");
     history = history.slice(0, history.length - 1);
     history = history + input;
   } else if (input === ')' && resultToClear === false) {
