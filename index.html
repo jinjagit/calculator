@@ -351,8 +351,8 @@ function unHover () {
   }
 }
 
-function animateFaultyExpr() { // used for "faulty expression" AND "n * unclosed ')'" warnings
-  switch (countFexpAn) {
+function animateWarningDispA() { // used for "faulty expression", "n * unclosed ')'" AND "invalid input" warnings
+  switch (countWarningAnim) {
       case 0: displayAtext.style.opacity = "0.3"; break;
       case 1: displayAtext.style.opacity = "0.6"; break;
       case 2: displayAtext.style.opacity = "0.8"; break;
@@ -383,10 +383,10 @@ function animateFaultyExpr() { // used for "faulty expression" AND "n * unclosed
       case 28: displayAtext.style.opacity = "0.6"; break;
       case 29: displayAtext.style.opacity = "0.5"; break;
       case 30: displayAtext.style.opacity = "0.3"; break;
-      case 31: displayAtext.style.opacity = "1.0"; countFexpAn = 0; displayAtext.innerHTML = strA + "&nbsp;";
-                displayAtext.style.color = bodyColor; clearInterval(faultyAnim);
+      case 31: displayAtext.style.opacity = "1.0"; countWarningAnim = 0; displayAtext.innerHTML = strA + "&nbsp;";
+                displayAtext.style.color = bodyColor; clearInterval(warningAnim); invalidAnim = false;
   }
-  countFexpAn++;
+  countWarningAnim++;
 }
 
 function haltAnimations() {
@@ -394,11 +394,25 @@ function haltAnimations() {
   if (lastElemClicked != null) {
     document.getElementById(lastElemClicked).style.background = keyBgColor; //counter = 0;
   }
-  clearInterval(faultyAnim);
+  clearInterval(warningAnim);
+  if (invalidAnim === true) {
+    strA = dispAstore;
+    invalidAnim = false;
+  }
   displayAtext.style.opacity = "1.0";
   displayAtext.style.color = bodyColor;
   displayAtext.innerHTML = strA + "&nbsp;";
-  countFexpAn = 0;
+  countWarningAnim = 0;
+}
+
+function invalidInputWarning() {
+  invalidAnim = true;
+  displayAtext.style.opacity = "0.0";
+  displayAtext.style.color = keyClearColor;
+  displayAtext.innerHTML = "invalid input&nbsp;";
+  console.log(displayAtext.innerHTML);
+  countWarningAnim = 0;
+  warningAnim = setInterval(function(){ animateWarningDispA() }, 30);
 }
 
 function keyClick (clickedID) {
@@ -421,9 +435,6 @@ function keyClick (clickedID) {
     counter++;
   }
 
-  //let a = setKeysTemplate();
-  //let b = a[lastElemClicked];
-  //console.log(b);
   haltAnimations();
 
   if (mobile === true) {
@@ -480,7 +491,7 @@ function keyClick (clickedID) {
       } else if (history != "") { // cannot be first action after clear all or restart
         updateDispB();
       } else {
-        console.log("Error: operator input B"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        invalidInputWarning();
       }
   } else if (input === ".") {
       if (decimal === false && digits < 16) { // cannot add 2nd decimal point to display A
@@ -495,7 +506,7 @@ function keyClick (clickedID) {
           updateDispA(input);
         }
       } else {
-        console.log("ERROR: Decimal point input"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        invalidInputWarning();
       }
   } else if (input === "(") {
       updateDispA(input);
@@ -505,7 +516,7 @@ function keyClick (clickedID) {
       } else if (parenth > 0 && operatorEdit == true) {
         updateDispB();
       } else {
-        console.log("ERROR: Close parenth error"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        invalidInputWarning();
       }
   } else if (input === "±") {
     updateDispA(input);
@@ -530,8 +541,8 @@ function keyClick (clickedID) {
           displayAtext.innerHTML = "faulty expression&nbsp;";
         }
 
-        countFexpAn = 0;
-        faultyAnim = setInterval(function(){ animateFaultyExpr() }, 30);
+        countWarningAnim = 0;
+        warningAnim = setInterval(function(){ animateWarningDispA() }, 30);
       }
     }
   } else { // digit (0 - 9)
@@ -541,6 +552,7 @@ function keyClick (clickedID) {
     }
   }
 
+  dispAstore = strA;
   clickAnim = setInterval(function(){ animateClick() }, 20);
 }
 
@@ -729,7 +741,7 @@ function updateDispA(input) {
           positive = true;
         }
       } else {
-        console.log("ERROR: +/- input"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        invalidInputWarning();
       }
     } else if (input === "(") {
         if (strA === "") {
@@ -737,7 +749,8 @@ function updateDispA(input) {
           history = history + "(";
           updateDispB();
         } else {
-          console.log("ERROR: open parenth input"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+          console.log("A1"); //////////////////////////////////////////////////////
+          invalidInputWarning();
         }
     } else if (input === ")") {
       if (strA === "") {
@@ -748,13 +761,13 @@ function updateDispA(input) {
           parenth = parenth - 1;
           updateDispB();
         } else {
-          console.log("ERROR: close parenth XXX"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+          invalidInputWarning();
         }
       } else if (digits < 16 && resultToClear === false) {
           parenth = parenth - 1;
           strA = strA + ")";
       } else {
-        console.log("ERROR: close parenth input YYY"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        invalidInputWarning();
       }
     } else if (input === "<") {
         if (strA != "") {
@@ -781,7 +794,7 @@ function updateDispA(input) {
       if (check != ')') {
         strA = strA + input;
       } else {
-        console.log("ERROR: digit input"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        invalidInputWarning();
       }
     }
   }
@@ -794,7 +807,10 @@ function updateDispA(input) {
     msgToClrDispB = false;
   }
 
-  displayAtext.innerHTML = strA + "&nbsp;";
+  if (invalidAnim == false) {
+    displayAtext.innerHTML = strA + "&nbsp;";
+  }
+
 }
 
 function updateDispB() {
@@ -823,7 +839,7 @@ function updateDispB() {
     history = history + input;
   } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
     input === '^') && strA === '') {
-    console.log("ERROR: operator input A"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    invalidInputWarning();
   } else if (input === ')' && resultToClear === false) {
     parenth = parenth - 1;
     history = history + input;
@@ -1172,7 +1188,8 @@ let keySettingsColor = "hsl(273, 50%, 56%)";
 let keyFcolor = "hsl(297, 36%, 53%)";
 
 let clickAnim = null;
-let faultyAnim = null;
+let warningAnim = null;
+let invalidAnim = false; // set to true when animation starts, false at end / interruption
 
 
 let body = document.getElementsByTagName('body')[0];
@@ -1187,7 +1204,7 @@ let container = document.getElementById('container');
 let dispAstore = "";
 
 let counter = 0;
-let countFexpAn = 0; // counter for animateFaultyExpr()... not sure this is needed / will be used
+let countWarningAnim = 0; // counter for animateWarningDispA()... not sure this is needed / will be used
 let operatorCount = 0;
 
 let lastElemClicked = null;
