@@ -419,8 +419,6 @@ function keyClick (clickedID) {
 
   haltAnimations();
 
-  console.log("msgToClear: " + msgToClrDispB);
-
   if (mobile === true) {
     prevColor = document.getElementById(`keyPara${clickedID}`).style.getPropertyValue("color");
   }
@@ -475,7 +473,7 @@ function keyClick (clickedID) {
       } else if (history != "") { // cannot be first action after clear all or restart
         updateDispB();
       } else {
-        console.log("Error: operator input"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        console.log("Error: operator input B"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
       }
   } else if (input === ".") {
       if (decimal === false && digits < 16) { // cannot add 2nd decimal point to display A
@@ -518,6 +516,7 @@ function keyClick (clickedID) {
       } else {
         displayAtext.style.opacity = "0.0";
         displayAtext.style.color = keyClearColor;
+
         if (parenth != 0) {
           displayAtext.innerHTML = parenth + " * unclosed ')'&nbsp;";
         } else {
@@ -816,9 +815,9 @@ function updateDispB() {
     && check != '(') {
     history = history.slice(0, history.length - 1);
     history = history + input;
-  } else if (input === '+' || input === '-' || input === '/' || input === '*' ||
-    input === '^') {
-    console.log("ERROR: operator input"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  } else if ((input === '+' || input === '-' || input === '/' || input === '*' ||
+    input === '^') && strA === '') {
+    console.log("ERROR: operator input A"); // TO TRIGGER invalidInput() @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   } else if (input === ')' && resultToClear === false) {
     parenth = parenth - 1;
     history = history + input;
@@ -1161,7 +1160,7 @@ let keyDigitColor = "hsl(208, 52%, 72%)"; // default key text color (digits and 
 let keyOperatorColor = "hsl(208, 96%, 56%)";
 let keyAuxColor = "hsl(208, 41%, 42%)"; // text color for '±', '^', '(' and ')' keys
 let keyEqualsColor = "hsl(124, 39%, 62%)";
-let keyClearColor = "hsl(340, 64%, 55%)";
+let keyClearColor = "hsl(340, 64%, 55%)"; // text color for 'C' key AND red warning text
 let keyBackspColor = "hsl(15, 60%, 63%)";
 let keySettingsColor = "hsl(273, 50%, 56%)";
 let keyFcolor = "hsl(297, 36%, 53%)";
