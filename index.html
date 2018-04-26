@@ -681,8 +681,10 @@ function parseResult(string) {
 
 function evaluate() {
   history = history + strA;
-  let toEval = history.replace(/--/g,'+'); // JS eval() doesn't like '--'
+  let toEval = history; /////////////////////////////////////////////////////////////////////////////
+  // was: (delete: let toEval = history;) let toEval = history.replace(/--/g,'+'); toEval = evalPowers(toEval)
   toEval = evalPowers(toEval);
+  toEval[0] = toEval[0].replace(/--/g,'+'); // JS eval() doesn't like '--' ///////////////////////////////
   let result = 0;
   let resultStr = "";
 
@@ -989,6 +991,7 @@ function evalPowers(inStr) {
        let i = 2;
        baseStr = ')';
        let char = strArray[index - i];
+
        while (parenthCount != 0) {
          if (char === '(') {
            parenthCount--;
@@ -999,15 +1002,16 @@ function evalPowers(inStr) {
          i++;
          char = strArray[index - i];
        }
+
      } else { // base is NOT parenthesized
        let breakOut = false;
        let i = 1;
        let char = strArray[index - i];
        let prevChar = strArray[index - i - 1]; // prevChar enables check for 'e' notation and negative base
-       while ( breakOut === false && ((char != '-' && char != '+' && char != '/' && char != '*' && char != '^' && char != '(' && typeof char != 'undefined')
-              || (prevChar === 'e' || prevChar === '+' || prevChar === '/' || prevChar === '*' || prevChar === '^') ||
+       while ( breakOut === false && ((char != '+' && char != '/' && char != '*' && char != '^' && char != '(' && typeof char != 'undefined')
+              || (prevChar === 'e' || prevChar === '+' || prevChar === '-' || prevChar === '/' || prevChar === '*' || prevChar === '^') ||
               (typeof char != 'undefined' && typeof prevChar === 'undefined'))) {
-           if (char === '(') {
+           if (char === '(' || (char === '-' && baseStr.slice(0, 1) === '-')) {
              breakOut = true;
            } else { // add char to front of base
              baseStr = char + baseStr;
@@ -1017,6 +1021,8 @@ function evalPowers(inStr) {
            }
        }
      }
+     console.log("baseStr: " + baseStr);
+     //baseStr = baseStr.replace(/--/g,'+');
      return baseStr;
   }
 
@@ -1073,6 +1079,7 @@ function evalPowers(inStr) {
          i++;
        }
     }
+    console.log("expStr: " + expStr);
     return expStr;
   }
 
@@ -1103,6 +1110,7 @@ function evalPowers(inStr) {
 
   location = findPowerlessBase();
   let result = evalOnePower();
+  console.log(result);
 
   while (result[1] != 'no power' && result[1] != 'Power error!') {
     strArray = [...inStr];
@@ -1113,6 +1121,7 @@ function evalPowers(inStr) {
     evalStr = "";
     location = findPowerlessBase();
     result = evalOnePower();
+    console.log(result);
   }
 
   return result;
