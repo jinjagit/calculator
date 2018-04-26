@@ -391,6 +391,9 @@ function animateFaultyExpr() { // used for "faulty expression" AND "n * unclosed
 
 function haltAnimations() {
   clearInterval(clickAnim);
+  if (lastElemClicked != null) {
+    document.getElementById(lastElemClicked).style.background = keyBgColor; //counter = 0;
+  }
   clearInterval(faultyAnim);
   displayAtext.style.opacity = "1.0";
   displayAtext.style.color = bodyColor;
@@ -401,6 +404,7 @@ function haltAnimations() {
 function keyClick (clickedID) {
   function animateClick() {
     let elem = document.getElementById(`${clickedID}`);
+    lastElemClicked = clickedID;
 
     switch (counter) {
         case 0: elem.style.background = `radial-gradient(${prevColor} 0%, ` + keyBgColor + ` 10%, ` + keyBgColor + ` 90%)`; break;
@@ -417,6 +421,9 @@ function keyClick (clickedID) {
     counter++;
   }
 
+  //let a = setKeysTemplate();
+  //let b = a[lastElemClicked];
+  //console.log(b);
   haltAnimations();
 
   if (mobile === true) {
@@ -534,8 +541,7 @@ function keyClick (clickedID) {
     }
   }
 
-  //msgToClrDispB = false;
-  clickAnim = setInterval(function(){ animateClick() }, 20);
+  clickAnim = setInterval(function(){ animateClick() }, 200);
 }
 
 function round(number, precision) {
@@ -1183,6 +1189,8 @@ let dispAstore = "";
 let counter = 0;
 let countFexpAn = 0; // counter for animateFaultyExpr()... not sure this is needed / will be used
 let operatorCount = 0;
+
+let lastElemClicked = null;
 
 body.style.color = bodyColor;
 body.style.fontFamily = "'Ubuntu Mono', monospace";
