@@ -410,7 +410,6 @@ function invalidInputWarning() {
   displayAtext.style.opacity = "0.0";
   displayAtext.style.color = keyClearColor;
   displayAtext.innerHTML = "invalid input&nbsp;";
-  console.log(displayAtext.innerHTML);
   countWarningAnim = 0;
   warningAnim = setInterval(function(){ animateWarningDispA() }, 30);
 }
@@ -488,6 +487,8 @@ function keyClick (clickedID) {
             operatorCount++;
             updateDispA(input);
             updateDispB();
+      } else if (strA != "" && resultToClear === true) {
+        invalidInputWarning();
       } else if (history != "") { // cannot be first action after clear all or restart
         updateDispB();
       } else {
@@ -749,7 +750,6 @@ function updateDispA(input) {
           history = history + "(";
           updateDispB();
         } else {
-          console.log("A1"); //////////////////////////////////////////////////////
           invalidInputWarning();
         }
     } else if (input === ")") {
