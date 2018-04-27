@@ -1159,9 +1159,9 @@ function playStartupAnimation() {
   if (layout === "portrait") {
     scrollMax = maxCharsPortrait + 1;
   } else if (layout === "landscape") {
-    scrollMax = maxCharsLandscape + 1;
+    scrollMax = maxCharsLandscape - 1;
   } else {
-    scrollMax = maxCharsLandsLong + 1;
+    scrollMax = maxCharsLandsLong - 1;
   }
   startup = true;
   //let message = "this is the test long startup message that is too long for Portrait mode"
