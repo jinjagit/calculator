@@ -14,7 +14,7 @@
       <span id="displayBtext">39_characters__________________________</span>
     </div>
     <div id="displayA">
-      <span id="displayAtext">waiting for input&nbsp;</span>
+      <span id="displayAtext"></span>
     </div>
     <div id="keyboard">
     </div>
@@ -403,6 +403,10 @@ function haltAnimations() {
   displayAtext.style.color = bodyColor;
   displayAtext.innerHTML = strA + "&nbsp;";
   countWarningAnim = 0;
+  if (startup === true) {
+    startup = false;
+    clear();
+  }
 }
 
 function invalidInputWarning() {
@@ -681,10 +685,9 @@ function parseResult(string) {
 
 function evaluate() {
   history = history + strA;
-  let toEval = history; /////////////////////////////////////////////////////////////////////////////
-  // was: (delete: let toEval = history;) let toEval = history.replace(/--/g,'+'); toEval = evalPowers(toEval)
+  let toEval = history;
   toEval = evalPowers(toEval);
-  toEval[0] = toEval[0].replace(/--/g,'+'); // JS eval() doesn't like '--' ///////////////////////////////
+  toEval[0] = toEval[0].replace(/--/g,'+'); // JS eval() doesn't like '--'
   let result = 0;
   let resultStr = "";
 
@@ -882,6 +885,7 @@ function updateDispB() {
 }
 
 function clear() {
+  console.log("clear");
   strA = "";
   strB = "";
   history = "";
@@ -1021,8 +1025,6 @@ function evalPowers(inStr) {
            }
        }
      }
-     console.log("baseStr: " + baseStr);
-     //baseStr = baseStr.replace(/--/g,'+');
      return baseStr;
   }
 
@@ -1079,7 +1081,6 @@ function evalPowers(inStr) {
          i++;
        }
     }
-    console.log("expStr: " + expStr);
     return expStr;
   }
 
@@ -1110,7 +1111,6 @@ function evalPowers(inStr) {
 
   location = findPowerlessBase();
   let result = evalOnePower();
-  console.log(result);
 
   while (result[1] != 'no power' && result[1] != 'Power error!') {
     strArray = [...inStr];
@@ -1121,10 +1121,49 @@ function evalPowers(inStr) {
     evalStr = "";
     location = findPowerlessBase();
     result = evalOnePower();
-    console.log(result);
   }
 
   return result;
+}
+
+function scrollTextDispB() { // adapted from: https://stanko.github.io/javascript-animation-loop/
+  let msgLen = message.length;
+  const now = getTime();
+  const delta = (now - lastUpdate) / FRAME_DURATION;
+  position += 0.085 * delta;
+
+  let start = 0;
+  if ((position < (msgLen + maxCharsPortrait + 1)) && startup === true) {
+    if (position > maxCharsPortrait) {
+      start = position - maxCharsPortrait;
+    }
+    let spaces = maxCharsPortrait - (position - msgLen);
+    if (spaces > 0) {
+      for (let i = 0; i < spaces; i++) {
+        scrollStr = scrollStr + " ";
+      }
+    }
+    displayBtext.innerHTML = scrollStr.slice(start, position);
+  }
+
+  lastUpdate = now;
+  if ((position < (msgLen + maxCharsPortrait + 1)) && startup === true) {
+    requestAnimationFrame(scrollTextDispB, 100);
+  } else if (startup === true) {
+    startup = false;
+    clear();
+  }
+
+}
+
+function playStartupAnimation() {
+  startup = true;
+  console.log("startup");
+  //let message = "this is the test long startup message that is too long for Portrait mode"
+  message = "Calculator, by Simon Tharby (2018)";
+  displayBtext.style.whiteSpace = "pre";
+  scrollStr = message;
+  scrollAnim = setInterval(function(){ scrollTextDispB(message) }, 100);
 }
 
 // ---------- initial declarations and commands -------------
@@ -1217,6 +1256,14 @@ let countWarningAnim = 0; // counter for animateWarningDispA()... not sure this 
 let operatorCount = 0;
 
 let lastElemClicked = null;
+let startup = false;
+
+const FRAME_DURATION = 1000 / 60;
+const getTime = typeof performance === 'function' ? performance.now : Date.now;
+let position = 0;
+let lastUpdate = getTime();
+let message = "";
+let scrollStr = "";
 
 body.style.color = bodyColor;
 body.style.fontFamily = "'Ubuntu Mono', monospace";
@@ -1230,7 +1277,8 @@ keyboard.style.display = "grid";
 keyboard.style.margin = "auto";
 
 drawPage(); // Also called whenever window (body) is resized
-clear();
+playStartupAnimation();
+//clear();
 
 </script>
 
