@@ -1127,12 +1127,6 @@ function evalPowers(inStr) {
 
 function scrollTextDispB() { // adapted from: https://stanko.github.io/javascript-animation-loop/
   let msgLen = message.length;
-  let scrollMax = maxCharsPortrait + 1;
-  if (layout === "landscape") {
-    scrollmax = maxCharsLandscape + 1;
-  } else if (layout === "landscapeLong") {
-    scrollmax = maxCharsLandsLong + 1;
-  }
   const now = getTime();
   const delta = (now - lastUpdate) / FRAME_DURATION;
   position += 0.1 * delta;
@@ -1162,6 +1156,13 @@ function scrollTextDispB() { // adapted from: https://stanko.github.io/javascrip
 }
 
 function playStartupAnimation() {
+  if (layout === "portrait") {
+    scrollMax = maxCharsPortrait + 1;
+  } else if (layout === "landscape") {
+    scrollMax = maxCharsLandscape + 1;
+  } else {
+    scrollMax = maxCharsLandsLong + 1;
+  }
   startup = true;
   //let message = "this is the test long startup message that is too long for Portrait mode"
   message = "Calculator, by Simon Tharby (2018)";
@@ -1268,6 +1269,7 @@ let position = 0;
 let lastUpdate = getTime();
 let message = "";
 let scrollStr = "";
+let scrollMax = 0;
 
 body.style.color = bodyColor;
 body.style.fontFamily = "'Ubuntu Mono', monospace";
