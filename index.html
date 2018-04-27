@@ -1128,6 +1128,11 @@ function evalPowers(inStr) {
 function scrollTextDispB() { // adapted from: https://stanko.github.io/javascript-animation-loop/
   let msgLen = message.length;
   let scrollMax = maxCharsPortrait + 1;
+  if (layout === "landscape") {
+    scrollmax = maxCharsLandscape + 1;
+  } else if (layout === "landscapeLong") {
+    scrollmax = maxCharsLandsLong + 1;
+  }
   const now = getTime();
   const delta = (now - lastUpdate) / FRAME_DURATION;
   position += 0.1 * delta;
