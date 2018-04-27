@@ -1128,37 +1128,37 @@ function evalPowers(inStr) {
 
 function scrollTextDispB() { // adapted from: https://stanko.github.io/javascript-animation-loop/
   let msgLen = message.length;
+  let scrollMax = maxCharsPortrait + 1;
   const now = getTime();
   const delta = (now - lastUpdate) / FRAME_DURATION;
-  position += 0.085 * delta;
-
+  position += 0.1 * delta;
   let start = 0;
-  if ((position < (msgLen + maxCharsPortrait + 1)) && startup === true) {
-    if (position > maxCharsPortrait) {
-      start = position - maxCharsPortrait;
+
+  if (position < (msgLen + scrollMax) && startup === true) {
+    if (position > scrollMax) {
+      start = position - scrollMax;
     }
-    let spaces = maxCharsPortrait - (position - msgLen);
+    let spaces = scrollMax - position - msgLen;
     if (spaces > 0) {
       for (let i = 0; i < spaces; i++) {
         scrollStr = scrollStr + " ";
       }
     }
-    displayBtext.innerHTML = scrollStr.slice(start, position);
+    displayBtext.innerHTML = scrollStr.slice(start, position) + "  ";
   }
 
   lastUpdate = now;
-  if ((position < (msgLen + maxCharsPortrait + 1)) && startup === true) {
+
+  if ((position < (msgLen + scrollMax)) && startup === true) {
     requestAnimationFrame(scrollTextDispB, 100);
   } else if (startup === true) {
     startup = false;
     clear();
   }
-
 }
 
 function playStartupAnimation() {
   startup = true;
-  console.log("startup");
   //let message = "this is the test long startup message that is too long for Portrait mode"
   message = "Calculator, by Simon Tharby (2018)";
   displayBtext.style.whiteSpace = "pre";
@@ -1278,7 +1278,7 @@ keyboard.style.margin = "auto";
 
 drawPage(); // Also called whenever window (body) is resized
 playStartupAnimation();
-//clear();
+clear();
 
 </script>
 
