@@ -392,7 +392,6 @@ function animateWarningDispA() { // used for "faulty expression", "n * unclosed 
 function haltAnimations() { /// REFACTOR???
   clearInterval(clickAnim);
   clearInterval(scrollAnim);
-  clearInterval(powAnim);
   if (lastElemClicked != null) {
     document.getElementById(lastElemClicked).style.background = keyBgColor; //counter = 0;
   }
@@ -1212,7 +1211,7 @@ function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javasc
     requestAnimationFrame(scrollPowWarnDispB, 100);
   } else if (powWarning === true) {
     powWarning = false;
-    clearInterval(powAnim);
+    clearInterval(scrollAnim);
     //clear();
   }
 }
@@ -1233,7 +1232,7 @@ function playPowWarnAnimation() {
   lastUpdate = getTime();
 
   console.log("powStr: " + powStr);
-  powAnim = setInterval(function(){ scrollPowWarnDispB(message) }, 100);
+  scrollAnim = setInterval(function(){ scrollPowWarnDispB(message) }, 100);
 }
 
 // ---------- initial declarations and commands -------------
@@ -1338,7 +1337,6 @@ let message = "";
 let scrollStr = "";
 let scrollMax = 0;
 let scrollAnim = null;
-let powAnim = null;
 
 body.style.color = bodyColor;
 body.style.fontFamily = "'Ubuntu Mono', monospace";
