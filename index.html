@@ -391,6 +391,8 @@ function animateWarningDispA() { // used for "faulty expression", "n * unclosed 
 
 function haltAnimations() { /// REFACTOR???
   clearInterval(clickAnim);
+  clearInterval(scrollAnim);
+  clearInterval(powAnim);
   if (lastElemClicked != null) {
     document.getElementById(lastElemClicked).style.background = keyBgColor; //counter = 0;
   }
@@ -405,17 +407,11 @@ function haltAnimations() { /// REFACTOR???
   countWarningAnim = 0;
   if (startup === true) {
     startup = false;
-    //displayBtext.innerHTML = "";
     displayBtext.style.opacity = "1.0";
-    clearInterval(scrollAnim);
     clear();
   }
   if (powWarning === true) {
     powWarning = false;
-    //displayBtext.innerHTML = "";
-    //displayBtext.style.opacity = "1.0";
-    clearInterval(scrollAnim);
-    scrollPosition = 0;
     clear();
   }
 }
@@ -1145,8 +1141,6 @@ function scrollTextDispB() { // adapted from: https://stanko.github.io/javascrip
   scrollPosition += 0.1 * delta;
   let start = 0;
 
-  console.log("running");
-
   if (scrollPosition < (msgLen + scrollMax) && startup === true) {
     if (scrollPosition > scrollMax) {
       start = scrollPosition - scrollMax;
@@ -1216,7 +1210,7 @@ function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javasc
     requestAnimationFrame(scrollPowWarnDispB, 100);
   } else if (powWarning === true) {
     powWarning = false;
-    clearInterval(scrollAnim);
+    clearInterval(powAnim);
     //clear();
   }
 }
@@ -1234,10 +1228,10 @@ function playPowWarnAnimation() {
   message = "Power error found: ";
   displayBtext.style.whiteSpace = "pre";
   scrollStr = message;
-  //displayBtext.innerHTML = "";
-  //displayBtext.style.opacity = "1.0"; // Reset visibility for startup message (and after)
+  lastUpdate = getTime();
+
   console.log("powStr: " + powStr);
-  scrollAnim = setInterval(function(){ scrollPowWarnDispB(message) }, 100);
+  powAnim = setInterval(function(){ scrollPowWarnDispB(message) }, 100);
 }
 
 // ---------- initial declarations and commands -------------
@@ -1342,6 +1336,7 @@ let message = "";
 let scrollStr = "";
 let scrollMax = 0;
 let scrollAnim = null;
+let powAnim = null;
 
 body.style.color = bodyColor;
 body.style.fontFamily = "'Ubuntu Mono', monospace";
