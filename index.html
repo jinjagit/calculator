@@ -11,7 +11,7 @@
 <body onresize="drawPage()">
   <div id="container">
     <div id="displayB">
-      <span id="displayBtext">39_characters__________________________</span>
+      <span id="displayBtext" contenteditable>39_characters__________________________</span>
     </div>
     <div id="displayA">
       <span id="displayAtext"></span>
@@ -405,6 +405,8 @@ function haltAnimations() {
   countWarningAnim = 0;
   if (startup === true) {
     startup = false;
+    //displayBtext.innerHTML = "";
+    displayBtext.style.opacity = "1.0";
     clear();
   }
 }
@@ -704,6 +706,7 @@ function evaluate() {
     if (resultStr === "NaN"){
       resultStr = "undefined: 0/0";
     } else if (resultStr.slice(0, 1) === 'p') {
+      console.log(toEval[0]);
       resultStr = 'power error!';
     } else if (resultStr.slice(0, 2) != '-I') {
       resultStr = "infinity";
@@ -885,7 +888,6 @@ function updateDispB() {
 }
 
 function clear() {
-  console.log("clear");
   strA = "";
   strB = "";
   history = "";
@@ -1164,10 +1166,11 @@ function playStartupAnimation() {
     scrollMax = maxCharsLandsLong - 1;
   }
   startup = true;
-  //let message = "this is the test long startup message that is too long for Portrait mode"
   message = "Calculator, by Simon Tharby (2018)";
   displayBtext.style.whiteSpace = "pre";
   scrollStr = message;
+  displayBtext.innerHTML = "";
+  displayBtext.style.opacity = "1.0"; // Reset visibility for startup message (and after)
   scrollAnim = setInterval(function(){ scrollTextDispB(message) }, 100);
 }
 
@@ -1283,8 +1286,10 @@ keyboard.style.display = "grid";
 keyboard.style.margin = "auto";
 
 drawPage(); // Also called whenever window (body) is resized
-playStartupAnimation();
+displayBtext.style.opacity = "0.0"; // Prevents brief flash of 'clear' message at startup
 clear();
+playStartupAnimation();
+//clear();
 
 </script>
 
