@@ -259,7 +259,7 @@ function stylePage() {
     let thisKey = document.getElementById(`${i}`);
     let keyPara = document.getElementById(`keyPara${i}`);
 
-    if (keysTemplate[i] === '^') { // special position for 'x^y' text (with supersript)
+    if (keysTemplate[i] === '^') { // special scrollPosition for 'x^y' text (with supersript)
       vertOffset = fontSizeKeys * -0.198;
       horOffset = fontSizeKeys * -0.3;
       keyPara.innerHTML = `x<sup>y</sup>`;
@@ -389,7 +389,7 @@ function animateWarningDispA() { // used for "faulty expression", "n * unclosed 
   countWarningAnim++;
 }
 
-function haltAnimations() {
+function haltAnimations() { /// REFACTOR???
   clearInterval(clickAnim);
   if (lastElemClicked != null) {
     document.getElementById(lastElemClicked).style.background = keyBgColor; //counter = 0;
@@ -407,6 +407,13 @@ function haltAnimations() {
     startup = false;
     //displayBtext.innerHTML = "";
     displayBtext.style.opacity = "1.0";
+    clear();
+  }
+  if (powWarning === true) {
+    powWarning = false;
+    //displayBtext.innerHTML = "";
+    //displayBtext.style.opacity = "1.0";
+    scrollPosition = 0;
     clear();
   }
 }
@@ -465,6 +472,7 @@ function keyClick (clickedID) {
         strA = "";
         updateDispA("");
         decimal = false;
+        scrollPosition = 0;
         infinityToClear = false;
       }
       if (infinityToClear === false) {
@@ -708,6 +716,7 @@ function evaluate() {
     } else if (resultStr.slice(0, 1) === 'p') {
       console.log(toEval[0]);
       resultStr = 'power error!';
+      playPowWarnAnimation();
     } else if (resultStr.slice(0, 2) != '-I') {
       resultStr = "infinity";
     } else {
@@ -1131,25 +1140,25 @@ function scrollTextDispB() { // adapted from: https://stanko.github.io/javascrip
   let msgLen = message.length;
   const now = getTime();
   const delta = (now - lastUpdate) / FRAME_DURATION;
-  position += 0.1 * delta;
+  scrollPosition += 0.1 * delta;
   let start = 0;
 
-  if (position < (msgLen + scrollMax) && startup === true) {
-    if (position > scrollMax) {
-      start = position - scrollMax;
+  if (scrollPosition < (msgLen + scrollMax) && startup === true) {
+    if (scrollPosition > scrollMax) {
+      start = scrollPosition - scrollMax;
     }
-    let spaces = scrollMax - position - msgLen;
+    let spaces = scrollMax - scrollPosition - msgLen;
     if (spaces > 0) {
       for (let i = 0; i < spaces; i++) {
         scrollStr = scrollStr + " ";
       }
     }
-    displayBtext.innerHTML = scrollStr.slice(start, position) + "  ";
+    displayBtext.innerHTML = scrollStr.slice(start, scrollPosition) + "  ";
   }
 
   lastUpdate = now;
 
-  if ((position < (msgLen + scrollMax)) && startup === true) {
+  if ((scrollPosition < (msgLen + scrollMax)) && startup === true) {
     requestAnimationFrame(scrollTextDispB, 100);
   } else if (startup === true) {
     startup = false;
@@ -1172,6 +1181,54 @@ function playStartupAnimation() {
   displayBtext.innerHTML = "";
   displayBtext.style.opacity = "1.0"; // Reset visibility for startup message (and after)
   scrollAnim = setInterval(function(){ scrollTextDispB(message) }, 100);
+}
+
+function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javascript-animation-loop/
+  let msgLen = message.length;
+  const now = getTime();
+  const delta = (now - lastUpdate) / FRAME_DURATION;
+  scrollPosition += 0.1 * delta;
+  let start = 0;
+
+  if (scrollPosition < (msgLen + scrollMax) && powWarning === true) {
+    if (scrollPosition > scrollMax) {
+      start = scrollPosition - scrollMax;
+    }
+    let spaces = scrollMax - scrollPosition - msgLen;
+    if (spaces > 0) {
+      for (let i = 0; i < spaces; i++) {
+        scrollStr = scrollStr + " ";
+      }
+    }
+    displayBtext.innerHTML = scrollStr.slice(start, scrollPosition) + "  ";
+  }
+
+  lastUpdate = now;
+
+  if ((scrollPosition < (msgLen + scrollMax)) && powWarning === true) {
+    requestAnimationFrame(scrollPowWarnDispB, 100);
+  } else if (powWarning === true) {
+    powWarning = false;
+    //clear();
+  }
+}
+
+function playPowWarnAnimation() {
+  if (layout === "portrait") {
+    scrollMax = maxCharsPortrait + 1;
+  } else if (layout === "landscape") {
+    scrollMax = maxCharsLandscape - 1;
+  } else {
+    scrollMax = maxCharsLandsLong - 1;
+  }
+  scrollPosition = 0;
+  powWarning = true;
+  message = "Power error found: ";
+  displayBtext.style.whiteSpace = "pre";
+  scrollStr = message;
+  //displayBtext.innerHTML = "";
+  //displayBtext.style.opacity = "1.0"; // Reset visibility for startup message (and after)
+  scrollAnim = setInterval(function(){ scrollPowWarnDispB(message) }, 100);
 }
 
 // ---------- initial declarations and commands -------------
@@ -1260,15 +1317,16 @@ let container = document.getElementById('container');
 let dispAstore = "";
 
 let counter = 0;
-let countWarningAnim = 0; // counter for animateWarningDispA()... not sure this is needed / will be used
+//let countWarningAnim = 0; // counter for animateWarningDispA()... not sure this is needed / will be used
 let operatorCount = 0;
 
 let lastElemClicked = null;
 let startup = false;
+let powWarning = false;
 
 const FRAME_DURATION = 1000 / 60;
 const getTime = typeof performance === 'function' ? performance.now : Date.now;
-let position = 0;
+let scrollPosition = 0;
 let lastUpdate = getTime();
 let message = "";
 let scrollStr = "";
@@ -1286,7 +1344,7 @@ keyboard.style.display = "grid";
 keyboard.style.margin = "auto";
 
 drawPage(); // Also called whenever window (body) is resized
-displayBtext.style.opacity = "0.0"; // Prevents brief flash of 'clear' message at startup
+displayBtext.style.opacity = "0.0"; // Prevents brief flash of 'waiting for input...' message at startup
 clear();
 playStartupAnimation();
 //clear();
