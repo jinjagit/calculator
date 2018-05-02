@@ -724,8 +724,10 @@ function evaluate() {
     resultStr = parseResult(resultStr);
   }
 
-  history = history + "=";
-  updateDispB();
+  if (resultStr != "power error!") {
+    history = history + "=";
+    updateDispB();
+  }
   strA = resultStr;
   updateDispA("");
 
