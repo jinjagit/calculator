@@ -407,12 +407,14 @@ function haltAnimations() { /// REFACTOR???
     startup = false;
     //displayBtext.innerHTML = "";
     displayBtext.style.opacity = "1.0";
+    clearInterval(scrollAnim);
     clear();
   }
   if (powWarning === true) {
     powWarning = false;
     //displayBtext.innerHTML = "";
     //displayBtext.style.opacity = "1.0";
+    clearInterval(scrollAnim);
     scrollPosition = 0;
     clear();
   }
@@ -714,7 +716,7 @@ function evaluate() {
     if (resultStr === "NaN"){
       resultStr = "undefined: 0/0";
     } else if (resultStr.slice(0, 1) === 'p') {
-      console.log(toEval[0]);
+      powStr = toEval[0];
       resultStr = 'power error!';
       playPowWarnAnimation();
     } else if (resultStr.slice(0, 2) != '-I') {
@@ -1143,6 +1145,8 @@ function scrollTextDispB() { // adapted from: https://stanko.github.io/javascrip
   scrollPosition += 0.1 * delta;
   let start = 0;
 
+  console.log("running");
+
   if (scrollPosition < (msgLen + scrollMax) && startup === true) {
     if (scrollPosition > scrollMax) {
       start = scrollPosition - scrollMax;
@@ -1162,6 +1166,7 @@ function scrollTextDispB() { // adapted from: https://stanko.github.io/javascrip
     requestAnimationFrame(scrollTextDispB, 100);
   } else if (startup === true) {
     startup = false;
+    clearInterval(scrollAnim);
     clear();
   }
 }
@@ -1190,6 +1195,8 @@ function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javasc
   scrollPosition += 0.1 * delta;
   let start = 0;
 
+  let redText = powStr;
+
   if (scrollPosition < (msgLen + scrollMax) && powWarning === true) {
     if (scrollPosition > scrollMax) {
       start = scrollPosition - scrollMax;
@@ -1209,6 +1216,7 @@ function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javasc
     requestAnimationFrame(scrollPowWarnDispB, 100);
   } else if (powWarning === true) {
     powWarning = false;
+    clearInterval(scrollAnim);
     //clear();
   }
 }
@@ -1228,6 +1236,7 @@ function playPowWarnAnimation() {
   scrollStr = message;
   //displayBtext.innerHTML = "";
   //displayBtext.style.opacity = "1.0"; // Reset visibility for startup message (and after)
+  console.log("powStr: " + powStr);
   scrollAnim = setInterval(function(){ scrollPowWarnDispB(message) }, 100);
 }
 
@@ -1323,6 +1332,7 @@ let operatorCount = 0;
 let lastElemClicked = null;
 let startup = false;
 let powWarning = false;
+let powStr = "";
 
 const FRAME_DURATION = 1000 / 60;
 const getTime = typeof performance === 'function' ? performance.now : Date.now;
@@ -1331,6 +1341,7 @@ let lastUpdate = getTime();
 let message = "";
 let scrollStr = "";
 let scrollMax = 0;
+let scrollAnim = null;
 
 body.style.color = bodyColor;
 body.style.fontFamily = "'Ubuntu Mono', monospace";
