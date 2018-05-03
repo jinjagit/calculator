@@ -1195,12 +1195,12 @@ function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javasc
   let start = 0;
 
   if (scrollPosition <= (msgLen + redLen + 1) && powWarning === true) {
-    /**if (scrollPosition > scrollMax) {
-      console.log(start);
+    if (scrollPosition > scrollMax) {
+      //console.log(start);
       start = scrollPosition - scrollMax;
-    }**/
+    }
 
-    let numRedChars = round(scrollPosition - msgLen, 0);
+    let numRedChars = scrollPosition - msgLen;
     if (numRedChars > redLen) {numRedChars = redLen;}
     else if (numRedChars < 0) {numRedChars = 0;}
     //console.log(numRedChars);
@@ -1213,7 +1213,6 @@ function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javasc
       }
     }**/
 
-
     displayBtext.innerHTML = scrollStr.slice(start, scrollPosition - numRedChars + 1) + redStr + "  ";
   }
 
@@ -1225,8 +1224,6 @@ function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javasc
     powWarning = false;
     clearInterval(scrollAnim);
     powWarnDisplaying = true;
-    //history = displayBtext.innerHTML;
-    //clear();
   }
 }
 
