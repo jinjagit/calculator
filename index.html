@@ -830,6 +830,11 @@ function updateDispA(input) {
 }
 
 function updateDispB() {
+  if (powWarnDisplaying === true && (input != "" && input != "+" && input != "-"
+      && input != "/" && input != "*" && input != "^" && input != ")" && input != "=")) {
+        powWarnDisplaying = false;
+      }
+
   let dispBcleared = false;
   check = history.slice(history.length-1, history.length);
 
@@ -861,7 +866,7 @@ function updateDispB() {
     history = history + input;
   }
 
-  if (dispBcleared != true) {
+  if (dispBcleared != true && powWarnDisplaying === false) {
     let output = "";
 
     switch (layout) {
@@ -1199,7 +1204,7 @@ function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javasc
     if (numRedChars > redLen) {numRedChars = redLen;}
     else if (numRedChars < 0) {numRedChars = 0;}
     //console.log(numRedChars);
-    let redStr = `<span style="color: red">` + redText.slice(0, numRedChars) + `</span>`;
+    let redStr = `<span style="color: ` + keyClearColor + `">` + redText.slice(0, numRedChars) + `</span>`;
 
     /**let spaces = scrollMax - scrollPosition - msgLen;
     if (spaces > 0) {
@@ -1219,6 +1224,7 @@ function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javasc
   } else if (powWarning === true) {
     powWarning = false;
     clearInterval(scrollAnim);
+    powWarnDisplaying = true;
     //history = displayBtext.innerHTML;
     //clear();
   }
@@ -1338,6 +1344,7 @@ let operatorCount = 0;
 let lastElemClicked = null;
 let startup = false;
 let powWarning = false;
+let powWarnDisplaying = false;
 let powStr = "";
 let redText = "";
 let redLen = 0;
