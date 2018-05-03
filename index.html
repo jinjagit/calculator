@@ -1136,7 +1136,6 @@ function evalPowers(inStr) {
 }
 
 function scrollTextDispB() { // adapted from: https://stanko.github.io/javascript-animation-loop/
-  let msgLen = message.length;
   const now = getTime();
   const delta = (now - lastUpdate) / FRAME_DURATION;
   scrollPosition += 0.1 * delta;
@@ -1178,40 +1177,49 @@ function playStartupAnimation() {
   message = "Calculator, by Simon Tharby (2018)";
   displayBtext.style.whiteSpace = "pre";
   scrollStr = message;
+  msgLen = message.length;
   displayBtext.innerHTML = "";
   displayBtext.style.opacity = "1.0"; // Reset visibility for startup message (and after)
   scrollAnim = setInterval(function(){ scrollTextDispB(message) }, 100);
 }
 
 function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javascript-animation-loop/
-  let msgLen = message.length;
   const now = getTime();
   const delta = (now - lastUpdate) / FRAME_DURATION;
   scrollPosition += 0.1 * delta;
   let start = 0;
 
-  let redText = powStr;
-
-  if (scrollPosition < (msgLen + scrollMax) && powWarning === true) {
-    if (scrollPosition > scrollMax) {
+  if (scrollPosition <= (msgLen + redLen + 1) && powWarning === true) {
+    /**if (scrollPosition > scrollMax) {
+      console.log(start);
       start = scrollPosition - scrollMax;
-    }
-    let spaces = scrollMax - scrollPosition - msgLen;
+    }**/
+
+    let numRedChars = round(scrollPosition - msgLen, 0);
+    if (numRedChars > redLen) {numRedChars = redLen;}
+    else if (numRedChars < 0) {numRedChars = 0;}
+    //console.log(numRedChars);
+    let redStr = `<span style="color: red">` + redText.slice(0, numRedChars) + `</span>`;
+
+    /**let spaces = scrollMax - scrollPosition - msgLen;
     if (spaces > 0) {
       for (let i = 0; i < spaces; i++) {
         scrollStr = scrollStr + " ";
       }
-    }
-    displayBtext.innerHTML = scrollStr.slice(start, scrollPosition) + "  ";
+    }**/
+
+
+    displayBtext.innerHTML = scrollStr.slice(start, scrollPosition - numRedChars + 1) + redStr + "  ";
   }
 
   lastUpdate = now;
 
-  if ((scrollPosition < (msgLen + scrollMax)) && powWarning === true) {
+  if (scrollPosition <= (msgLen + redLen + 1) && powWarning === true) {
     requestAnimationFrame(scrollPowWarnDispB, 100);
   } else if (powWarning === true) {
     powWarning = false;
     clearInterval(scrollAnim);
+    //history = displayBtext.innerHTML;
     //clear();
   }
 }
@@ -1229,9 +1237,12 @@ function playPowWarnAnimation() {
   message = "Power error found: ";
   displayBtext.style.whiteSpace = "pre";
   scrollStr = message;
+  msgLen = message.length;
   lastUpdate = getTime();
 
-  console.log("powStr: " + powStr);
+  redText = powStr + "=NaN";
+  redLen = redText.length;
+
   scrollAnim = setInterval(function(){ scrollPowWarnDispB(message) }, 100);
 }
 
@@ -1320,20 +1331,23 @@ let container = document.getElementById('container');
 
 let dispAstore = "";
 
-let counter = 0;
-//let countWarningAnim = 0; // counter for animateWarningDispA()... not sure this is needed / will be used
+let counter = 0; // counter for key-click animation; animateClick()
+let countWarningAnim = 0; // counter for animateWarningDispA()
 let operatorCount = 0;
 
 let lastElemClicked = null;
 let startup = false;
 let powWarning = false;
 let powStr = "";
+let redText = "";
+let redLen = 0;
 
 const FRAME_DURATION = 1000 / 60;
 const getTime = typeof performance === 'function' ? performance.now : Date.now;
 let scrollPosition = 0;
 let lastUpdate = getTime();
 let message = "";
+let msgLen = 0;
 let scrollStr = "";
 let scrollMax = 0;
 let scrollAnim = null;
