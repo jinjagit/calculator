@@ -24,7 +24,7 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
   * "faulty expression" when user attempts to evaluate an incomplete expression
   * "*n* * unclosed ')'" when user attempts to evaluate expression with *n* unclosed parentheses
   * "invalid input" when user input would form a malformed expression, or when the main display is full
-  * "power error!" when an expression containing one, or more, power expression that result(s) in a complex number, or numbers, is evaluated [in development]
+  * "power error!" when an expression containing one, or more, power expression(s) that result(s) in a complex number, or numbers, is evaluated [in development]
 * all animations halt on user input, to avoid lag issues
 * warning text animations revert to prior display content, when appropriate
 
