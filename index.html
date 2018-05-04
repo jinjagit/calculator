@@ -693,6 +693,7 @@ function parseResult(string) {
 function evaluate() {
   history = history + strA;
   let toEval = history;
+  origExprToEval = history;
   toEval = evalPowers(toEval);
   toEval[0] = toEval[0].replace(/--/g,'+'); // JS eval() doesn't like '--'
   let result = 0;
@@ -1140,6 +1141,8 @@ function evalPowers(inStr) {
   return result;
 }
 
+//  ---------------- scrolling text animations: 1. startup 2. power error ---------------------
+
 function scrollTextDispB() { // adapted from: https://stanko.github.io/javascript-animation-loop/
   const now = getTime();
   const delta = (now - lastUpdate) / FRAME_DURATION;
@@ -1188,7 +1191,7 @@ function playStartupAnimation() {
   scrollAnim = setInterval(function(){ scrollTextDispB(message) }, 100);
 }
 
-function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javascript-animation-loop/
+function scrollPowWarnDispB() { // includes ideas from: https://stanko.github.io/javascript-animation-loop/
   const now = getTime();
   const delta = (now - lastUpdate) / FRAME_DURATION;
   scrollPosition += 0.1 * delta;
@@ -1196,7 +1199,6 @@ function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javasc
 
   if (scrollPosition <= (msgLen + redLen + 1) && powWarning === true) {
     if (scrollPosition > scrollMax) {
-      //console.log(start);
       start = scrollPosition - scrollMax;
     }
 
@@ -1227,8 +1229,8 @@ function scrollPowWarnDispB() { // adapted from: https://stanko.github.io/javasc
   }
 }
 
-function playPowWarnAnimation() {
-  if (layout === "portrait") {
+function playPowWarnAnimation() { // Warning message when a power expression = complex number(s) = NaN
+  if (layout === "portrait") {    // i.e. Only when the base is negative and the exponent is non-integer (fractional) 
     scrollMax = maxCharsPortrait + 1;
   } else if (layout === "landscape") {
     scrollMax = maxCharsLandscape - 1;
@@ -1245,6 +1247,10 @@ function playPowWarnAnimation() {
 
   redText = powStr + "=NaN";
   redLen = redText.length;
+
+  console.log(origExprToEval);
+  let indexOfPow = origExprToEval.indexOf(powStr);
+  console.log(indexOfPow);
 
   scrollAnim = setInterval(function(){ scrollPowWarnDispB(message) }, 100);
 }
@@ -1300,6 +1306,7 @@ let resultToClear = false
 let infinityToClear = false;
 let operatorEdit = false;
 let msgToClrDispB = false;
+let origExprToEval = "";
 
 let prevColor = "";
 let keyBgColor = "#14202b";

@@ -14,8 +14,8 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 ![different layouts of calculator](img/calcLayouts.png)
 * calculator evaluates expressions containing multiple operators, with or without parentheses
 * calculator only accepts well-formed expressions
-* content of main display can be backspace deleted to edit
-* result displayed in main display becomes first part of new expression if operator next input
+* numerical content of main display, excluding scientific notation, can be backspace deleted to edit
+* numerical result, _including_ scientific notation, displayed in main display becomes first part of new expression if operator is next input
 * 'fast operate': When only one value and one operator have been added to expression, '=' will evaluate the value reflexively. e.g. the inputs '3 * =' are equivalent to '3 * 3 ='
 * while last operator is last item added to expression (in secondary display):
   * the operator can be replaced by entering a new operator
@@ -23,6 +23,8 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 * warnings:
   * "faulty expression" when user attempts to evaluate an incomplete expression
   * "*n* * unclosed ')'" when user attempts to evaluate expression with *n* unclosed parentheses
+  * "invalid input" when user input would form a malformed expression, or when the main display is full
+  * "power error!" when an expression containing one, or more, power expression that result(s) in a complex number, or numbers, is evaluated [in development]
 * all animations halt on user input, to avoid lag issues
 * warning text animations revert to prior display content, when appropriate
 
