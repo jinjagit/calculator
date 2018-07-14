@@ -399,7 +399,7 @@ function addEventListeners() {
 }
 
 function hover() {
-  if (mobile === false) {
+  if (mobile === false && menuActive === false) {
     let thisID = this.id.toString();
     let element = document.getElementById(`keyPara${thisID}`);
     let style = window.getComputedStyle(element,"");
@@ -411,13 +411,14 @@ function hover() {
 }
 
 function unHover () {
-  if (mobile === false) {
+  if (mobile === false && menuActive === false) {
     let thisID = this.id.toString();
     document.getElementById(`keyPara${thisID}`).style.color = prevColor;
   }
 }
 
 function showMenu() {
+  menuActive = true;
   menuContainer.style.zIndex = "1";
 }
 
@@ -525,117 +526,119 @@ function keyClick (clickedID) {
 
   input = template[clickedID]; // template[clickedID] is the character represented (in; keyPara) on the clicked calculator keypad key
 
-  if (resultToClear === true) {
-    if (input != "±" && input != "=" && input != ')' && input != 'S' && input != 'F') {
-      if (input === "+" || input === "-" || input === "*"
-        || input === "/" || input === "^" || input === "<" || input === '=') {
-          if (infinityToClear === false) {
-            history = "";
-            updateDispB();
-          }
-      } else {
-        history = "";
-        updateDispB();
-        strA = "";
-        updateDispA("");
-        decimal = false;
-        scrollPosition = 0;
-        infinityToClear = false;
-      }
-      if (infinityToClear === false) {
-        resultToClear = false;
-        digits = 0;
-      }
-    }
-  }
-
-  if (input === "S") {
-    showMenu();
-  } else if (input === "F") {
-    // trigger full-screen
-  } else if (input === "C" || (infinityToClear === true && input === '<')) {
-    clear();
-  } else if (input === "<") {
-    if (strA != "") {
-      updateDispA(input);
-    } else {
-      updateDispB();
-    }
-  } else if (input === "+" || input === "-" || input === "*"
-    || input === "/" || input === "^") {
-      if (strA != "" && resultToClear === false) { // cannot be first action after clear all
-            history = history + strA + input;
-            operatorCount++;
-            updateDispA(input);
-            updateDispB();
-      } else if (strA != "" && resultToClear === true) {
-        invalidInputWarning();
-      } else if (history != "") { // cannot be first action after clear all or restart
-        updateDispB();
-      } else {
-        invalidInputWarning();
-      }
-  } else if (input === ".") {
-      if (decimal === false && digits < 16) { // cannot add 2nd decimal point to display A
-        if (strA === "") { // add 0 prefix if '.' is 1st input after dispA clear
-          input = "0.";
-          digits= digits + 2;
-          decimal = true;
-          updateDispA(input);
+  if (menuActive === false) {
+    if (resultToClear === true) {
+      if (input != "±" && input != "=" && input != ')' && input != 'S' && input != 'F') {
+        if (input === "+" || input === "-" || input === "*"
+          || input === "/" || input === "^" || input === "<" || input === '=') {
+            if (infinityToClear === false) {
+              history = "";
+              updateDispB();
+            }
         } else {
-          digits++;
-          decimal = true;
-          updateDispA(input);
+          history = "";
+          updateDispB();
+          strA = "";
+          updateDispA("");
+          decimal = false;
+          scrollPosition = 0;
+          infinityToClear = false;
         }
-      } else {
-        invalidInputWarning();
+        if (infinityToClear === false) {
+          resultToClear = false;
+          digits = 0;
+        }
       }
-  } else if (input === "(") {
-      updateDispA(input);
-  } else if (input === ")") {
-      if (parenth > 0 && operatorEdit == false) { // cannot close unopened parentheses
+    }
+
+    if (input === "S") {
+      showMenu();
+    } else if (input === "F") {
+      // trigger full-screen
+    } else if (input === "C" || (infinityToClear === true && input === '<')) {
+      clear();
+    } else if (input === "<") {
+      if (strA != "") {
         updateDispA(input);
-      } else if (parenth > 0 && operatorEdit == true) {
+      } else {
         updateDispB();
-      } else {
-        invalidInputWarning();
       }
-  } else if (input === "±") {
-    updateDispA(input);
-  } else if (input === "=") {
-    if (history != "" && resultToClear === false) { // cannot be first action after clear all
-      if (parenth === 0 && operatorEdit === false && strA != "") {
-        evaluate();
-      } else if (strA === "" && history != "" && parenth === 0 && operatorEdit === true) {
-        evaluate();
-      } else if (strA === "" && history != "" && parenth === 0 && operatorCount === 1) {
-        history = history + history.slice(0, history.length - 1);
-        evaluate();
-      } else if (parenth === 0 && strA === "" && history.slice(-1) === ')') {
-        evaluate();
-      } else {
-        displayAtext.style.opacity = "0.0";
-        displayAtext.style.color = keyClearColor;
-
-        if (parenth != 0) {
-          displayAtext.innerHTML = parenth + " * unclosed ')'&nbsp;";
+    } else if (input === "+" || input === "-" || input === "*"
+      || input === "/" || input === "^") {
+        if (strA != "" && resultToClear === false) { // cannot be first action after clear all
+              history = history + strA + input;
+              operatorCount++;
+              updateDispA(input);
+              updateDispB();
+        } else if (strA != "" && resultToClear === true) {
+          invalidInputWarning();
+        } else if (history != "") { // cannot be first action after clear all or restart
+          updateDispB();
         } else {
-          displayAtext.innerHTML = "faulty expression&nbsp;";
+          invalidInputWarning();
         }
+    } else if (input === ".") {
+        if (decimal === false && digits < 16) { // cannot add 2nd decimal point to display A
+          if (strA === "") { // add 0 prefix if '.' is 1st input after dispA clear
+            input = "0.";
+            digits= digits + 2;
+            decimal = true;
+            updateDispA(input);
+          } else {
+            digits++;
+            decimal = true;
+            updateDispA(input);
+          }
+        } else {
+          invalidInputWarning();
+        }
+    } else if (input === "(") {
+        updateDispA(input);
+    } else if (input === ")") {
+        if (parenth > 0 && operatorEdit == false) { // cannot close unopened parentheses
+          updateDispA(input);
+        } else if (parenth > 0 && operatorEdit == true) {
+          updateDispB();
+        } else {
+          invalidInputWarning();
+        }
+    } else if (input === "±") {
+      updateDispA(input);
+    } else if (input === "=") {
+      if (history != "" && resultToClear === false) { // cannot be first action after clear all
+        if (parenth === 0 && operatorEdit === false && strA != "") {
+          evaluate();
+        } else if (strA === "" && history != "" && parenth === 0 && operatorEdit === true) {
+          evaluate();
+        } else if (strA === "" && history != "" && parenth === 0 && operatorCount === 1) {
+          history = history + history.slice(0, history.length - 1);
+          evaluate();
+        } else if (parenth === 0 && strA === "" && history.slice(-1) === ')') {
+          evaluate();
+        } else {
+          displayAtext.style.opacity = "0.0";
+          displayAtext.style.color = keyClearColor;
 
-        countWarningAnim = 0;
-        warningAnim = setInterval(function(){ animateWarningDispA() }, 30);
+          if (parenth != 0) {
+            displayAtext.innerHTML = parenth + " * unclosed ')'&nbsp;";
+          } else {
+            displayAtext.innerHTML = "faulty expression&nbsp;";
+          }
+
+          countWarningAnim = 0;
+          warningAnim = setInterval(function(){ animateWarningDispA() }, 30);
+        }
+      }
+    } else { // digit (0 - 9)
+      if (digits < 16) {
+        digits++;
+        updateDispA(input);
       }
     }
-  } else { // digit (0 - 9)
-    if (digits < 16) {
-      digits++;
-      updateDispA(input);
-    }
-  }
 
-  dispAstore = strA;
-  clickAnim = setInterval(function(){ animateClick() }, 20);
+    dispAstore = strA;
+    clickAnim = setInterval(function(){ animateClick() }, 20);
+  }
 }
 
 function round(number, precision) {
@@ -1338,6 +1341,7 @@ let mobile = false;
 let layout = "portrait"; // 3 options: portrait, landscape, landscapeLong
 let hand = "r";
 let theme = "A"; // A or B
+let menuActive = false;
 
 let displayAheight = 0;
 let displayBheight = 0;
