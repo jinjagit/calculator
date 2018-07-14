@@ -373,6 +373,7 @@ function styleMenu() {
 
     if (i == 3) {
       thisText.style.fontSize = `${menuBoxH / 2.5}px`; // currently no difference; might not need
+      thisText.innerHTML = "maximize"; // will need to add if/else if's for different states and desktop v mobile
     } else {
       thisText.style.fontSize = `${menuBoxH / 2.5}px`;
       if (i == 2) {
