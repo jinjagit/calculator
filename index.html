@@ -19,6 +19,12 @@
     <div id="keyboard">
     </div>
   </div>
+  <div id="menuContainer">
+    <div id="menuBox1"><p id="menuText1">settings:</p></div>
+    <div id="menuBox2"><p id="menuText2">button 1</p></div>
+    <div id="menuBox3"><p id="menuText3">button 2</p></div>
+    <div id="menuBox4"><p id="menuText4">close</p></div>
+  </div>
 
 <script>
 // Calculator - by Simon Tharby, 2018 (solution to; https://www.theodinproject.com/courses/web-development-101/lessons/calculator)
@@ -149,6 +155,7 @@ function drawPage() {
   updateDispB();
   createKeys();
   stylePage();
+  styleMenu();
   addEventListeners();
 }
 
@@ -323,6 +330,64 @@ function stylePage() {
   }
 }
 
+function styleMenu() {
+  if (layout === "portrait") {
+    menuH = calcH * 0.8;
+    menuW = calcH * 0.6;
+  }  else {
+    menuH = calcH * 0.8;
+    menuW = menuH;
+  }
+
+  menuContainer.style.position = "fixed";
+  menuContainer.style.top = `${(window.innerHeight - menuH) / 2}px`;
+  menuContainer.style.left = `${(window.innerWidth - menuW) / 2}px`;
+  menuContainer.style.height = `${(menuH)}px`;
+  menuContainer.style.width = `${(menuW)}px`;
+  menuContainer.style.backgroundColor = keyDigitColor;
+
+  let menuBorder = menuH / 30;
+  let menuBoxH = (menuH - (5 * menuBorder)) / 4;
+  let menuBoxW = menuW - (2 * menuBorder);
+
+  //let thisBox = "";
+
+  for (let i = 1; i < 5; i++) {
+    let thisBox = document.getElementById(`menuBox${i}`);
+    let thisText = document.getElementById(`menuText${i}`);
+    thisBox.style.position = "relative";
+    thisBox.style.top = `${(menuBorder * i)}px`;
+    thisBox.style.left = `${(menuBorder)}px`;
+    thisBox.style.height = `${(menuBoxH)}px`;
+    thisBox.style.width = `${(menuBoxW)}px`;
+    thisText.style.textAlign = "center";
+    thisText.style.lineHeight = `${(menuBoxH)}px`;
+
+    if (i == 1) {
+      thisBox.style.backgroundColor = keyDigitColor;
+      thisText.style.color = keyBgColor;
+    } else {
+      thisBox.style.backgroundColor = keyBgColor;
+      thisText.style.color = keyDigitColor;
+    }
+
+    if (i == 3) {
+      thisText.style.fontSize = `${menuBoxH / 2.5}px`; // currently no difference; might not need
+    } else {
+      thisText.style.fontSize = `${menuBoxH / 2.5}px`;
+      if (i == 2) {
+        if (hand === "r") {
+          thisText.innerHTML = "left handed";
+        } else {
+          thisText.innerHTML = "right handed";
+        }
+      }
+    }
+
+  }
+
+}
+
 // ---------- event listeners and input/output/display logic ---------------------
 
 function addEventListeners() {
@@ -349,6 +414,10 @@ function unHover () {
     let thisID = this.id.toString();
     document.getElementById(`keyPara${thisID}`).style.color = prevColor;
   }
+}
+
+function showMenu() {
+  menuContainer.style.zIndex = "1";
 }
 
 function animateWarningDispA() { // used for "faulty expression", "n * unclosed ')'" AND "invalid input" warnings
@@ -480,7 +549,7 @@ function keyClick (clickedID) {
   }
 
   if (input === "S") {
-    // trigger menu
+    showMenu();
   } else if (input === "F") {
     // trigger full-screen
   } else if (input === "C" || (infinityToClear === true && input === '<')) {
@@ -1276,6 +1345,9 @@ let keyHeight = 0;
 let keyRows = 0;
 let keys = [];
 
+let menuH = 0;
+let menuW = 0;
+
 let fontSizeA = 0;
 let fontSizeB = 0;
 let fontSizeKeys = 0;
@@ -1363,6 +1435,7 @@ let scrollStr = "";
 let scrollMax = 0;
 let scrollAnim = null;
 
+menuContainer.style.zIndex = "-1";
 body.style.color = bodyColor;
 body.style.fontFamily = "'Ubuntu Mono', monospace";
 body.style.fontWeight = "normal";
