@@ -31,6 +31,4 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
 **Not yet implemented:**
 
 * settings menu (maximize/full-screen toggle, l/r-handed toggle)
-* some error/warning messages
-* some animations
 * 'F' (full-screen) key; only on mobile, letterbox layout
