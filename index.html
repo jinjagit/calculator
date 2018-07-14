@@ -423,6 +423,10 @@ function unHover () {
 
 function showMenu() {
   menuActive = true;
+  haltAnimations();
+  keysTemplate = setKeysTemplate();
+  let indexS = keysTemplate.indexOf("S");
+  document.getElementById(`keyPara${indexS}`).style.color = keySettingsColor;
   menuContainer.style.zIndex = "1";
 }
 
