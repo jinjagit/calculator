@@ -396,6 +396,10 @@ function addEventListeners() {
   keys.forEach(key => key.addEventListener('mouseover', hover));
   keys = document.querySelectorAll('.key');
   keys.forEach(key => key.addEventListener('mouseout', unHover));
+
+  let clickMenuCloseAtt = document.createAttribute("onclick");
+  clickMenuCloseAtt.value = "hideMenu()";
+  menuBox4.setAttributeNode(clickMenuCloseAtt);
 }
 
 function hover() {
@@ -420,6 +424,11 @@ function unHover () {
 function showMenu() {
   menuActive = true;
   menuContainer.style.zIndex = "1";
+}
+
+function hideMenu() {
+  menuActive = false;
+  menuContainer.style.zIndex = "-1";
 }
 
 function animateWarningDispA() { // used for "faulty expression", "n * unclosed ')'" AND "invalid input" warnings
