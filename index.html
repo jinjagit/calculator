@@ -391,7 +391,11 @@ function styleMenu() {
         } else {
           thisText.innerHTML = "default size"; // will need to add if/else if's for different states and desktop v mobile
         }
-      } // else (mobile fullscreen options)
+      } else if (maximize === false) {
+        thisText.innerHTML = "fullscreen";
+      } else {
+        thisText.innerHTML = "windowed";
+      }
     } else {
       thisText.style.fontSize = `${menuBoxW / 10}px`;
       if (i == 2) {
@@ -493,11 +497,42 @@ function switchHandLayout() {
 function toggleMaxLayout() {
   if (maximize === false) {
     maximize = true;
+    if (mobile === true) {
+      goFullscreen();
+    }
   } else {
     maximize = false;
+    if (mobile === true) {
+      exitFullscreen();
+    }
   }
   drawPage();
   hideMenu();
+}
+
+function goFullscreen() {
+  let elem = document.documentElement;
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+}
+
+function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) { /* Firefox */
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE/Edge */
+    document.msExitFullscreen();
+  }
 }
 
 function animateWarningDispA() { // used for "faulty expression", "n * unclosed ')'" AND "invalid input" warnings
