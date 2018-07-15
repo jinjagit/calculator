@@ -384,7 +384,7 @@ function styleMenu() {
     }
 
     if (i == 3) {
-      thisText.style.fontSize = `${menuBoxH / 2.5}px`; // currently no difference; might not need
+      thisText.style.fontSize = `${menuBoxW / 10}px`; // currently no difference; might not need
       if (mobile === false) {
         if (maximize === false) {
           thisText.innerHTML = "maximize"; // will need to add if/else if's for different states and desktop v mobile
@@ -393,7 +393,7 @@ function styleMenu() {
         }
       } // else (mobile fullscreen options)
     } else {
-      thisText.style.fontSize = `${menuBoxH / 2.5}px`;
+      thisText.style.fontSize = `${menuBoxW / 10}px`;
       if (i == 2) {
         if (hand === "r") {
           thisText.innerHTML = "left handed";
