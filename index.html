@@ -332,8 +332,13 @@ function stylePage() {
 
 function styleMenu() {
   if (layout === "portrait") {
-    menuH = calcH * 0.8;
-    menuW = calcH * 0.6;
+    if (mobile === false) {
+      menuH = calcH * 0.8;
+      menuW = calcH * 0.6;
+    } else {
+      menuH = calcH * 0.6;
+      menuW = calcH * 0.45;
+    }  
   }  else {
     menuH = calcH * 0.8;
     menuW = menuH;
@@ -349,8 +354,6 @@ function styleMenu() {
   let menuBorder = menuH / 30;
   let menuBoxH = (menuH - (5 * menuBorder)) / 4;
   let menuBoxW = menuW - (2 * menuBorder);
-
-  //let thisBox = "";
 
   for (let i = 1; i < 5; i++) {
     let thisBox = document.getElementById(`menuBox${i}`);
