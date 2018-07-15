@@ -1393,15 +1393,7 @@ function scrollPowWarnDispB() { // includes ideas from: https://stanko.github.io
     let numRedChars = scrollPosition - msgLen;
     if (numRedChars > redLen) {numRedChars = redLen;}
     else if (numRedChars < 0) {numRedChars = 0;}
-    //console.log(numRedChars);
     let redStr = `<span style="color: ` + keyClearColor + `">` + redText.slice(0, numRedChars) + `</span>`;
-
-    /**let spaces = scrollMax - scrollPosition - msgLen;
-    if (spaces > 0) {
-      for (let i = 0; i < spaces; i++) {
-        scrollStr = scrollStr + " ";
-      }
-    }**/
 
     displayBtext.innerHTML = scrollStr.slice(start, scrollPosition - numRedChars + 1) + redStr + "  ";
   }
@@ -1451,11 +1443,11 @@ function getKey(key) {
     charStr = charStr.toUpperCase();
   } else if (key === 13) {
     charStr = "=";
-  } else if (key === 8 || key === 46) {
+  } else if (key === 37 || key === 46) {
     charStr = "<";
+  } else if (key === 35) {
+    charStr = "±";
   }
-  console.log(charStr);
-  console.log(key);
 
   let inputID = -1;
   let template = setKeysTemplate();
