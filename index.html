@@ -332,14 +332,9 @@ function stylePage() {
 
 function styleMenu() {
   if (layout === "portrait") {
-    if (mobile === false) {
-      menuH = calcH * 0.8;
-      menuW = calcH * 0.6;
-    } else {
-      menuH = calcH * 0.6;
-      menuW = calcH * 0.45;
-    }
-  }  else {
+    menuW = calcW * 0.75;
+    menuH = calcW;
+  } else {
     menuH = calcH * 0.8;
     menuW = menuH;
   }
