@@ -99,7 +99,7 @@ function getDisplayData() {
   WinOutH = window.outerHeight;
   screenH = screen.height;
 
-  if (screen.width < window.innerWidth) {
+  if (screen.width < window.innerWidth && fullscrn === false) {
     mobile = true; // probably mobile, but not certain
   } else {mobile = false;}
 }
@@ -521,7 +521,7 @@ function goFullscreen() {
   } else if (elem.msRequestFullscreen) { /* IE/Edge */
     elem.msRequestFullscreen();
   }
-  mobile = true;
+  fullscrn = true;
 }
 
 function exitFullscreen() {
@@ -534,7 +534,7 @@ function exitFullscreen() {
   } else if (document.msExitFullscreen) { /* IE/Edge */
     document.msExitFullscreen();
   }
-  mobile = true;
+  fullscrn = false;
 }
 
 function animateWarningDispA() { // used for "faulty expression", "n * unclosed ')'" AND "invalid input" warnings
@@ -1458,6 +1458,7 @@ let hand = "r";
 let theme = "A"; // A or B
 let menuActive = false;
 let maximize = false;
+let fullscrn = false;
 
 let displayAheight = 0;
 let displayBheight = 0;
