@@ -338,7 +338,7 @@ function styleMenu() {
     } else {
       menuH = calcH * 0.6;
       menuW = calcH * 0.45;
-    }  
+    }
   }  else {
     menuH = calcH * 0.8;
     menuW = menuH;
@@ -400,6 +400,10 @@ function addEventListeners() {
   keys = document.querySelectorAll('.key');
   keys.forEach(key => key.addEventListener('mouseout', unHover));
 
+  let clickMenuHandAtt = document.createAttribute("onclick");
+  clickMenuHandAtt.value = "switchHandlayout()";
+  menuBox2.setAttributeNode(clickMenuHandAtt);
+
   let clickMenuCloseAtt = document.createAttribute("onclick");
   clickMenuCloseAtt.value = "hideMenu()";
   menuBox4.setAttributeNode(clickMenuCloseAtt);
@@ -436,6 +440,16 @@ function showMenu() {
 function hideMenu() {
   menuActive = false;
   menuContainer.style.zIndex = "-1";
+}
+
+function switchHandlayout() {
+  if (hand === "r") {
+    hand = "l";
+  } else {
+    hand = "r";
+  }
+  drawPage();
+  hideMenu();
 }
 
 function animateWarningDispA() { // used for "faulty expression", "n * unclosed ')'" AND "invalid input" warnings
