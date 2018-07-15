@@ -1457,14 +1457,12 @@ function getKey(key) {
 
   let inputID = -1;
   let template = setKeysTemplate();
-  console.log("template: " + template);
 
   for (i = 0; i < template.length; i++) {
     if (charStr === template[i]) {
       inputID = i;
     }
   }
-
   if (inputID != -1) {
     keyClick(inputID);
   }
