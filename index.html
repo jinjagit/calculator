@@ -99,7 +99,7 @@ function getDisplayData() {
   WinOutH = window.outerHeight;
   screenH = screen.height;
 
-  if (screen.width < window.innerWidth && fullscrn === false) {
+  if (screen.width < window.innerWidth || fullscrn === true) {
     mobile = true; // probably mobile, but not certain
   } else {mobile = false;}
 }
