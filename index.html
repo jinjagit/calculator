@@ -534,6 +534,7 @@ function exitFullscreen() {
   } else if (document.msExitFullscreen) { /* IE/Edge */
     document.msExitFullscreen();
   }
+  mobile = true;
 }
 
 function animateWarningDispA() { // used for "faulty expression", "n * unclosed ')'" AND "invalid input" warnings
