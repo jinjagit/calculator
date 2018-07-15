@@ -25,6 +25,7 @@ by Simon Tharby (a.k.a. 'jinjagit' @ GitHub, 'jinja' @ Odin Project), 2018.
   * "*n* * unclosed ')'" when user attempts to evaluate expression with *n* unclosed parentheses
   * "invalid input" when user input would form a malformed expression, or when the main display is full
   * "power error!" when an expression containing one, or more, power expression(s) that result(s) in a complex number, or numbers, is evaluated (also highlights the specific power expression that led to the error)
+* keyboard input supported (including delete key for backspace)
 * settings menu (maximize/full-screen toggle, l/r-handed toggle)
 * 'F' (fullscreen) key; only on mobile, letterbox layout
 * all animations halt on user input, to avoid lag issues
