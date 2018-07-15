@@ -1443,6 +1443,43 @@ function playPowWarnAnimation() { // Warning message when a power expression = c
   scrollAnim = setInterval(function(){ scrollPowWarnDispB(message) }, 100);
 }
 
+//----------- keybard input handling ------------------------
+
+function getKey(key) {
+  let charStr = String.fromCharCode(key)
+  if (charStr === "s" || charStr === "f" || charStr === "c") {
+    charStr = charStr.toUpperCase();
+  } else if (key === 13) {
+    charStr = "=";
+  }
+  console.log(charStr);
+  console.log(key);
+
+  let inputID = 0;
+  let template = setKeysTemplate();
+
+  for (i = 0; i < template.length; i++) {
+    if (charStr === template[i]) {
+      inputID = i;
+    }
+  }
+
+  if (inputID != 0) {
+    keyClick(inputID);
+  }
+}
+
+function code(e) {
+    e = e || window.event;
+    return(e.keyCode || e.which);
+}
+window.onload = function(){
+    document.onkeypress = function(e){
+        let key = code(e);
+        getKey(key);
+    };
+};
+
 // ---------- initial declarations and commands -------------
 
 let calcW = 0;
