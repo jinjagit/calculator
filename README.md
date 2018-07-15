@@ -25,10 +25,7 @@ by Simon Tharby (a.k.a. jinjagit), 2018.
   * "*n* * unclosed ')'" when user attempts to evaluate expression with *n* unclosed parentheses
   * "invalid input" when user input would form a malformed expression, or when the main display is full
   * "power error!" when an expression containing one, or more, power expression(s) that result(s) in a complex number, or numbers, is evaluated (also highlights the specific power expression that led to the error)
+* settings menu (maximize/full-screen toggle, l/r-handed toggle)
+* 'F' (fullscreen) key; only on mobile, letterbox layout
 * all animations halt on user input, to avoid lag issues
 * warning text animations revert to prior display content, when appropriate
-
-**Not yet implemented:**
-
-* settings menu (maximize/full-screen toggle, l/r-handed toggle)
-* 'F' (full-screen) key; only on mobile, letterbox layout
