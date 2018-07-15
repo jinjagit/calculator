@@ -105,7 +105,7 @@ function getDisplayData() {
 }
 
 function setLayout() {
-  if (mobile === false && screenW < 2200) {
+  if (mobile === false && maximize === false && screenW < 2200) {
     if (calcW > 480) { calcW = 480; }
     if (calcH > 385) { calcH = 385; }
   }
@@ -376,7 +376,14 @@ function styleMenu() {
 
     if (i == 3) {
       thisText.style.fontSize = `${menuBoxH / 2.5}px`; // currently no difference; might not need
-      thisText.innerHTML = "maximize"; // will need to add if/else if's for different states and desktop v mobile
+      if (mobile === false) {
+        if (maximize === false) {
+          thisText.innerHTML = "maximize"; // will need to add if/else if's for different states and desktop v mobile
+        } else {
+          thisText.innerHTML = "default size"; // will need to add if/else if's for different states and desktop v mobile
+        }
+      } // else (mobile fullscreen options)
+
     } else {
       thisText.style.fontSize = `${menuBoxH / 2.5}px`;
       if (i == 2) {
@@ -401,8 +408,12 @@ function addEventListeners() {
   keys.forEach(key => key.addEventListener('mouseout', unHover));
 
   let clickMenuHandAtt = document.createAttribute("onclick");
-  clickMenuHandAtt.value = "switchHandlayout()";
+  clickMenuHandAtt.value = "switchHandLayout()";
   menuBox2.setAttributeNode(clickMenuHandAtt);
+
+  let clickMenuMaximizeAtt = document.createAttribute("onclick");
+  clickMenuMaximizeAtt.value = "toggleMaxLayout()";
+  menuBox3.setAttributeNode(clickMenuMaximizeAtt);
 
   let clickMenuCloseAtt = document.createAttribute("onclick");
   clickMenuCloseAtt.value = "hideMenu()";
@@ -442,11 +453,21 @@ function hideMenu() {
   menuContainer.style.zIndex = "-1";
 }
 
-function switchHandlayout() {
+function switchHandLayout() {
   if (hand === "r") {
     hand = "l";
   } else {
     hand = "r";
+  }
+  drawPage();
+  hideMenu();
+}
+
+function toggleMaxLayout() {
+  if (maximize === false) {
+    maximize = true;
+  } else {
+    maximize = false;
   }
   drawPage();
   hideMenu();
@@ -1372,6 +1393,7 @@ let layout = "portrait"; // 3 options: portrait, landscape, landscapeLong
 let hand = "r";
 let theme = "A"; // A or B
 let menuActive = false;
+let maximize = false;
 
 let displayAheight = 0;
 let displayBheight = 0;
