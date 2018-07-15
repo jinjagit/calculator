@@ -430,6 +430,12 @@ function addEventListeners() {
   let clickMenuCloseAtt = document.createAttribute("onclick");
   clickMenuCloseAtt.value = "hideMenu()";
   menuBox4.setAttributeNode(clickMenuCloseAtt);
+
+  for (let i = 2; i < 5; i++) {
+    let thisBox = document.getElementById(`menuBox${i}`);
+    thisBox.addEventListener('mouseover', menuHover);
+    thisBox.addEventListener('mouseout', menuUnHover);
+  }
 }
 
 function hover() {
@@ -448,6 +454,20 @@ function unHover () {
   if (mobile === false && menuActive === false) {
     let thisID = this.id.toString();
     document.getElementById(`keyPara${thisID}`).style.color = prevColor;
+  }
+}
+
+function menuHover() {
+  let thisID = this.id.toString();
+  document.getElementById(`${thisID}`).style.backgroundColor = menuHoverColor;
+}
+
+function menuUnHover() {
+  let thisID = this.id.toString();
+  if (thisID === "menuBox4") {
+    document.getElementById(`${thisID}`).style.backgroundColor = keyDigitColor;
+  } else {
+    document.getElementById(`${thisID}`).style.backgroundColor = keyBgColor;
   }
 }
 
@@ -1465,6 +1485,7 @@ let keyClearColor = "hsl(340, 64%, 55%)"; // text color for 'C' key AND red warn
 let keyBackspColor = "hsl(15, 60%, 63%)";
 let keySettingsColor = "hsl(273, 50%, 56%)";
 let keyFcolor = "hsl(297, 36%, 53%)";
+let menuHoverColor = "hsl(208, 52%, 42%)";
 
 let clickAnim = null;
 let warningAnim = null;
