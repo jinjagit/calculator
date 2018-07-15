@@ -1451,6 +1451,8 @@ function getKey(key) {
     charStr = charStr.toUpperCase();
   } else if (key === 13) {
     charStr = "=";
+  } else if (key === 8 || key === 46) {
+    charStr = "<";
   }
   console.log(charStr);
   console.log(key);
