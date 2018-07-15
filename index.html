@@ -23,7 +23,7 @@
     <div id="menuBox1"><p id="menuText1">settings:</p></div>
     <div id="menuBox2"><p id="menuText2">button 1</p></div>
     <div id="menuBox3"><p id="menuText3">button 2</p></div>
-    <div id="menuBox4"><p id="menuText4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false" contenteditable spellcheck="false" readonly="true">close</p></div>
+    <div id="menuBox4"><p id="menuText4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false" contenteditable spellcheck="false" readonly="true">exit menu</p></div>
   </div>
 
 <script>
@@ -352,6 +352,7 @@ function styleMenu() {
   menuContainer.style.backgroundColor = keyDigitColor;
 
   let menuBorder = menuH / 30;
+  let closeBorder = menuBorder / 2;
   let menuBoxH = (menuH - (5 * menuBorder)) / 4;
   let menuBoxW = menuW - (2 * menuBorder);
 
@@ -361,17 +362,30 @@ function styleMenu() {
     thisBox.style.position = "relative";
     thisBox.style.top = `${(menuBorder * i)}px`;
     thisBox.style.left = `${(menuBorder)}px`;
-    thisBox.style.height = `${(menuBoxH)}px`;
-    thisBox.style.width = `${(menuBoxW)}px`;
+    if (i === 4) {
+      thisBox.style.height = `${(menuBoxH) - (2 * closeBorder)}px`;
+      thisBox.style.width = `${(menuBoxW) - (2 * closeBorder)}px`;
+      thisText.style.lineHeight = `${(menuBoxH) - (2 * closeBorder)}px`;
+    } else {
+      thisBox.style.height = `${(menuBoxH)}px`;
+      thisBox.style.width = `${(menuBoxW)}px`;
+      thisText.style.lineHeight = `${(menuBoxH)}px`;
+    }
     thisText.style.textAlign = "center";
-    thisText.style.lineHeight = `${(menuBoxH)}px`;
 
-    if (i == 1) {
+
+    if (i === 1 || i === 4) {
       thisBox.style.backgroundColor = keyDigitColor;
       thisText.style.color = keyBgColor;
     } else {
       thisBox.style.backgroundColor = keyBgColor;
       thisText.style.color = keyDigitColor;
+    }
+
+    if (i === 4) {
+      thisBox.style.borderStyle = "solid";
+      thisBox.style.borderWidth = `${(closeBorder)}px`;
+      thisBox.style.borderColor = keyBgColor;
     }
 
     if (i == 3) {
@@ -383,7 +397,6 @@ function styleMenu() {
           thisText.innerHTML = "default size"; // will need to add if/else if's for different states and desktop v mobile
         }
       } // else (mobile fullscreen options)
-
     } else {
       thisText.style.fontSize = `${menuBoxH / 2.5}px`;
       if (i == 2) {
@@ -396,7 +409,6 @@ function styleMenu() {
     }
 
   }
-
 }
 
 // ---------- event listeners and input/output/display logic ---------------------
