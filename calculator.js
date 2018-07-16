@@ -71,7 +71,7 @@ function getDisplayData() {
   screenH = screen.height;
 
   if (screen.width < window.innerWidth || fullscrn === true) {
-    mobile = true; // probably mobile, but not certain
+    mobile = true; // probably mobile, but not a foolproof method
   } else {mobile = false;}
 }
 
@@ -107,7 +107,7 @@ function setLayout() {
   } else {
     numOfKeys = 23;
   }
-  keyHeight = (keyboardHeight / keyRows); // -2px for key 1px border (this could change, depending on Theme)
+  keyHeight = (keyboardHeight / keyRows); // -2px for key 1px border
 }
 
 function drawPage() {
@@ -138,12 +138,12 @@ function createKeys() {
     //key.style.backgroundColor = "#20272d";
     key.style.border = "1px solid #414e58";
 
-    if (hand === "r" && i === 22) { // place 'double-width-key'
+    if (hand === "r" && i === 22) { // place double-width '=' key
       if (layout === "portrait") {
         key.style.gridColumn = "3 / span 2";
       } else if (layout === "landscape") {
         key.style.gridColumn = "5 / span 2";
-      } else if (mobile === false) { // landscapeLong layout for mobile has no 'double-width-key' (extra key for fullscreen)
+      } else if (mobile === false) { // landscapeLong layout for mobile has no double-width '=' key (uses 'extra' key for fullscreen key)
         key.style.gridColumn = "7 / span 2";
       }
     } else if (hand === "l" && i === 20 && layout === "portrait") {
@@ -152,13 +152,13 @@ function createKeys() {
       key.style.gridColumn = "1 / span 2";
     } else if (hand === "l" && i === 16 && layout === "landscapeLong" && mobile === false) {
       key.style.gridColumn = "1 / span 2";
-    } else if (hand === "l" && i > 20 && layout === "portrait") { // place keys after 'double-width-key' (if exists before last key)
+    } else if (hand === "l" && i > 20 && layout === "portrait") { // place keys after double-width '=' key (if exists before last key)
       key.style.gridColumn = `${(i % 4) + 2} / span 1`;
     } else if (hand === "l" && i > 18 && layout === "landscape") {
       key.style.gridColumn = `${(i % 6) + 2} / span 1`;
     } else if (hand === "l" && i > 16 && layout === "landscapeLong" && mobile === false) {
       key.style.gridColumn = `${(i % 8) + 2} / span 1`;
-    } else { // place keys before 'double-width-key' (if exists)
+    } else { // place keys before double-width '=' key (if exists)
       if (layout === "portrait") {
         key.style.gridColumn = `${(i % 4) + 1} / span 1`;
       } else if (layout === "landscape") {
@@ -175,7 +175,7 @@ function createKeys() {
     key.style.lineHeight = `${keyHeight}px`;
     keyboard.appendChild(key);
 
-    const keyPara = document.createElement('p');  // add <p> to key
+    const keyPara = document.createElement('p');  // add <p> element to key
     keyPara.classList.add('keyPara');
     keyPara.id = `keyPara${i}`;
     key.appendChild(keyPara);
@@ -206,7 +206,7 @@ function stylePage() {
   keyboard.style.height= `${keyboardHeight}px`;
 
   displayB.style.lineHeight = `${displayBheight}px`;
-  displayBtext.style.display = "inline-block";
+  //displayBtext.style.display = "inline-block";
   displayBtext.style.verticalAlign = "middle";
   displayBtext.style.lineHeight = "normal";
 
@@ -220,7 +220,6 @@ function stylePage() {
 
   container.style.backgroundColor = containerBgColor;
   displayB.style.backgroundColor = dispBbgColor;
-  //body.style.background = "radial-gradient(#242d33, #101519)";
   body.style.background = bodyBgColor;
 
   container.style.webkitBoxShadow = "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
@@ -237,25 +236,17 @@ function stylePage() {
     let thisKey = document.getElementById(`${i}`);
     let keyPara = document.getElementById(`keyPara${i}`);
 
-    if (keysTemplate[i] === '^') { // special scrollPosition for 'x^y' text (with supersript)
+    if (keysTemplate[i] === '^') { // special scrollPosition for 'x^y' text (with superscript)
       vertOffset = fontSizeKeys * -0.198;
       horOffset = fontSizeKeys * -0.3;
       keyPara.innerHTML = `x<sup>y</sup>`;
       keyPara.style.margin = `${vertOffset}px ${horOffset}px 0 0`;
-    } else if (keysTemplate[i] === 'S') { /// doesn't do anything (different) at the moment
-      keyPara.innerHTML = keysTemplate[i];
     } else {
       keyPara.innerHTML = keysTemplate[i];
     }
 
-    if (theme === "A") {
-      thisKey.style.backgroundColor = keyBgColor;
-      thisKey.style.border = "none";
-    } else {
-      thisKey.style.backgroundColor = "#20272d";
-      thisKey.style.border = "1px solid #414e58";
-    }
-
+    thisKey.style.backgroundColor = keyBgColor;
+    thisKey.style.border = "none";
     keyPara.style.textAlign = "center";
 
     if (keysTemplate[i] === '^') { // font sizes
@@ -1098,6 +1089,7 @@ function rgbToHsl(r, g, b) {
     }
     h /= 6;
   }
+
   h = Math.floor(360 - (h * 360)); // hue scale used here was inversion of that used by browsers
   s = Math.floor(s * 100);
   l = Math.floor(l * 100);
@@ -1145,7 +1137,7 @@ function parseRGB(rgbString) {
 //               >>> parsing and evaluating powers <<<
 //
 // All power '^' expressions included in the bases of other power expressions
-// are prioritized, and otherwise are considered in order, beginning from
+// are prioritized, and are otherwise considered in order, beginning from
 // the end of the input string. Parsing the base and exponent components
 // from the input string, before evaluating each with Math.pow(base, exponent),
 // involves considering if each is parenthesized or not, negative value or not,
@@ -1265,7 +1257,7 @@ function evalPowers(inStr) {
       evalStr = "Math.pow(" + baseStr + ", " + expStr + ")";
       evalStr = eval(evalStr).toString();
 
-      if (evalStr === 'NaN') { // Power error (-ve base with non-integer exponent)
+      if (evalStr === 'NaN') { // Power error (-ve base with non-integer exponent: e.g. -9^0.5)
         return [baseStr + '^' + expStr, 'Power error!']; // return array with error flag and string
 
       } else { // rebuild result string
@@ -1456,7 +1448,6 @@ let winRatio = 0;
 let mobile = false;
 let layout = "portrait"; // 3 options: portrait, landscape, landscapeLong
 let hand = "r";
-let theme = "A"; // A or B
 let menuActive = false;
 let maximize = false;
 let fullscrn = false;
@@ -1506,8 +1497,8 @@ let origExprToEval = "";
 let prevColor = "";
 let keyBgColor = "#14202b";
 let dispBbgColor = "#192938";
-let containerBgColor = "#101519"; // Not sure this is used (if not, delete above too)
-let keyboardBgColor = "#11443f"; // Not sure this is used
+let containerBgColor = "#101519";
+let keyboardBgColor = "#11443f";
 let bodyBgColor = "#7a7b6e";
 
 let bodyColor = "#c0daf1"; // default text color (used in displays)
