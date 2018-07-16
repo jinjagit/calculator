@@ -206,14 +206,7 @@ function stylePage() {
   keyboard.style.height= `${keyboardHeight}px`;
 
   displayB.style.lineHeight = `${displayBheight}px`;
-  //displayBtext.style.display = "inline-block";
-  displayBtext.style.verticalAlign = "middle";
-  displayBtext.style.lineHeight = "normal";
-
   displayA.style.lineHeight = `${displayAheight}px`;
-  displayAtext.style.display = "inline-block";
-  displayAtext.style.verticalAlign = "middle";
-  displayAtext.style.lineHeight = "normal";
 
   displayAtext.style.fontSize = `${fontSizeA}px`;
   displayBtext.style.fontSize = `${fontSizeB}px`;
@@ -222,9 +215,11 @@ function stylePage() {
   displayB.style.backgroundColor = dispBbgColor;
   body.style.background = bodyBgColor;
 
-  container.style.webkitBoxShadow = "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
-  container.style.mozBoxShadow =  "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
-  container.style.boxShadow = "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
+  if (mobile === false && maximize === false) {
+    container.style.webkitBoxShadow = "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
+    container.style.mozBoxShadow =  "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
+    container.style.boxShadow = "2px 2px 17px 2px rgba(0, 0, 0, 0.4)";
+  }
 
   // ------------- keys styling ----------------------
 

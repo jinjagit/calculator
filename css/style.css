@@ -1,3 +1,12 @@
+/* This style-sheet is very sparse due to the dynamic nature of the web page it relates to.
+*  Most of the styling is dynamic, in response to varying keypad layouts (which may vary in
+*  relation to aspect ratio of browser window and/or user selection of left vs. right handed
+*  layout), and or resizing of the browser window (when the layour is maximized or a
+*  window dimension is reduced to less than the default, non-maximized, layout size)
+*
+*  In other words, most styling is achieved responsively via the JavaScript in calculator.js
+*/
+
 body {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -6,6 +15,27 @@ body {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+  fontFamily: 'Ubuntu Mono', monospace;
+}
+
+#displayB {
+  textAlign: right;
+}
+
+#displayBtext {
+  display: inline-block;
+  verticalAlign: middle;
+  lineHeight: normal;
+}
+
+#displayAtext {
+  display: inline-block;
+  verticalAlign: middle;
+  lineHeight: normal;
+}
+
+#menuContainer {
+  zIndex: -1;
 }
 
 sup {
