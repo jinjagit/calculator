@@ -28,7 +28,7 @@ by Simon Tharby (a.k.a. 'jinjagit' @ GitHub, 'jinja' @ Odin Project), 2018.
 * keyboard input supported (including delete key for backspace). A few keyboard inputs are not intuitive:
   * keyboard 'delete' and left-arrow (not on Mac), and 'B' and '<' keys --> '<' (backspace) on keypad
   * keyboard 'enter' &/or 'return', and '=' keys --> '=' (evaluate) on keypad
-  * keyboard '#' --> '±' (sign toggle) on keypad
+  * keyboard '#' key --> '±' (sign toggle) on keypad
 * settings menu (maximize/full-screen toggle, l/r-handed toggle)
 * 'F' (fullscreen) key; only on mobile, letterbox layout
 * all animations halt on user input, to avoid lag issues
