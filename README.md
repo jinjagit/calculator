@@ -22,9 +22,13 @@ by Simon Tharby (a.k.a. 'jinjagit' @ GitHub, 'jinja' @ Odin Project), 2018.
   * the operator can be backspace deleted and replaced (or subsequent backspace = clear all)
 * warnings:
   * "faulty expression" when user attempts to evaluate an incomplete expression
+![faulty expression warning](img/faultyExpression.png)
   * "*n* * unclosed ')'" when user attempts to evaluate expression with *n* unclosed parentheses
+![unclosed parentheses warning](img/unclosed.png)
   * "invalid input" when user input would form a malformed expression, or when the main display is full
+![invalid input warning](img/invalidInput.png)
   * "power error!" when an expression containing one, or more, power expression(s) that result(s) in a complex number, or numbers, is evaluated (also highlights the specific power expression that led to the error)
+![power error advice](img/powerError.png)
 * keyboard input supported (including delete key for backspace). A few keyboard inputs are not intuitive:
   * keyboard 'delete' and left-arrow (not on Mac), and 'B' and '<' keys --> '<' (backspace) on keypad
   * keyboard 'enter' &/or 'return', and '=' keys --> '=' (evaluate) on keypad
