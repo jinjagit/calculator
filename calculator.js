@@ -1401,7 +1401,7 @@ function getKey(key) {
     charStr = charStr.toUpperCase();
   } else if (key === 13) {
     charStr = "=";
-  } else if (key === 37 || key === 46) {
+  } else if (key === 37 || key === 46 || key === 66 || key === 98) {
     charStr = "<";
   } else if (key === 35) {
     charStr = "±";
