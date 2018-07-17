@@ -37,7 +37,7 @@ by Simon Tharby (a.k.a. 'jinjagit' @ GitHub, 'jinja' @ Odin Project), 2018.
 
 **Notes on divergence from homework criteria:**
 
-I used JavaScripts eval() method to evaluate the math, (and named the relevant function 'evaluate()', rather than 'operate()' as specified, to highlight this divergence), which seems like a cheat, right?
+I used JavaScript's eval() method to evaluate the math, (and named the relevant function 'evaluate()', rather than 'operate()' as specified, to highlight this divergence), which seems like a cheat, right?
 
 Turns out it really wasn't: I started by deciding to use a 24 key layout for the keypad, as I liked the various ways this could be arranged (4x6, 3x8, 6x4) and could see this would play nicely with a design that responds to different aspect ratios (especially when rotating a mobile device's screen by 90 degrees). Using a double-key-size for the '=' key gave me 25 keys, so I decided to add parentheses, a sign toggle, a power operator (x^y), and a 'settings' key. I also decided to leverage the eval() method to evaluate expressions containing more than one operator.
 
