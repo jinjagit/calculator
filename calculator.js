@@ -76,9 +76,14 @@ function getDisplayData() {
 }
 
 function setLayout() {
-  if (mobile === false && maximize === false && screenW < 2200) {
-    if (calcW > 480) { calcW = 480; }
-    if (calcH > 385) { calcH = 385; }
+  if (mobile === false && maximize === false) {
+    if (screenW < 2200) {
+      if (calcW > 480) { calcW = 480; }
+      if (calcH > 385) { calcH = 385; }
+    } else if (screenW < 4400) {
+      if (calcW > 720) { calcW = 720; }
+      if (calcH > 578) { calcH = 578; }
+    }
   }
 
   winRatio = calcW / calcH;
