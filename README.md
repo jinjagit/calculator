@@ -1,6 +1,7 @@
 # calculator
 
-Simon Tharby's solution to the [Odin Project "Calculator" exercise](https://www.theodinproject.com/courses/web-development-101/lessons/calculator);    
+Simon Tharby's solution to the [Odin Project "Calculator" exercise](https://www.theodinproject.com/courses/web-development-101/lessons/calculator);
+    
 [view in browser](https://jinjagit.github.io/calculator/)  
 
 ![overview of calculator](img/calcOverview.png)  
